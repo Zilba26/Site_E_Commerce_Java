@@ -21,7 +21,7 @@ public class Article {
     }
 
     public void supprimerArticleBDD() {
-        //Supprimer article dans Base De Données
+        //TO DO //Supprimer article dans Base De Données
     }
 
     public void ajouterQuantite(int quantite) {

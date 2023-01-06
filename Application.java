@@ -13,6 +13,7 @@ public class Application{
     }
 
     public void connexionAdmin(String email, String mdp) {
+        //TO DO
         //Si infos en paramètre correspondent à un admin dans la BDD
           //this.adminConnecte = new Admin( -Nom correspondant aux infos paramètres- )
           //Changement de fenètre ayant accès au Stock
@@ -37,7 +38,7 @@ public class Application{
             for (int k=0 ; k<this.stock.getArrayCategorie().get(i).getArticles().size() ; k++) {
                 if (this.stock.getArrayCategorie().get(i).getArticles().get(k).getInfoArticle() = infosNewArticle) {
                     articleAlreadyExist = true;
-                    //Message prévenant de l'échec de l'opération
+                    //TO DO //Message prévenant de l'échec de l'opération
                 }
             }
         }
@@ -48,12 +49,12 @@ public class Application{
                 if (this.stock.getArrayCategorie().get(i).getNom() == nomCategorie) {
                     this.stock.getArrayCategorie().get(i).getArticles().add(article);
                     categorieEstTrouve = true;
-                    //Message validant l'opération
+                    //TO DO //Message validant l'opération
                 }
             }
 
             if(!categorieEstTrouve) {
-                //Message prévenant de l'échec de l'opération
+                //TO DO //Message prévenant de l'échec de l'opération | Variante
             }
         }
     }
@@ -70,15 +71,15 @@ public class Application{
         }
 
         if (estTrouve) {
-            //Message validant l'opération
+            //TO DO //Message validant l'opération
         }
         else {
-            //Message prévenant de l'échec de l'opération
+            //TO DO //Message prévenant de l'échec de l'opération
         }
     }
 
     public void modifierArticle(Article article) {
-        //Affichage qui demande ce qu'il veut changer, par exemple le nom
+        //TO DO //Affichage qui demande ce qu'il veut changer, par exemple le nom
         article.nom = "Test";
     }
 
@@ -88,7 +89,7 @@ public class Application{
     }
 
     public void creerAdmin(String nom, String email, String mdp) {
-        //Ajoutez nouvel Admin sur BDD
+        //TO DO //Ajoutez nouvel Admin sur BDD
     }
 
     public void creerCategorie(String nom) {
@@ -100,10 +101,10 @@ public class Application{
         }
         if (!categorieAlreadyExist) {
             this.stock.creerCategorie(nom);
-            //Message validant l'opération
+            //TO DO //Message validant l'opération
         }
         else {
-            //Message prévenant de l'échec de l'opération
+            //TO DO //Message prévenant de l'échec de l'opération
         }
     }
 
