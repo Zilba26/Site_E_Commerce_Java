@@ -4,7 +4,6 @@ public class Article {
 
     private String nom;
     private int quantite;
-    private int nombreNoteClient;
     private ArrayList<Avis> listeAvis;
     private String photo;
     private double prix;
@@ -88,5 +87,8 @@ public class Article {
     }
     public String getNomCategorie() {
         return this.nomCategorie;
+    }
+    public int getNombreNoteClient(){
+        return this.listeAvis.size();
     }
 }
