@@ -25,13 +25,20 @@ public class Avis {
     }
 
     // Constructors
-    public Avis(double note, String contenu){
+    public Avis(double note, String contenu, String nomClient, String date, Article articleAssocie){
         this.note = note;
         this.contenu = contenu;
+        this.nomClient = nomClient;
+        this.date = date;
+        this.articleAssocie = articleAssocie;
         // TODO : Récupérer les infos de la BDD
     }
-    public Avis(double note){
+    public Avis(double note, String nomClient, String date, Article articleAssocie){
         this.note = note;
+        this.contenu = null;
+        this.nomClient = nomClient;
+        this.date = date;
+        this.articleAssocie = articleAssocie;
         // TODO : Récupérer les infos de la BDD
     }
 

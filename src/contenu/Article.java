@@ -99,7 +99,12 @@ public class Article {
     public String getNomCategorie() {
         return this.nomCategorie;
     }
+    
     public int getNombreNoteClient(){
         return this.listeAvis.size();
+    }
+
+    public int getQuantite() {
+        return this.quantite;
     }
 }

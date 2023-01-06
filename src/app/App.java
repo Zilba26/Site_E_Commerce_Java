@@ -20,6 +20,10 @@ public class App{
         return this.bdd;
     }
 
+    public Stock getStock() {
+        return this.stock;
+    }
+
     public void connexionAdmin(String email, String mdp) {
         //TODO
         //Si infos en paramètre correspondent à un admin dans la BDD
