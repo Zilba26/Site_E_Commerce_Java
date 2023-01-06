@@ -6,15 +6,18 @@ import static org.junit.Assert.assertFalse;
 import org.junit.Test;
 
 import src.contenu.Article;
+import src.contenu.Avis;
 import src.contenu.Categorie;
 
 public class ArticleTest {
     
+    double delta = 0;
+
     @Test
     public void testConstructeurArticle() {
         Article article = new Article("Fourchette", 50.4, 30, "Photo fourchette", "30 fourchettes en acier pour 50.4€", "Art de table");
         assertEquals(article.getNom(), "Fourchette");
-        assertEquals(article.getPrix(), new Double(50.4));
+        assertEquals(article.getPrix(), 50.4, delta);
         assertEquals(article.getQuantite(), 30);
         assertEquals(article.getPhoto(), "Photo fourchette");
         assertEquals(article.getDescription(), "30 fourchettes en acier pour 50.4€");
@@ -30,7 +33,7 @@ public class ArticleTest {
         assertEquals(article.getNom(), "Fourchette");
 
         article.setPrix(50.4);
-        assertEquals(article.getPrix(), new Double(50.4));
+        assertEquals(article.getPrix(), 50.4, delta);
 
         article.setPhoto("Photo fourchette");
         assertEquals(article.getPhoto(), "Photo fourchette");
@@ -76,9 +79,41 @@ public class ArticleTest {
         String[] infos = article.getInfoArticle();
 
         assertEquals(article.getNom(), infos[0]);
-        assertEquals(article.getPrix(), new Double(infos[1]));
+        assertEquals(article.getPrix(), Double.parseDouble(infos[1]), delta);
         assertEquals(article.getQuantite(), Integer.parseInt(infos[2]));
         assertEquals(article.getPhoto(), infos[3]);
         assertEquals(article.getDescription(), infos[4]);
+    }
+
+    @Test
+    public void testCalculNote() {
+        Article article = new Article("Fourchette", 50.4, 30, "Photo fourchette", "30 fourchettes en acier pour 50.4€", "Art de table");
+        assertEquals(article.calculNote(), 2.5, delta);
+    
+        Avis avis = new Avis(4, "Bon four", "Didier", "06/01/2023", article);
+        article.getListeAvis().add(avis);
+        assertEquals(article.calculNote(), 4, delta);
+    
+        avis = new Avis(2, "Four ok", "Franck", "06/01/2023", article);
+        article.getListeAvis().add(avis);
+        assertEquals(article.calculNote(), 3, delta);
+
+    }
+
+    @Test
+    public void testSupprimerAvis() {
+        Article article = new Article("Fourchette", 50.4, 30, "Photo fourchette", "30 fourchettes en acier pour 50.4€", "Art de table");
+    
+        Avis avis = new Avis(4, "Bon four", "Didier", "06/01/2023", article);
+        article.getListeAvis().add(avis);
+        Avis avis2 = new Avis(2, "Four ok", "Franck", "06/01/2023", article);
+        article.getListeAvis().add(avis2);
+        Avis avis3 = new Avis(1, "Four mauvais", "Charles", "06/01/2023", article);
+
+        article.supprimerAvis(avis, false);
+        article.supprimerAvis(avis2, true);
+        article.supprimerAvis(avis3, false);
+        article.supprimerAvis(avis3, true);
+    
     }
 }

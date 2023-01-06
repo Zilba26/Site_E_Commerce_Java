@@ -23,6 +23,7 @@ public class Article {
 
     public void supprimerArticleBDD() {
         //TODO : Supprimer article dans Base De Données
+        System.out.println("Article supprimé dans BDD");
     }
 
     public void ajouterQuantite(int quantite) {
@@ -36,11 +37,16 @@ public class Article {
     }
 
     public void supprimerAvis(Avis avis, boolean gardeNote) {
+        boolean avisEstTrouve = false;
         for (int i=0 ; i<this.listeAvis.size() ; i++) {
             if (avis == listeAvis.get(i)) {
                 avis.supprimeAvisBDD(gardeNote);
+                avisEstTrouve = true;
             }
         }
+        if (!avisEstTrouve)
+            System.out.println("L'Avis n'est pas associé à cet article !");
+
     }
 
     public double calculNote() {
@@ -106,5 +112,9 @@ public class Article {
 
     public int getQuantite() {
         return this.quantite;
+    }
+
+    public ArrayList<Avis> getListeAvis() {
+        return this.listeAvis;
     }
 }

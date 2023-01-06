@@ -45,6 +45,12 @@ public class Avis {
     // Methods
     public void supprimeAvisBDD(boolean gardeNote){
         // TODO
+        if (gardeNote) {
+            System.out.println("Contenu supprimé dans BDD mais note existe toujours");
+        }
+        else {
+            System.out.println("Avis supprimé dans BDD");
+        }
     }
 
 
