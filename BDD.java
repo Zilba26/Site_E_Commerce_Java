@@ -9,6 +9,10 @@ public class BDD {
     private String passwd = "root";
     private Connection bdd;
 
+    public BDD(){
+        this.initConnexionBDD();
+    }
+
     public boolean initConnexionBDD(){
         boolean connexionReussie = false;
         try {
