@@ -1,3 +1,4 @@
+package src.contenu;
 public class Avis {
     private String nomClient;
     private String date;

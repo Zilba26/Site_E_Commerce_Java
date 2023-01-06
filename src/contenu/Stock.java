@@ -1,9 +1,11 @@
+package src.contenu;
+
 import java.util.ArrayList;
 
 public class Stock {
     private ArrayList<Categorie> categories;
 
-    Stock() {
+    public Stock() {
         this.categories = new ArrayList<Categorie>();
         // TODO : init categories from db
     }
@@ -16,6 +18,5 @@ public class Stock {
         Categorie categorie = new Categorie(nom);
         this.getArrayCategorie().add(categorie);
     }
-
 
 }

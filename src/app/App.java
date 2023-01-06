@@ -1,10 +1,18 @@
-public class Application{
+package src.app;
+import src.contenu.Article;
+import src.contenu.Avis;
+import src.contenu.Stock;
+import src.gestion.Admin;
+import src.gestion.BDD;
+
+
+public class App{
 
     private BDD bdd;
     private Admin adminConnecte;
     private Stock stock;
 
-    public Application() {
+    public App() {
         this.stock = new Stock();
     }
 
@@ -13,7 +21,7 @@ public class Application{
     }
 
     public void connexionAdmin(String email, String mdp) {
-        //TO DO
+        //TODO
         //Si infos en paramètre correspondent à un admin dans la BDD
           //this.adminConnecte = new Admin( -Nom correspondant aux infos paramètres- )
           //Changement de fenètre ayant accès au Stock
@@ -38,7 +46,7 @@ public class Application{
             for (int k=0 ; k<this.stock.getArrayCategorie().get(i).getArticles().size() ; k++) {
                 if (this.stock.getArrayCategorie().get(i).getArticles().get(k).getInfoArticle() == infosNewArticle) {
                     articleAlreadyExist = true;
-                    //TO DO //Message prévenant de l'échec de l'opération
+                    //TODO : Message prévenant de l'échec de l'opération
                 }
             }
         }
@@ -49,12 +57,12 @@ public class Application{
                 if (this.stock.getArrayCategorie().get(i).getNom() == nomCategorie) {
                     this.stock.getArrayCategorie().get(i).getArticles().add(article);
                     categorieEstTrouve = true;
-                    //TO DO //Message validant l'opération
+                    //TODO : Message validant l'opération
                 }
             }
 
             if(!categorieEstTrouve) {
-                //TO DO //Message prévenant de l'échec de l'opération | Variante
+                //TODO : Message prévenant de l'échec de l'opération | Variante
             }
         }
     }
@@ -71,15 +79,15 @@ public class Application{
         }
 
         if (estTrouve) {
-            //TO DO //Message validant l'opération
+            //TODO : Message validant l'opération
         }
         else {
-            //TO DO //Message prévenant de l'échec de l'opération
+            //TODO : Message prévenant de l'échec de l'opération
         }
     }
 
     public void modifierArticle(Article article) {
-        //TO DO //Affichage qui demande ce qu'il veut changer, par exemple le nom
+        //TODO : Affichage qui demande ce qu'il veut changer, par exemple le nom
         article.setNom("Test");
     }
 
@@ -89,7 +97,7 @@ public class Application{
     }
 
     public void creerAdmin(String nom, String email, String mdp) {
-        //TO DO //Ajoutez nouvel Admin sur BDD
+        //TODO : Ajoutez nouvel Admin sur BDD
     }
 
     public void creerCategorie(String nom) {
@@ -101,10 +109,10 @@ public class Application{
         }
         if (!categorieAlreadyExist) {
             this.stock.creerCategorie(nom);
-            //TO DO //Message validant l'opération
+            //TODO : Message validant l'opération
         }
         else {
-            //TO DO //Message prévenant de l'échec de l'opération
+            //TODO : Message prévenant de l'échec de l'opération
         }
     }
 

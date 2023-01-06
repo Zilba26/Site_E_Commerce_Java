@@ -1,3 +1,4 @@
+package src.contenu;
 import java.util.ArrayList;
 
 public class Article {
@@ -21,7 +22,7 @@ public class Article {
     }
 
     public void supprimerArticleBDD() {
-        //TO DO //Supprimer article dans Base De Données
+        //TODO : Supprimer article dans Base De Données
     }
 
     public void ajouterQuantite(int quantite) {

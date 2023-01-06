@@ -1,7 +1,8 @@
+package src.gestion;
 public class Admin {
     private String nom;
 
-    Admin(String nom){
+    public Admin(String nom){
         this.nom = nom;
     }
 
