@@ -8,7 +8,7 @@
             "type": "java",
             "name": "Launch Window",
             "request": "launch",
-            "mainClass": "Window",
+            "mainClass": "src.ihm.Window",
             "projectName": "Site_E_Commerce_Java_a9c596b1",
             "vmArgs": "--module-path \"D:/Java/javafx-sdk-19/lib\" --add-modules javafx.controls,javafx.fxml"
         },
