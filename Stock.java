@@ -1,11 +1,20 @@
 import java.util.ArrayList;
 
 public class Stock {
-    ArrayList<Categorie> categories;
+    private ArrayList<Categorie> categories;
 
-    Stock(){
+    Stock() {
         this.categories = new ArrayList<Categorie>();
         // TODO : init categories from db
+    }
+
+    public ArrayList<Categorie> getArrayCategorie() {
+        return this.categorie
+    }
+
+    public void creerCategorie(String nom) {
+        Categorie categorie = new Categorie(nom);
+        this.getArrayCategorie().add(categorie);
     }
 
 

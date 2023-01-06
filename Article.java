@@ -21,7 +21,7 @@ public class Article {
     }
 
     public void supprimerArticleBDD() {
-        //Supprimer article dans Base De Données
+        //TO DO //Supprimer article dans Base De Données
     }
 
     public void ajouterQuantite(int quantite) {
@@ -52,6 +52,16 @@ public class Article {
             }
             return sommeNote / this.listeAvis.size();
         }
+    }
+
+    public String[] getInfoArticle() {
+        String[] infos = new String[5];
+        infos[0] = this.nom;
+        infos[1] = this.prix;
+        infos[2] = this.quantite;
+        infos[3] = this.photo;
+        infos[4] = this.description;
+        return infos;
     }
 
     public void setPrix(double prix) {
