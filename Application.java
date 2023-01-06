@@ -36,7 +36,7 @@ public class Application{
 
         for (int i=0 ; i<this.stock.getArrayCategorie().size() ; i++) {
             for (int k=0 ; k<this.stock.getArrayCategorie().get(i).getArticles().size() ; k++) {
-                if (this.stock.getArrayCategorie().get(i).getArticles().get(k).getInfoArticle() = infosNewArticle) {
+                if (this.stock.getArrayCategorie().get(i).getArticles().get(k).getInfoArticle() == infosNewArticle) {
                     articleAlreadyExist = true;
                     //TO DO //Message prévenant de l'échec de l'opération
                 }
@@ -59,7 +59,7 @@ public class Application{
         }
     }
 
-    public void supprimerArticle(Artile article) {
+    public void supprimerArticle(Article article) {
         boolean estTrouve = false;
         for (int i=0 ; i<this.stock.getArrayCategorie().size() ; i++) {
             for (int k=0 ; k<this.stock.getArrayCategorie().get(i).getArticles().size() ; k++) {
@@ -80,7 +80,7 @@ public class Application{
 
     public void modifierArticle(Article article) {
         //TO DO //Affichage qui demande ce qu'il veut changer, par exemple le nom
-        article.nom = "Test";
+        article.setNom("Test");
     }
 
     public boolean supprimerAvisClient(Article article, Avis avis, boolean gardeNote) {

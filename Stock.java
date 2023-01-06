@@ -9,7 +9,7 @@ public class Stock {
     }
 
     public ArrayList<Categorie> getArrayCategorie() {
-        return this.categorie
+        return this.categories;
     }
 
     public void creerCategorie(String nom) {
