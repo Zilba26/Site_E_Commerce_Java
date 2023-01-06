@@ -54,6 +54,16 @@ public class Article {
         }
     }
 
+    public String[] getInfoArticle() {
+        String[] infos = new String[5];
+        infos[0] = this.nom;
+        infos[1] = this.prix;
+        infos[2] = this.quantite;
+        infos[3] = this.photo;
+        infos[4] = this.description;
+        return infos;
+    }
+
     public void setPrix(double prix) {
         this.prix = prix;
     }

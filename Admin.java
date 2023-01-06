@@ -1,8 +1,8 @@
 public class Admin {
     private String nom;
 
-    Admin(){
-        // TODO : Take name from Database
+    Admin(String nom){
+        this.nom = nom;
     }
 
     public String getNom(){
