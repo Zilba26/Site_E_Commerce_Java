@@ -1,6 +1,8 @@
 package src.ihm;
 
 import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -30,18 +32,35 @@ public class SceneManager extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         // Création des scènes
-        initConnectScene();
-        initMenuScene();
+        initScenes();
+
         Node connectButtonNode = connectScene.getRoot().lookup("#ConnectButton");
         if (connectButtonNode instanceof Button) {
             Button connectButton = (Button) connectButtonNode;
-            connectButton.setOnAction(event -> primaryStage.setScene(menuScene));
+            connectButton.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent event) {
+                    if (checkConnectID())
+                        primaryStage.setScene(menuScene);
+                }
+            });
+
         }
 
         // Affichage de la scène 1
         // primaryStage.setScene(scene1);
         primaryStage.setScene(connectScene);
         primaryStage.show();
+    }
+
+    private static boolean checkConnectID() {
+        // TODO : Check with database
+        return true;
+    }
+
+    private static void initScenes() {
+        initConnectScene();
+        initMenuScene();
     }
 
     private static Scene initMenuScene() {
