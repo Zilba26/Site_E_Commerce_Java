@@ -36,16 +36,20 @@ public class Article {
             this.quantite-=quantite;
     }
 
-    public void supprimerAvis(Avis avis, boolean gardeNote) {
-        boolean avisEstTrouve = false;
+    public String supprimerAvis(Avis avis, boolean gardeNote) {
         for (int i=0 ; i<this.listeAvis.size() ; i++) {
             if (avis == listeAvis.get(i)) {
-                avis.supprimeAvisBDD(gardeNote);
-                avisEstTrouve = true;
+                return avis.supprimeAvisBDD(gardeNote);
             }
         }
-        if (!avisEstTrouve)
-            System.out.println("L'Avis n'est pas associé à cet article !");
+        String ret = "Attention.";
+        ret+= " L'avis de " + avis.getNomClient();
+        ret+= " mentionnant '" + avis.getContenu();
+        ret+= "' datant du " + avis.getDate();
+        ret+= " noté " + avis.getNote() + "/5.0";
+        ret+= " n'est pas associé à l'article '" + this.getNom() + "'.";
+        //System.out.println(ret);
+        return ret;
 
     }
 

@@ -38,6 +38,11 @@ public class AvisTest {
 
     @Test
     public void testSupprimeAvisBDD() {
-        // TODO
+        Article article = new Article("Fourchette", 50.4, 30, "Photo fourchette", "30 fourchettes en acier pour 50.4€", "Art de table");
+        Avis avis = new Avis(5, "Produit de qualité", "Richard", "06/01/2022", article);
+
+        assertEquals(avis.supprimeAvisBDD(true), "Contenu supprimé dans BDD mais note existe toujours");
+        assertEquals(avis.supprimeAvisBDD(false), "Avis supprimé dans BDD");
+
     }
 }

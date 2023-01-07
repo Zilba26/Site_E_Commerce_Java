@@ -43,14 +43,23 @@ public class Avis {
     }
 
     // Methods
-    public void supprimeAvisBDD(boolean gardeNote){
-        // TODO
+    public String supprimeAvisBDD(boolean gardeNote){
+        // TODO : change println into BDD edition
+        String ret = "";
         if (gardeNote) {
-            System.out.println("Contenu supprimé dans BDD mais note existe toujours");
+            ret+= "Le contenu de l'avis de ";
         }
         else {
-            System.out.println("Avis supprimé dans BDD");
+            ret+= "L'avis de ";
         }
+        ret+= this.getNomClient();
+        ret+= " qui mentionnait '" + this.getContenu() + "'";
+        ret+= " datant du " + this.getDate();
+        ret+= " noté " + this.getNote() + "/5.0";
+        ret+= " associé à l'article '" + this.getArticleAssocie().getNom() + "'";
+        ret+= "a été supprimé.";
+        //System.out.println(ret);
+        return ret;
     }
 
 

@@ -110,10 +110,10 @@ public class ArticleTest {
         article.getListeAvis().add(avis2);
         Avis avis3 = new Avis(1, "Four mauvais", "Charles", "06/01/2023", article);
 
-        article.supprimerAvis(avis, false);
-        article.supprimerAvis(avis2, true);
-        article.supprimerAvis(avis3, false);
-        article.supprimerAvis(avis3, true);
+        assertEquals(article.supprimerAvis(avis, true), "Le contenu de l'avis de Didier qui mentionnait 'Bon four' datant du 06/01/2023 noté 4.0/5.0 associé à l'article 'Fourchette'a été supprimé.");
+        assertEquals(article.supprimerAvis(avis2, false), "L'avis de Franck qui mentionnait 'Four ok' datant du 06/01/2023 noté 2.0/5.0 associé à l'article 'Fourchette'a été supprimé.");
+        assertEquals(article.supprimerAvis(avis3, true), "Attention. L'avis de Charles mentionnant 'Four mauvais' datant du 06/01/2023 noté 1.0/5.0 n'est pas associé à l'article 'Fourchette'.");
+        assertEquals(article.supprimerAvis(avis3, false), "Attention. L'avis de Charles mentionnant 'Four mauvais' datant du 06/01/2023 noté 1.0/5.0 n'est pas associé à l'article 'Fourchette'.");
     
     }
 }
