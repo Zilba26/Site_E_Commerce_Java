@@ -57,7 +57,7 @@ public class Avis {
         ret+= " datant du " + this.getDate();
         ret+= " noté " + this.getNote() + "/5.0";
         ret+= " associé à l'article '" + this.getArticleAssocie().getNom() + "'";
-        ret+= "a été supprimé.";
+        ret+= " a été supprimé.";
         //System.out.println(ret);
         return ret;
     }
