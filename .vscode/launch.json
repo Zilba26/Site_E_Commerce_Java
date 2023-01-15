@@ -6,11 +6,11 @@
     "configurations": [
         {
             "type": "java",
-            "name": "Launch Window",
+            "name": "Launch SceneManager",
             "request": "launch",
-            "mainClass": "src.ihm.Window",
-            "projectName": "Site_E_Commerce_Java_a9c596b1",
-            "vmArgs": "--module-path \"D:/Java/javafx-sdk-19/lib\" --add-modules javafx.controls,javafx.fxml"
+            "mainClass": "src.ihm.SceneManager",
+            "projectName": "Site_E_Commerce_Java_74e54522",
+            "vmArgs": "--module-path \"C:/Users/natha/Desktop/Logiciel Coding/Java/openjfx-19_windows-x64_bin-sdk/javafx-sdk-19/lib\" --add-modules javafx.controls,javafx.fxml"
         },
         {
             "type": "java",

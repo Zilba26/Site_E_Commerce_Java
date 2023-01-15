@@ -26,5 +26,8 @@ public class Categorie {
         articles.remove(articles.indexOf(article));
         // TODO : Remove from Database
     }
+    public void ajouteArticle(Article article){
+        this.articles.add(article);
+    }
 
 }

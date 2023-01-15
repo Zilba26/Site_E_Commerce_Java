@@ -1,106 +1,69 @@
 package src.ihm;
 
-import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.scene.Node;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.StackPane;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
-import javafx.stage.Stage;
+import java.util.ArrayList;
 
-public class SceneManager extends Application {
+import javafx.application.Application;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.scene.Scene;
+import javafx.scene.control.ListView;
+import javafx.stage.Stage;
+import src.contenu.Article;
+import src.contenu.Categorie;
+import src.gestion.BDD;
+
+public class SceneManager extends Application{
+    private Stage stage;
+    private BDD bdd;
+    private Scene loginScene;
+    private Scene articleListScene;
+    private ListView<Article> articleListView;
+    private ObservableList<Article> articlesData;
+    private ArrayList<Categorie> categories;
+
+    public SceneManager(Stage stage) {
+        this.stage = stage;
+        this.bdd = new BDD();
+        // Initialiser les différentes scènes (loginScene, articleListScene)
+        this.articleListView = new ListView<>();
+        this.articlesData = FXCollections.observableArrayList();
+        this.articleListView.setItems(articlesData);
+        this.categories = new ArrayList<Categorie>();
+        // Ajouter la ListView à la scène articleListScene
+    }
+
+    public void ajouteCategorie(Categorie cat){
+        categories.add(cat);
+    }
+
+    public void showLoginScene() {
+        stage.setScene(loginScene);
+        stage.show();
+    }
+
+    public void start(Stage stage) {
+        try {
+            System.out.println("Connextion à la BDD OK");
+            ArrayList<Article> articles = categories.get(0).getArticles();
+            this.articlesData.setAll(articles);
+            stage.setScene(articleListScene);
+            stage.show();
+        } catch(Exception e) {
+            // Afficher un message d'erreur de connexion
+            System.out.println("Erreur de connexion à la BDD");
+        }
+    }
 
     public static void main(String[] args) {
+        Article article1 = new Article("Article 1", 0, 5,
+        "lien", "Description de l'article 1", 
+        "Categorie1");
+
+        Categorie categorie1 = new Categorie("Categorie1");
+        categorie1.ajouteArticle(article1);
+
+        SceneManager sceneManager = new SceneManager(new Stage());
+        sceneManager.ajouteCategorie(categorie1);
         launch(args);
-    }
-
-    public static final int LARGEUR_FENETRE = 400;
-    public static final int HAUTEUR_FENETRE = 400;
-    public static final int INPUT_WIDTH = 150;
-    public static final String TITRE_APPLICATION = "Gestion du site";
-    private static Scene connectScene;
-    private static Scene menuScene;
-
-    private static TextField mailInput;
-    private static TextField mdpInput;
-
-    @Override
-    public void start(Stage primaryStage) throws Exception {
-        // Création des scènes
-        initScenes();
-
-        Node connectButtonNode = connectScene.getRoot().lookup("#ConnectButton");
-        if (connectButtonNode instanceof Button) {
-            Button connectButton = (Button) connectButtonNode;
-            connectButton.setOnAction(new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(ActionEvent event) {
-                    if (checkConnectID())
-                        primaryStage.setScene(menuScene);
-                }
-            });
-
-        }
-
-        // Affichage de la scène 1
-        // primaryStage.setScene(scene1);
-        primaryStage.setScene(connectScene);
-        primaryStage.show();
-    }
-
-    private static boolean checkConnectID() {
-        // TODO : Check with database
-        return true;
-    }
-
-    private static void initScenes() {
-        initConnectScene();
-        initMenuScene();
-    }
-
-    private static Scene initMenuScene() {
-        StackPane sp = new StackPane();
-
-        Label textAccueil = new Label("Bienvenue sur la page d'administration");
-        textAccueil.setFont(Font.font("Arial", FontWeight.BOLD, 18));
-
-        sp.getChildren().add(textAccueil);
-
-        menuScene = new Scene(sp, 500, 500);
-        return menuScene;
-    }
-
-    private static Scene initConnectScene() {
-        Button btnConnect = new Button("Connect");
-        btnConnect.setTranslateY(70);
-        btnConnect.setId("ConnectButton");
-
-        Label labelConnexion = new Label("Connect to the admin account");
-        labelConnexion.setTranslateY(-60);
-        labelConnexion.setFont(Font.font("Arial", FontWeight.BOLD, 18));
-
-        mailInput = new TextField();
-        mailInput.setPromptText("Email");
-        mailInput.setMaxWidth(INPUT_WIDTH);
-        mailInput.setTranslateY(-15);
-
-        mdpInput = new TextField();
-        mdpInput.setPromptText("Password");
-        mdpInput.setMaxWidth(INPUT_WIDTH);
-        mdpInput.setTranslateY(15);
-
-        StackPane sp = new StackPane();
-        sp.getChildren().add(labelConnexion);
-        sp.getChildren().add(mailInput);
-        sp.getChildren().add(mdpInput);
-        sp.getChildren().add(btnConnect);
-
-        connectScene = new Scene(sp, LARGEUR_FENETRE, HAUTEUR_FENETRE);
-        return connectScene;
     }
 }
