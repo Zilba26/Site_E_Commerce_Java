@@ -1,88 +1,53 @@
 package src.ihm;
 
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.*;
+import java.io.File;
+
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+import javax.swing.JTextField;
+import java.awt.image.BufferedImage;
+import java.awt.Graphics2D;
+
+import src.app.App;
 
 public class PanneauConnexion extends JPanel {
     private JLabel emailLabel, passwordLabel;
     private JTextField emailField;
     private JPasswordField passwordField;
-    private JButton loginButton;
+    private App app;
 
-    public PanneauConnexion() {
+    public PanneauConnexion(App app) {
         // Initialize components
-        emailLabel = new JLabel("Adresse email:");
+        this.app = app;
+        emailLabel = new JLabel("Adresse e-mail:");
         passwordLabel = new JLabel("Mot de passe:");
         emailField = new JTextField(20);
-        emailField.setForeground(Color.GRAY);
-        emailField.setText("Email");
-
-        emailField.addFocusListener(new FocusListener() {
-            @Override
-            public void focusGained(FocusEvent e) {
-                if (emailField.getText().equals("Email")) {
-                    emailField.setText("");
-                    emailField.setForeground(Color.BLACK);
-                }
-            }
-            @Override
-            public void focusLost(FocusEvent e) {
-                if (emailField.getText().isEmpty()) {
-                    emailField.setForeground(Color.GRAY);
-                    emailField.setText("Email");
-                }
-            }
-        });
         passwordField = new JPasswordField(20);
-        
-        loginButton = new JButton("Connexion");
 
-        // Add action listener to login button
-        loginButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String email = emailField.getText();
-                String password = new String(passwordField.getPassword());
-                // Verify email and password
-                if (true) {
-                    //Ajoutez ici l'appel à la nouvelle scene
-                    JOptionPane.showMessageDialog(null, "Connexion réussie!");
-                } else {
-                    JOptionPane.showMessageDialog(null, "Adresse email ou mot de passe invalide!");
-                }
-            }
-        });
 
-        // Set layout
-        setLayout(new GridBagLayout());
-        GridBagConstraints gc = new GridBagConstraints();
+        Object[] message = {
+            emailLabel, emailField,
+            passwordLabel, passwordField
+        };
+        int option = 0;
+        try{
+            BufferedImage originalImage = ImageIO.read(new File("image/eseo.jpg"));
+            int width = 30;
+            int height = 30;
+            BufferedImage resizedImage = new BufferedImage(width, height, originalImage.getType());
+            ImageIcon resizedIcon = new ImageIcon(resizedImage);
+            option = JOptionPane.showConfirmDialog(null, message, "Connexion", JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, resizedIcon);
+        }
+        catch(Exception e){
+            option = JOptionPane.showConfirmDialog(null, message, "Connexion", JOptionPane.OK_CANCEL_OPTION);
+        }
+        if(option == JOptionPane.OK_OPTION){
+            this.app.connexionAdmin(emailField.getText(),passwordField.getPassword().toString());
+        }
 
-        // Add components to panel
-        gc.gridx = 0;
-        gc.gridy = 0;
-        gc.weightx = 1;
-        gc.weighty = 1;
-        gc.insets = new Insets(5, 5, 1, 0);
-        //gc.fill = GridBagConstraints.RELATIVE;
-        add(emailLabel, gc);
-
-        gc.gridx = 1;
-        gc.gridy = 0;
-        gc.insets = new Insets(5, 0, 1, 5);
-        //gc.fill = GridBagConstraints.RELATIVE;
-        add(emailField, gc);
-
-        gc.gridx = 0;
-        gc.gridy = 1;
-        gc.insets = new Insets(5, 5, 5, 5);
-        //gc.fill = GridBagConstraints.RELATIVE;
-        add(passwordLabel, gc);
-
-        gc.gridx = 1;
-        gc.gridy = 1;
-        gc.insets = new Insets(5, 5, 5, 5);
-        //gc.fill = GridBagConstraints.RELATIVE;
-        add(passwordField, gc);
     }
 }

@@ -20,13 +20,15 @@ public class App {
         return this.bdd;
     }
 
-    public void connexionAdmin(String email, String mdp) {
+    public boolean connexionAdmin(String email, String mdp) {
         // TODO
         // Si infos en paramètre correspondent à un admin dans la BDD
         // this.adminConnecte = new Admin( -Nom correspondant aux infos paramètres- )
         // Changement de fenètre ayant accès au Stock
         // Sinon
         // Message d'erreur, pas de changement de fenètre
+        this.adminConnecte = new Admin("Nom");
+        return true;
     }
 
     public Admin getAdminConnecte() {
