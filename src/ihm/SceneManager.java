@@ -53,11 +53,7 @@ public class SceneManager {
     }
 
     public void showPanneau(String nomPanneau){
-        this.pageArticle.setVisible(false);
-        this.pageAvis.setVisible(false);
-        this.pageCategorie.setVisible(false);
-        this.pageMenu.setVisible(false);
-
+        this.hidePanneau();
         switch(nomPanneau){
             case "Article":
                 this.pageArticle.setVisible(true);
@@ -74,9 +70,13 @@ public class SceneManager {
             default:
                 this.pageMenu.setVisible(true);
                 break;
-            
-
         }
+    }
 
+    private void hidePanneau(){
+        this.pageArticle.setVisible(false);
+        this.pageAvis.setVisible(false);
+        this.pageCategorie.setVisible(false);
+        this.pageMenu.setVisible(false);
     }
 }

@@ -11,7 +11,7 @@ import src.app.App;
 public class PanneauMenu extends JPanel {
 
     private App app;
-    private SceneManager sceneManager;
+    public SceneManager sceneManager;
     public static final int LARGEUR_PAGE = 600;
     public static final int HAUTEUR_PAGE = 800;
 
@@ -25,7 +25,25 @@ public class PanneauMenu extends JPanel {
         boutonArticle.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                sceneManager.showPanneau("Article");
+                sceneManager.showPanneau(boutonArticle.getText());
+            }
+        });
+
+        JButton boutonAvis = new JButton("Avis");
+        this.add(boutonAvis);
+        boutonAvis.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                sceneManager.showPanneau(boutonAvis.getText());
+            }
+        });
+
+        JButton boutonCategorie = new JButton("Categorie");
+        this.add(boutonCategorie);
+        boutonCategorie.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                sceneManager.showPanneau(boutonCategorie.getText());
             }
         });
 
