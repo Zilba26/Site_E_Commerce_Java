@@ -1,10 +1,14 @@
 package src.ihm;
 
-import javax.swing.JButton;
-import javax.swing.JPanel;
-
+import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+import javax.swing.BorderFactory;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 import src.app.App;
 
@@ -20,8 +24,10 @@ public class PanneauMenu extends JPanel {
         this.app = app;
         this.sceneManager = sceneManager;
 
+        JLabel labelBienvenu = new JLabel("Bienvenue " + this.app.getAdminConnecte().getNom());
+
         JButton boutonArticle = new JButton("Article");
-        this.add(boutonArticle);
+        this.add(boutonArticle, BorderLayout.CENTER);
         boutonArticle.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -30,7 +36,7 @@ public class PanneauMenu extends JPanel {
         });
 
         JButton boutonAvis = new JButton("Avis");
-        this.add(boutonAvis);
+        this.add(boutonAvis, BorderLayout.CENTER);
         boutonAvis.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -39,7 +45,7 @@ public class PanneauMenu extends JPanel {
         });
 
         JButton boutonCategorie = new JButton("Categorie");
-        this.add(boutonCategorie);
+        this.add(boutonCategorie, BorderLayout.CENTER);
         boutonCategorie.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -47,7 +53,25 @@ public class PanneauMenu extends JPanel {
             }
         });
 
-        
+        JPanel panelPrincipal = new JPanel(new BorderLayout(5,5));
+
+        JPanel panelLabel = new JPanel();
+        panelLabel.add(labelBienvenu, BorderLayout.CENTER);
+        panelLabel.setBackground(Color.CYAN); // Label en CYAN
+        panelPrincipal.add(panelLabel, BorderLayout.NORTH);
+
+        JPanel panelBoutons = new JPanel();
+        panelBoutons.setBackground(Color.BLACK); // Bouton en BLACK
+        panelBoutons.add(boutonArticle);
+        panelBoutons.add(boutonAvis);
+        panelBoutons.add(boutonCategorie);
+        panelPrincipal.add(panelBoutons, BorderLayout.CENTER);
+        panelPrincipal.setBackground(Color.RED); //Principal en RED
+        panelPrincipal.setBorder(BorderFactory.createEmptyBorder(1,1,1,1));
+        panelPrincipal.setAlignmentY(CENTER_ALIGNMENT);
+
+        this.add(panelPrincipal);
+        this.setBackground(Color.MAGENTA);
     }
     
 }

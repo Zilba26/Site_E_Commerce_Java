@@ -31,10 +31,8 @@ public class App {
         // Changement de fenètre ayant accès au Stock
         // Sinon
         // Message d'erreur, pas de changement de fenètre
-        System.out.println("Email : " + email + " | Password : " + mdp);
         if(email.equals("test")){
-            System.out.println("Entrée if");
-            this.adminConnecte = new Admin("Nom");
+            this.adminConnecte = new Admin("Nom", email, mdp);
         }
         return (this.adminConnecte==null);
     }

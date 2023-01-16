@@ -1,6 +1,7 @@
 package src.ihm;
 
 import javax.swing.JFrame;
+import java.awt.BorderLayout;
 
 import src.app.App;
 
@@ -9,8 +10,6 @@ public class SceneManager {
     private JFrame pageArticle;
     private JFrame pageAvis;
     private JFrame pageCategorie;
-    private JFrame activePage;
-
 
     public SceneManager(){}
 
@@ -33,22 +32,31 @@ public class SceneManager {
         PanneauMenu panneauMenu = new PanneauMenu(app, this);
         this.pageMenu.add(panneauMenu);
         this.pageMenu.setSize(PanneauMenu.LARGEUR_PAGE,PanneauMenu.HAUTEUR_PAGE);
+        this.pageMenu.add(new PanneauBarreHeader(this), BorderLayout.NORTH);
         this.pageMenu.setVisible(true);
+        this.pageMenu.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         this.pageArticle = new JFrame("Page de gestion des articles");
         this.pageArticle.add(new PanneauArticle(panneauMenu, app));
         this.pageArticle.setSize(PanneauArticle.LARGEUR_PAGE,PanneauArticle.HAUTEUR_PAGE);
         this.pageArticle.setVisible(false);
+        this.pageArticle.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         this.pageAvis = new JFrame("Page de gestion des avis");
         this.pageAvis.add(new PanneauAvis(panneauMenu, app));
         this.pageAvis.setSize(PanneauAvis.LARGEUR_PAGE,PanneauAvis.HAUTEUR_PAGE);
         this.pageAvis.setVisible(false);
+        this.pageAvis.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         this.pageCategorie = new JFrame("Page de gestion des categories");
         this.pageCategorie.add(new PanneauCategorie(panneauMenu, app));
         this.pageCategorie.setSize(PanneauCategorie.LARGEUR_PAGE,PanneauCategorie.HAUTEUR_PAGE);
         this.pageCategorie.setVisible(false);
+        this.pageCategorie.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        this.pageArticle.add(new PanneauBarreHeader(this), BorderLayout.NORTH);
+        this.pageAvis.add(new PanneauBarreHeader(this), BorderLayout.NORTH);
+        this.pageCategorie.add(new PanneauBarreHeader(this), BorderLayout.NORTH);
 
     }
 
@@ -79,4 +87,18 @@ public class SceneManager {
         this.pageCategorie.setVisible(false);
         this.pageMenu.setVisible(false);
     }
+
+    public void deconnectAdmin() {
+
+        this.pageMenu.dispose();
+        this.pageArticle.dispose();
+        this.pageAvis.dispose();
+        this.pageCategorie.dispose();
+        System.gc();
+
+        SceneManager.main(null);
+    }
+
+    //TODO : Garder en mémoire la taille des fenetres pour les appliquer à toutes lors d'un changement de fenetre
+
 }

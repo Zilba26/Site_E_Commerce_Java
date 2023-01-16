@@ -1,5 +1,6 @@
 package src.ihm;
 
+import java.awt.image.BufferedImage;
 import java.io.File;
 
 import javax.imageio.ImageIO;
@@ -9,7 +10,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
-import java.awt.image.BufferedImage;
 
 import src.app.App;
 
@@ -45,7 +45,12 @@ public class PanneauConnexion extends JPanel {
             option = JOptionPane.showConfirmDialog(null, message, "Connexion", JOptionPane.OK_CANCEL_OPTION);
         }
         if(option == JOptionPane.OK_OPTION){
-            this.app.connexionAdmin(emailField.getText(),passwordField.getPassword().toString());
+            if (this.app.connexionAdmin(emailField.getText(),passwordField.getPassword().toString())) {
+                JOptionPane.showMessageDialog(this, "L'identifiant ou le mot de passe fourni n'est pas répertorié dans la base de données");
+            }
+        }
+        else if (option == JOptionPane.CANCEL_OPTION || option == JOptionPane.CLOSED_OPTION){
+            System.exit(0);
         }
 
     }
