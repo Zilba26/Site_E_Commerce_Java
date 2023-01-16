@@ -3,6 +3,8 @@ package src.ihm;
 import javax.swing.JFrame;
 
 import src.app.App;
+import src.contenu.Article;
+import src.contenu.Categorie;
 
 public class SceneManager {
     private JFrame pageMenu;
@@ -19,6 +21,19 @@ public class SceneManager {
         SceneManager sceneManager = new SceneManager();
         sceneManager.pageMenu = new JFrame("Page d'administration du site");
         App app = new App();
+
+        Categorie categorie1 = new Categorie("Categorie 1");
+        Article article1 = new Article("Article 11");
+        Article article2 = new Article("Article 12");
+        Categorie categorie2 = new Categorie("Categorie 2");
+        Article article3 = new Article("Article 21");
+        Article article4 = new Article("Article 22");
+        categorie1.ajouteArticle(article1);
+        categorie1.ajouteArticle(article2);
+        categorie2.ajouteArticle(article3);
+        categorie2.ajouteArticle(article4);
+        app.getStock().ajouteCategorie(categorie1);
+        app.getStock().ajouteCategorie(categorie2);
         
         new PanneauConnexion(app);
 

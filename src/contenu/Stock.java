@@ -19,4 +19,8 @@ public class Stock {
         this.getArrayCategorie().add(categorie);
     }
 
+    public void ajouteCategorie(Categorie cat){
+        this.categories.add(cat);
+    }
+
 }
