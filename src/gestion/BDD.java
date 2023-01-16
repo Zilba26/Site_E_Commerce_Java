@@ -13,6 +13,7 @@ public class BDD {
         this.initConnexionBDD();
     }
 
+
     public boolean initConnexionBDD(){
         boolean connexionReussie = false;
         try {

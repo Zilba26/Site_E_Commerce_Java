@@ -36,5 +36,8 @@ public class Categorie {
     public void setNom(String nom) {
         this.nom = nom;
     }
+    public void ajouteArticle(Article article){
+        this.articles.add(article);
+    }
 
 }
