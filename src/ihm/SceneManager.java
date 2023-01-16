@@ -11,7 +11,6 @@ public class SceneManager {
     private JFrame pageArticle;
     private JFrame pageAvis;
     private JFrame pageCategorie;
-    private JFrame activePage;
 
 
     public SceneManager(){}
@@ -65,6 +64,10 @@ public class SceneManager {
         this.pageCategorie.setSize(PanneauCategorie.LARGEUR_PAGE,PanneauCategorie.HAUTEUR_PAGE);
         this.pageCategorie.setVisible(false);
 
+    }
+
+    public JFrame getPageMenu(){
+        return this.pageMenu;
     }
 
     public void showPanneau(String nomPanneau){

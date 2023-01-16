@@ -1,13 +1,14 @@
 package src.ihm;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.Dimension;
+import java.awt.GridLayout;
+import java.awt.GridBagConstraints;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import src.app.App;
@@ -24,17 +25,6 @@ public class PanneauArticle extends JPanel{
     public PanneauArticle(PanneauMenu panneauMenu, App app) {
         this.panneauMenu = panneauMenu;
         this.app = app;
-        JPanel header = new JPanel();
-        JButton boutonReturn = new JButton("Menu");
-        header.add(boutonReturn);
-        boutonReturn.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                panneauMenu.sceneManager.showPanneau(boutonReturn.getText());
-            }
-        });
-        this.add(header,BorderLayout.NORTH);
-
 
         ArrayList<Article> listArticle = new ArrayList<Article>();
         for(int k = 0 ; k <  app.getStock().getArrayCategorie().size() ; k++)
@@ -47,9 +37,32 @@ public class PanneauArticle extends JPanel{
     }
 
     private JPanel creePanelArticle(Article article){
-        JPanel panelArticle = new JPanel();
+        JPanel panelArticle = new JPanel(new GridLayout(2,4));
+        panelArticle.setPreferredSize(new Dimension((int)(LARGEUR_PAGE*0.8), 50));
         panelArticle.setBorder(BorderFactory.createEmptyBorder(MARGE_ENTRE_PANEL/2, 0, MARGE_ENTRE_PANEL/2, 0));
         panelArticle.setBackground(Color.RED);
+
+        GridBagConstraints constraints = new GridBagConstraints();
+        constraints.gridx = 1; // colonne 1
+        constraints.gridy = 1; // ligne 1
+        JLabel nom = new JLabel(article.getNom());
+        panelArticle.add(nom,constraints);
+
+        constraints.gridx = 1; // colonne 1
+        constraints.gridy = 2; // ligne 1
+        JLabel prix = new JLabel(article.getPrix().toString() + " €");
+        panelArticle.add(prix,constraints);
+
+        constraints.gridx = 4; // colonne 1
+        constraints.gridy = 1; // ligne 1
+        JButton boutonRetirer = new JButton("Retirer");
+        panelArticle.add(boutonRetirer,constraints);
+
+        constraints.gridx = 3; // colonne 1
+        constraints.gridy = 2; // ligne 1
+        JLabel description = new JLabel(article.getDescription());
+        panelArticle.add(description,constraints);
+
 
         return panelArticle;
     }
