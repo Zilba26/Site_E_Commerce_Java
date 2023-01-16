@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Launch EtreUnArtiste",
+            "request": "launch",
+            "mainClass": "fr.eseo.pdlo.projet.artiste.EtreUnArtiste",
+            "projectName": "EtreUnArtiste"
+        },
+        {
+            "type": "java",
             "name": "Launch SceneManager",
             "request": "launch",
             "mainClass": "src.ihm.SceneManager",

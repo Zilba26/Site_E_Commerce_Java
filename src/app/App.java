@@ -27,8 +27,9 @@ public class App {
         // Changement de fenètre ayant accès au Stock
         // Sinon
         // Message d'erreur, pas de changement de fenètre
-        this.adminConnecte = new Admin("Nom");
-        return true;
+        if(email == "test")
+            this.adminConnecte = new Admin("Nom");
+        return (adminConnecte==null);
     }
 
     public Admin getAdminConnecte() {

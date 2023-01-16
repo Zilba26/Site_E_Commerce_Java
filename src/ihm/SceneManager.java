@@ -4,8 +4,9 @@ import javax.swing.JFrame;
 
 import src.app.App;
 
-public class SceneManager{
+public class SceneManager {
     private PanneauConnexion panneauConnexion;
+    private PanneauMenu panneauMenu;
 
 
     public SceneManager(){}
@@ -16,10 +17,13 @@ public class SceneManager{
         
         SceneManager sceneManager = new SceneManager();
         sceneManager.panneauConnexion = new PanneauConnexion(app);
-        if(app.adminEstConnecte()){
-            pagePrincipale.setSize(600,800);
-            pagePrincipale.setVisible(true);
+
+        while(!app.adminEstConnecte()){
+            sceneManager.panneauConnexion = new PanneauConnexion(app);
         }
+        pagePrincipale.setSize(600,800);
+        pagePrincipale.setVisible(true);
+        
         // pagePrincipale.add(sceneManager.panneauConnexion);
         // pagePrincipale.pack();
         // pagePrincipale.setSize(600,800);

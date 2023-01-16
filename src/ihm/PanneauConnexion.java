@@ -10,7 +10,6 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import java.awt.image.BufferedImage;
-import java.awt.Graphics2D;
 
 import src.app.App;
 
