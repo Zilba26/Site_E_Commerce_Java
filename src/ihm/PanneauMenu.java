@@ -3,6 +3,9 @@ package src.ihm;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import src.app.App;
 
 public class PanneauMenu extends JPanel {
@@ -16,8 +19,15 @@ public class PanneauMenu extends JPanel {
 
         this.app = app;
         this.sceneManager = sceneManager;
+
         JButton boutonArticle = new JButton("Article");
         this.add(boutonArticle);
+        boutonArticle.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                sceneManager.showPanneau("Article");
+            }
+        });
 
         
     }
