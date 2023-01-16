@@ -11,15 +11,16 @@ public class SceneManager {
     private JFrame pageArticle;
     private JFrame pageAvis;
     private JFrame pageCategorie;
+    private App app;
 
-
-    public SceneManager(){}
+    public SceneManager() {
+    }
 
     public static void main(String[] args) {
-        
+
         SceneManager sceneManager = new SceneManager();
         sceneManager.pageMenu = new JFrame("Page d'administration du site");
-        App app = new App();
+        sceneManager.app = new App();
 
         Categorie categorie1 = new Categorie("Categorie 1");
         Article article1 = new Article("Article 11");
@@ -31,48 +32,48 @@ public class SceneManager {
         categorie1.ajouteArticle(article2);
         categorie2.ajouteArticle(article3);
         categorie2.ajouteArticle(article4);
-        app.getStock().ajouteCategorie(categorie1);
-        app.getStock().ajouteCategorie(categorie2);
-        
-        new PanneauConnexion(app);
+        sceneManager.app.getStock().ajouteCategorie(categorie1);
+        sceneManager.app.getStock().ajouteCategorie(categorie2);
 
-        while(!app.adminEstConnecte()){
-            new PanneauConnexion(app);
+        new PanneauConnexion(sceneManager.app);
+
+        while (!sceneManager.app.adminEstConnecte()) {
+            new PanneauConnexion(sceneManager.app);
         }
-        sceneManager.initPages(app);
-        
+        sceneManager.initPages(sceneManager.app);
+
     }
 
-    private void initPages(App app){
+    private void initPages(App app) {
         PanneauMenu panneauMenu = new PanneauMenu(app, this);
         this.pageMenu.add(panneauMenu);
-        this.pageMenu.setSize(PanneauMenu.LARGEUR_PAGE,PanneauMenu.HAUTEUR_PAGE);
+        this.pageMenu.setSize(PanneauMenu.LARGEUR_PAGE, PanneauMenu.HAUTEUR_PAGE);
         this.pageMenu.setVisible(true);
 
         this.pageArticle = new JFrame("Page de gestion des articles");
         this.pageArticle.add(new PanneauArticle(panneauMenu, app));
-        this.pageArticle.setSize(PanneauArticle.LARGEUR_PAGE,PanneauArticle.HAUTEUR_PAGE);
+        this.pageArticle.setSize(PanneauArticle.LARGEUR_PAGE, PanneauArticle.HAUTEUR_PAGE);
         this.pageArticle.setVisible(false);
 
         this.pageAvis = new JFrame("Page de gestion des avis");
         this.pageAvis.add(new PanneauAvis(panneauMenu, app));
-        this.pageAvis.setSize(PanneauAvis.LARGEUR_PAGE,PanneauAvis.HAUTEUR_PAGE);
+        this.pageAvis.setSize(PanneauAvis.LARGEUR_PAGE, PanneauAvis.HAUTEUR_PAGE);
         this.pageAvis.setVisible(false);
 
         this.pageCategorie = new JFrame("Page de gestion des categories");
         this.pageCategorie.add(new PanneauCategorie(panneauMenu, app));
-        this.pageCategorie.setSize(PanneauCategorie.LARGEUR_PAGE,PanneauCategorie.HAUTEUR_PAGE);
+        this.pageCategorie.setSize(PanneauCategorie.LARGEUR_PAGE, PanneauCategorie.HAUTEUR_PAGE);
         this.pageCategorie.setVisible(false);
 
     }
 
-    public JFrame getPageMenu(){
+    public JFrame getPageMenu() {
         return this.pageMenu;
     }
 
-    public void showPanneau(String nomPanneau){
+    public void showPanneau(String nomPanneau) {
         this.hidePanneau();
-        switch(nomPanneau){
+        switch (nomPanneau) {
             case "Article":
                 this.pageArticle.setVisible(true);
                 break;
@@ -91,7 +92,11 @@ public class SceneManager {
         }
     }
 
-    private void hidePanneau(){
+    public void supprimeArticle(Article article) {
+        this.app.getStock().retireArticle(article);
+    }
+
+    private void hidePanneau() {
         this.pageArticle.setVisible(false);
         this.pageAvis.setVisible(false);
         this.pageCategorie.setVisible(false);
