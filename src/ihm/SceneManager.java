@@ -5,30 +5,49 @@ import javax.swing.JFrame;
 import src.app.App;
 
 public class SceneManager {
-    private PanneauConnexion panneauConnexion;
-    private PanneauMenu panneauMenu;
+    private JFrame pageMenu;
+    private JFrame pageArticle;
+    private JFrame pageAvis;
+    private JFrame pageCategorie;
 
 
     public SceneManager(){}
 
     public static void main(String[] args) {
-        JFrame pagePrincipale = new JFrame("Page d'administration du site");
-        App app = new App();
         
         SceneManager sceneManager = new SceneManager();
-        sceneManager.panneauConnexion = new PanneauConnexion(app);
+        sceneManager.pageMenu = new JFrame("Page d'administration du site");
+        App app = new App();
+        
+        new PanneauConnexion(app);
 
         while(!app.adminEstConnecte()){
-            sceneManager.panneauConnexion = new PanneauConnexion(app);
+            new PanneauConnexion(app);
         }
-        pagePrincipale.setSize(600,800);
-        pagePrincipale.setVisible(true);
+        sceneManager.initPages(app);
         
-        // pagePrincipale.add(sceneManager.panneauConnexion);
-        // pagePrincipale.pack();
-        // pagePrincipale.setSize(600,800);
-        
+    }
 
-        // pagePrincipale.setVisible(true);
+    private void initPages(App app){
+        this.pageMenu.add(new PanneauMenu(app, this));
+        this.pageMenu.setSize(PanneauMenu.LARGEUR_PAGE,PanneauMenu.HAUTEUR_PAGE);
+        this.pageMenu.setVisible(true);
+
+        this.pageArticle.add(new PanneauArticle(app, this));
+        this.pageArticle.setSize(PanneauArticle.LARGEUR_PAGE,PanneauArticle.HAUTEUR_PAGE);
+        this.pageArticle.setVisible(false);
+
+        this.pageAvis.add(new PanneauAvis(app, this));
+        this.pageAvis.setSize(PanneauAvis.LARGEUR_PAGE,PanneauAvis.HAUTEUR_PAGE);
+        this.pageAvis.setVisible(false);
+
+        this.pageCategorie.add(new PanneauCategorie(app, this));
+        this.pageCategorie.setSize(PanneauCategorie.LARGEUR_PAGE,PanneauCategorie.HAUTEUR_PAGE);
+        this.pageCategorie.setVisible(false);
+
+    }
+
+    public void showPanneauArticle(){
+
     }
 }
