@@ -23,6 +23,7 @@ public class Article {
 
     public void supprimerArticleBDD() {
         //TODO : Supprimer article dans Base De Données
+        System.out.println("Article supprimé dans BDD");
     }
 
     public void ajouterQuantite(int quantite) {
@@ -35,12 +36,21 @@ public class Article {
             this.quantite-=quantite;
     }
 
-    public void supprimerAvis(Avis avis, boolean gardeNote) {
+    public String supprimerAvis(Avis avis, boolean gardeNote) {
         for (int i=0 ; i<this.listeAvis.size() ; i++) {
             if (avis == listeAvis.get(i)) {
-                avis.supprimeAvisBDD(gardeNote);
+                return avis.supprimeAvisBDD(gardeNote);
             }
         }
+        String ret = "Attention.";
+        ret+= " L'avis de " + avis.getNomClient();
+        ret+= " mentionnant '" + avis.getContenu();
+        ret+= "' datant du " + avis.getDate();
+        ret+= " noté " + avis.getNote() + "/5.0";
+        ret+= " n'est pas associé à l'article '" + this.getNom() + "'.";
+        //System.out.println(ret);
+        return ret;
+
     }
 
     public double calculNote() {
@@ -99,7 +109,16 @@ public class Article {
     public String getNomCategorie() {
         return this.nomCategorie;
     }
+    
     public int getNombreNoteClient(){
         return this.listeAvis.size();
+    }
+
+    public int getQuantite() {
+        return this.quantite;
+    }
+
+    public ArrayList<Avis> getListeAvis() {
+        return this.listeAvis;
     }
 }
