@@ -13,6 +13,7 @@ public class SceneManager {
     private JFrame pageArticle;
     private JFrame pageAvis;
     private JFrame pageCategorie;
+    private PanneauMenu panneauMenu;
     private App app;
 
     public SceneManager() {
@@ -33,7 +34,6 @@ public class SceneManager {
             new PanneauConnexion(sceneManager.app);
         }
         sceneManager.initPages(sceneManager.app);
-
     }
 
     private Categorie[] initTestCategories() {
@@ -72,34 +72,12 @@ public class SceneManager {
     }
 
     private void initPages(App app) {
-        PanneauMenu panneauMenu = new PanneauMenu(app, this);
-        this.pageMenu.add(panneauMenu);
-        this.pageMenu.setSize(PanneauMenu.LARGEUR_PAGE, PanneauMenu.HAUTEUR_PAGE);
-        this.pageMenu.add(new PanneauBarreHeader(this), BorderLayout.NORTH);
-        this.pageMenu.setVisible(true);
-        this.pageMenu.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.panneauMenu = new PanneauMenu(app, this);
 
-        this.pageArticle = new JFrame("Page de gestion des articles");
-        this.pageArticle.add(new PanneauArticle(panneauMenu, app));
-        this.pageArticle.setSize(PanneauArticle.LARGEUR_PAGE, PanneauArticle.HAUTEUR_PAGE);
-        this.pageArticle.setVisible(false);
-        this.pageArticle.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-        this.pageAvis = new JFrame("Page de gestion des avis");
-        this.pageAvis.add(new PanneauAvis(panneauMenu, app));
-        this.pageAvis.setSize(PanneauAvis.LARGEUR_PAGE, PanneauAvis.HAUTEUR_PAGE);
-        this.pageAvis.setVisible(false);
-        this.pageAvis.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-        this.pageCategorie = new JFrame("Page de gestion des categories");
-        this.pageCategorie.add(new PanneauCategorie(panneauMenu, app));
-        this.pageCategorie.setSize(PanneauCategorie.LARGEUR_PAGE, PanneauCategorie.HAUTEUR_PAGE);
-        this.pageCategorie.setVisible(false);
-        this.pageCategorie.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-        this.pageArticle.add(new PanneauBarreHeader(this), BorderLayout.NORTH);
-        this.pageAvis.add(new PanneauBarreHeader(this), BorderLayout.NORTH);
-        this.pageCategorie.add(new PanneauBarreHeader(this), BorderLayout.NORTH);
+        this.creePage("Menu", true);
+        this.creePage("Article", false);
+        this.creePage("Avis", false);
+        this.creePage("Categorie", false);
 
     }
 
@@ -148,5 +126,65 @@ public class SceneManager {
 
     // TODO : Garder en mémoire la taille des fenetres pour les appliquer à toutes
     // lors d'un changement de fenetre
+
+    public void creePage(String str, boolean visible) {
+        switch (str) {
+            case "Menu":
+                this.pageMenu.add(this.panneauMenu);
+                this.pageMenu.setSize(PanneauMenu.LARGEUR_PAGE, PanneauMenu.HAUTEUR_PAGE);
+                this.pageMenu.add(new PanneauBarreHeader(this), BorderLayout.NORTH);
+                this.pageMenu.setVisible(visible);
+                this.pageMenu.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                break;
+            case "Article":
+                this.pageArticle = new JFrame("Page de gestion des articles");
+                this.pageArticle.add(new PanneauArticle(panneauMenu, app));
+                this.pageArticle.setSize(PanneauArticle.LARGEUR_PAGE, PanneauArticle.HAUTEUR_PAGE);
+                this.pageArticle.setVisible(visible);
+                this.pageArticle.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                this.pageArticle.add(new PanneauBarreHeader(this), BorderLayout.NORTH);
+                break;
+            case "Avis":
+                this.pageAvis = new JFrame("Page de gestion des avis");
+                this.pageAvis.add(new PanneauAvis(panneauMenu, app));
+                this.pageAvis.setSize(PanneauAvis.LARGEUR_PAGE, PanneauAvis.HAUTEUR_PAGE);
+                this.pageAvis.setVisible(visible);
+                this.pageAvis.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                this.pageAvis.add(new PanneauBarreHeader(this), BorderLayout.NORTH);
+                break;
+            case "Categorie":
+                this.pageCategorie = new JFrame("Page de gestion des categories");
+                this.pageCategorie.add(new PanneauCategorie(panneauMenu, app));
+                this.pageCategorie.setSize(PanneauCategorie.LARGEUR_PAGE, PanneauCategorie.HAUTEUR_PAGE);
+                this.pageCategorie.setVisible(visible);
+                this.pageCategorie.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                this.pageCategorie.add(new PanneauBarreHeader(this), BorderLayout.NORTH);
+                break;
+            default:
+                break;
+        }
+    }
+
+    public JFrame getPage(String str) {
+        JFrame ret;
+        switch (str) {
+            case "Menu":
+                ret = this.pageMenu;
+                break;
+            case "Article":
+                ret = this.pageArticle;
+                break;
+            case "Avis":
+                ret = this.pageAvis;
+                break;
+            case "Categorie":
+                ret = this.pageCategorie;
+                break;
+            default:
+                ret = this.pageMenu;
+                break;
+        }
+        return ret;
+    }
 
 }

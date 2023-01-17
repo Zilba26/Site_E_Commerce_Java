@@ -10,7 +10,9 @@ import java.util.ArrayList;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 import src.app.App;
 import src.contenu.Article;
@@ -50,6 +52,8 @@ public class PanneauAvis extends JPanel {
         panelAvis.setBorder(BorderFactory.createEmptyBorder(MARGE_ENTRE_PANEL / 2, 0, MARGE_ENTRE_PANEL / 2, 0));
         panelAvis.setBackground(Color.RED);
 
+        // Infos à mettre : note contenu nomClient date articleAssocie
+
         JLabel nom = new JLabel("Article : " + avis.getArticleAssocie().getNom());
         panelAvis.add(nom, BorderLayout.WEST);
 
@@ -69,7 +73,59 @@ public class PanneauAvis extends JPanel {
             }
         });
 
+        JButton boutonModifier = new JButton("Modifier");
+        panelAvis.add(boutonModifier);
+        boutonModifier.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                JLabel noteLabel = new JLabel("Note : ");
+                JTextField noteField = new JTextField();
+                noteField.setText("" + avis.getNote());
+
+                JLabel contenuLabel = new JLabel("Contenu : ");
+                JTextField contenuField = new JTextField();
+                contenuField.setText(avis.getContenu());
+
+                JLabel nomClientLabel = new JLabel("Nom Client : ");
+                JLabel nomClientField = new JLabel(avis.getNomClient());
+
+                JLabel dateLabel = new JLabel("Date : ");
+                JTextField dateField = new JTextField();
+                dateField.setText(avis.getDate());
+
+                JLabel articleLabel = new JLabel("Article : ");
+                JLabel articleField = new JLabel(avis.getArticleAssocie().getNom()); // TODO : Mettre un menu deroulant
+
+                Object[] message = {
+                        noteLabel, noteField,
+                        contenuLabel, contenuField,
+                        nomClientLabel, nomClientField,
+                        dateLabel, dateField,
+                        articleLabel, articleField
+                };
+                int option = JOptionPane.showConfirmDialog(null, message, "Modifier article",
+                        JOptionPane.OK_CANCEL_OPTION,
+                        JOptionPane.INFORMATION_MESSAGE);
+                if (option == JOptionPane.OK_OPTION) {
+                    avis.modifierAvis(Double.parseDouble(noteField.getText()), contenuField.getText(),
+                            dateField.getText());// TODO : Rajouter l'article modifié
+                }
+                getPanneauMenu().getSceneManager().getPage("Avis").setVisible(false);
+                getPanneauMenu().getSceneManager().creePage("Avis", true);
+                // TODO : Refresh la page
+            }
+        });
+
         return panelAvis;
 
+    }
+
+    public PanneauMenu getPanneauMenu() {
+        return this.panneauMenu;
+    }
+
+    public App getApp() {
+        return this.app;
     }
 }

@@ -19,7 +19,7 @@ public class PanneauMenu extends JPanel {
     public static final int LARGEUR_PAGE = 600;
     public static final int HAUTEUR_PAGE = 800;
 
-    public PanneauMenu(App app, SceneManager sceneManager){
+    public PanneauMenu(App app, SceneManager sceneManager) {
 
         this.app = app;
         this.sceneManager = sceneManager;
@@ -53,7 +53,7 @@ public class PanneauMenu extends JPanel {
             }
         });
 
-        JPanel panelPrincipal = new JPanel(new BorderLayout(5,5));
+        JPanel panelPrincipal = new JPanel(new BorderLayout(5, 5));
 
         JPanel panelLabel = new JPanel();
         panelLabel.add(labelBienvenu, BorderLayout.CENTER);
@@ -66,12 +66,20 @@ public class PanneauMenu extends JPanel {
         panelBoutons.add(boutonAvis);
         panelBoutons.add(boutonCategorie);
         panelPrincipal.add(panelBoutons, BorderLayout.CENTER);
-        panelPrincipal.setBackground(Color.RED); //Principal en RED
-        panelPrincipal.setBorder(BorderFactory.createEmptyBorder(1,1,1,1));
+        panelPrincipal.setBackground(Color.RED); // Principal en RED
+        panelPrincipal.setBorder(BorderFactory.createEmptyBorder(1, 1, 1, 1));
         panelPrincipal.setAlignmentY(CENTER_ALIGNMENT);
 
         this.add(panelPrincipal);
         this.setBackground(Color.MAGENTA);
     }
-    
+
+    public SceneManager getSceneManager() {
+        return this.sceneManager;
+    }
+
+    public App getApp() {
+        return this.app;
+    }
+
 }
