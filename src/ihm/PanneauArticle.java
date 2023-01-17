@@ -34,12 +34,12 @@ public class PanneauArticle extends JPanel {
                 listArticle.add(app.getStock().getArrayCategorie().get(k).getArticles().get(i)); // Liste de tous les
                                                                                                  // articles
         for (int k = 0; k < listArticle.size(); k++) {
-            this.add(creePanelArticle(listArticle.get(k), this.panneauMenu.sceneManager));
+            this.add(creePanelArticle(listArticle.get(k), app));
         }
 
     }
 
-    private JPanel creePanelArticle(Article article, SceneManager sm) {
+    private JPanel creePanelArticle(Article article, App app) {
         JPanel panelArticle = new JPanel();
         panelArticle.setPreferredSize(new Dimension((int) (LARGEUR_PAGE * RAPPORT_ARTICLE_PAGE), 50));
         panelArticle.setBorder(BorderFactory.createEmptyBorder(MARGE_ENTRE_PANEL / 2, 0, MARGE_ENTRE_PANEL / 2, 0));
@@ -59,7 +59,7 @@ public class PanneauArticle extends JPanel {
         boutonRetirer.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                sm.supprimeArticle(article);
+                app.supprimerArticle(article);
                 // TODO : Trouver le bon article à entrer en paramètre juste au dessus
             }
         });

@@ -2,6 +2,7 @@ package src.app;
 
 import src.contenu.Article;
 import src.contenu.Avis;
+import src.contenu.Categorie;
 import src.contenu.Stock;
 import src.gestion.Admin;
 import src.gestion.BDD;
@@ -97,6 +98,11 @@ public class App {
     public void modifierArticle(Article article) {
         // TODO : Affichage qui demande ce qu'il veut changer, par exemple le nom
         article.setNom("Test");
+    }
+
+    public void modifierCategorie(Categorie categorie) {
+        // TODO : Affichage qui demande ce qu'il veut changer, par exemple le nom
+        categorie.setNom("Test");
     }
 
     public boolean supprimerAvisClient(Article article, Avis avis, boolean gardeNote) {

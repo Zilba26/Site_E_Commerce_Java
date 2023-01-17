@@ -33,6 +33,7 @@ public class SceneManager {
         categorie1.ajouteArticle(article2);
         categorie2.ajouteArticle(article3);
         categorie2.ajouteArticle(article4);
+
         sceneManager.app.getStock().ajouteCategorie(categorie1);
         sceneManager.app.getStock().ajouteCategorie(categorie2);
 
@@ -100,10 +101,6 @@ public class SceneManager {
                 this.pageMenu.setVisible(true);
                 break;
         }
-    }
-
-    public void supprimeArticle(Article article) {
-        this.app.getStock().retireArticle(article);
     }
 
     private void hidePanneau() {
