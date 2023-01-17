@@ -32,10 +32,10 @@ public class App {
         // Changement de fenètre ayant accès au Stock
         // Sinon
         // Message d'erreur, pas de changement de fenètre
-        if(email.equals("test")){
+        if (email.equals("test")) {
             this.adminConnecte = new Admin("Nom", email, mdp);
         }
-        return (this.adminConnecte==null);
+        return (this.adminConnecte == null);
     }
 
     public Admin getAdminConnecte() {
@@ -93,6 +93,16 @@ public class App {
         } else {
             // TODO : Message prévenant de l'échec de l'opération
         }
+    }
+
+    public void supprimeAvis(Avis avisASupprimer) {
+        for (Categorie categorie : this.getStock().getArrayCategorie())
+            for (Article article : categorie.getArticles())
+                for (Avis avis : article.getListeAvis())
+                    if (avis.equals(avisASupprimer)) {
+                        article.getListeAvis().remove(avis);
+                        return;
+                    }
     }
 
     public void modifierArticle(Article article) {
