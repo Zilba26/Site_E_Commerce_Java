@@ -105,6 +105,14 @@ public class App {
                     }
     }
 
+    public void supprimeCategorie(Categorie categorieASupprimer) {
+        for (Categorie categorie : this.getStock().getArrayCategorie())
+            if (categorie.equals(categorieASupprimer)) {
+                this.getStock().getArrayCategorie().remove(categorieASupprimer);
+                return;
+            }
+    }
+
     public void modifierArticle(Article article) {
         // TODO : Affichage qui demande ce qu'il veut changer, par exemple le nom
         article.setNom("Test");

@@ -3,6 +3,10 @@ package src.ihm;
 import javax.swing.JFrame;
 import java.awt.BorderLayout;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+
 import src.app.App;
 import src.contenu.Article;
 import src.contenu.Avis;
@@ -20,6 +24,14 @@ public class SceneManager {
     }
 
     public static void main(String[] args) {
+
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
+            System.out.println("Réussite de la connexion à la BDD");
+        }
+        catch (Exception e) {
+            System.out.println("Echec de la connexion à la BDD");
+        }
 
         SceneManager sceneManager = new SceneManager();
         sceneManager.pageMenu = new JFrame("Page d'administration du site");
