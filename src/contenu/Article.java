@@ -21,6 +21,16 @@ public class Article {
         this.listeAvis = new ArrayList<Avis>();
     }
 
+    public Article(String nom){
+        this.nom = nom;
+        this.prix = 1;
+        this.quantite = 5;
+        this.photo = "";
+        this.description = "description";
+        this.nomCategorie = "nomCategorie";
+        this.listeAvis = new ArrayList<Avis>();
+    }
+
     public void supprimerArticleBDD() {
         //TODO : Supprimer article dans Base De Données
         System.out.println("Article supprimé dans BDD");

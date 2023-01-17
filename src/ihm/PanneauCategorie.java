@@ -18,13 +18,5 @@ public class PanneauCategorie extends JPanel{
         this.panneauMenu = panneauMenu;
         this.app = app;
 
-        JButton boutonReturn = new JButton("Menu");
-        this.add(boutonReturn);
-        boutonReturn.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                panneauMenu.sceneManager.showPanneau(boutonReturn.getText());
-            }
-        });
     }
 }
