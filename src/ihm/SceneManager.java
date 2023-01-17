@@ -114,7 +114,6 @@ public class SceneManager {
     }
 
     public void deconnectAdmin() {
-
         this.pageMenu.dispose();
         this.pageArticle.dispose();
         this.pageAvis.dispose();
