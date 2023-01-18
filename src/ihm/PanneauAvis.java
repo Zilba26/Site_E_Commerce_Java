@@ -70,7 +70,14 @@ public class PanneauAvis extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 app.supprimeAvis(avis);
-                // TODO : Trouver le bon article à entrer en paramètre juste au dessus
+                int result = JOptionPane.showConfirmDialog(null,
+                        "Etes-vous sûr de vouloir supprimer l'avis de " + avis.getNomClient(),
+                        "Supprimer l'avis ?", JOptionPane.YES_NO_OPTION);
+                if (result == JOptionPane.YES_OPTION) {
+                    getPanneauMenu().getSceneManager().getPage("Avis").setVisible(false);
+                    getPanneauMenu().getSceneManager().creePage("Avis", true);
+                }
+
             }
         });
 
