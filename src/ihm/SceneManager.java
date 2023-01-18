@@ -4,11 +4,12 @@ import java.awt.BorderLayout;
 
 import javax.swing.JFrame;
 
+import java.sql.*;
+
 import src.app.App;
 import src.contenu.Article;
 import src.contenu.Avis;
 import src.contenu.Categorie;
-import src.gestion.BDD;
 
 public class SceneManager {
     private JFrame pageMenu;
@@ -26,9 +27,41 @@ public class SceneManager {
         SceneManager sceneManager = new SceneManager();
         sceneManager.pageMenu = new JFrame("Page d'administration du site");
         sceneManager.app = new App();
-        Categorie[] categorieTest = sceneManager.initTestCategories();
-        sceneManager.app.getStock().ajouteCategorie(categorieTest[0]);
-        sceneManager.app.getStock().ajouteCategorie(categorieTest[1]);
+
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/database", "root", "");
+            String queryCategory = "SELECT * FROM subcategory";
+            PreparedStatement statementCategory = con.prepareStatement(queryCategory);
+            ResultSet resultCategory = statementCategory.executeQuery();
+
+            while (resultCategory.next()) {
+                sceneManager.app.creerCategorie(resultCategory.getString("Name"));
+                String queryArticle = "SELECT * FROM item WHERE SubCategoryID = "
+                        + resultCategory.getInt("SubCategoryID");
+                PreparedStatement statementArticle = con.prepareStatement(queryArticle);
+                ResultSet resultArticle = statementArticle.executeQuery();
+                while (resultArticle.next()) {
+                    String nom = resultArticle.getString("Name");
+                    Double prix = resultArticle.getDouble("Price");
+                    int quantite = 50;
+                    String photo = resultArticle.getString("Picture");
+                    String description = resultArticle.getString("Description");
+                    sceneManager.app.getStock().getArrayCategorie().get(resultCategory.getInt("SubCategoryID") - 1)
+                            .ajouterArticle(nom, prix, quantite, photo, description);
+                }
+            }
+
+            System.out.println("Réussite de la connexion à la BDD");
+            con.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("Echec de la connexion à la BDD");
+        }
+
+        // Categorie[] categorieTest = sceneManager.initTestCategories();
+        // sceneManager.app.getStock().ajouteCategorie(categorieTest[0]);
+        // sceneManager.app.getStock().ajouteCategorie(categorieTest[1]);
 
         new PanneauConnexion(sceneManager.app);
 
@@ -47,13 +80,13 @@ public class SceneManager {
         Article article4 = new Article("Article 22");
 
         Avis avis11 = new Avis(5, "Avis 11", "Client 1", "02/10/2023", article1);
-        Avis avis12 = new Avis(6, "Avis 12", "Client 2", "05/11/2022", article1);
-        Avis avis21 = new Avis(9, "Avis 21", "Client 3", "01/01/2001", article2);
-        Avis avis22 = new Avis(8, "Avis 22", "Client 3", "02/02/2002", article2);
-        Avis avis31 = new Avis(7, "Avis 31", "Client 5", "03/03/2003", article3);
-        Avis avis32 = new Avis(6, "Avis 32", "Client 6", "04/04/2004", article3);
+        Avis avis12 = new Avis(4, "Avis 12", "Client 2", "05/11/2022", article1);
+        Avis avis21 = new Avis(4.25, "Avis 21", "Client 3", "01/01/2001", article2);
+        Avis avis22 = new Avis(0.75, "Avis 22", "Client 3", "02/02/2002", article2);
+        Avis avis31 = new Avis(2, "Avis 31", "Client 5", "03/03/2003", article3);
+        Avis avis32 = new Avis(3, "Avis 32", "Client 6", "04/04/2004", article3);
         Avis avis41 = new Avis(5, "Avis 41", "Client 7", "05/05/2005", article4);
-        Avis avis42 = new Avis(4, "Avis 42", "Client 8", "06/06/2006", article4);
+        Avis avis42 = new Avis(3.25, "Avis 42", "Client 8", "06/06/2006", article4);
         article1.ajouterAvis(avis11);
         article1.ajouterAvis(avis12);
         article2.ajouterAvis(avis21);

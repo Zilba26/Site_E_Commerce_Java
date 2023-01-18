@@ -3,14 +3,17 @@ package src.ihm;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
 
 import src.app.App;
 import src.contenu.Categorie;
@@ -37,22 +40,62 @@ public class PanneauCategorie extends JPanel{
 
     private JPanel creePanelCategorie(Categorie categorie, App app) {
         JPanel panelCategorie = new JPanel();
-        panelCategorie.setPreferredSize(new Dimension((int) (LARGEUR_PAGE * RAPPORT_ARTICLE_PAGE), 50));
-        panelCategorie.setBorder(BorderFactory.createEmptyBorder(MARGE_ENTRE_PANEL / 2, 0, MARGE_ENTRE_PANEL / 2, 0));
-        panelCategorie.setBackground(Color.RED);
+        panelCategorie.setPreferredSize(new Dimension((int) (LARGEUR_PAGE * RAPPORT_ARTICLE_PAGE), 78));
+        panelCategorie.setBorder(new EmptyBorder(0,0,0,0));
+        panelCategorie.setBackground(Color.LIGHT_GRAY);
 
-        JLabel nom = new JLabel(categorie.getNom());
-        panelCategorie.add(nom, BorderLayout.WEST);
+        JLabel labelInfo = new JLabel("Catégorie : " + categorie.getNom());
+        JPanel panelInfo = new JPanel();
+        panelInfo.add(labelInfo, BorderLayout.CENTER);
+        panelInfo.setBackground(Color.LIGHT_GRAY);
+        panelInfo.setBorder(new LineBorder(Color.GRAY));
 
-        JButton boutonRetirer = new JButton("Modifier");
-        panelCategorie.add(boutonRetirer, BorderLayout.EAST);
-        boutonRetirer.addActionListener(new ActionListener() {
+        JButton boutonModifier = new JButton("Modifier");
+        JPanel panelModifier = new JPanel();
+        panelModifier.add(boutonModifier, BorderLayout.CENTER);
+        panelModifier.setBackground(Color.LIGHT_GRAY);
+        panelModifier.setBorder(new LineBorder(Color.GRAY));
+        boutonModifier.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 app.modifierCategorie(categorie);
-                // TODO : Trouver la bonne categorie et ouvrir fenetre pour la modifier
             }
         });
+
+        JButton boutonRetirer = new JButton("Retirer");
+        JPanel panelRetirer = new JPanel();
+        panelRetirer.add(boutonRetirer, BorderLayout.CENTER);
+        panelRetirer.setBackground(Color.LIGHT_GRAY);
+        panelRetirer.setBorder(new LineBorder(Color.GRAY));
+        boutonRetirer.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                app.supprimeCategorie(categorie);
+                //
+            }
+        });
+
+        GridBagLayout gbl = new GridBagLayout();
+        panelCategorie.setLayout(gbl);
+        GridBagConstraints gbc = new GridBagConstraints();
+
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.weightx = 0.8;
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        panelCategorie.add(panelInfo, gbc);
+
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.weightx = 0.1;
+        gbc.gridx = 1;
+        gbc.gridy = 0;
+        panelCategorie.add(panelModifier, gbc);
+
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.weightx = 0.1;
+        gbc.gridx = 2;
+        gbc.gridy = 0;
+        panelCategorie.add(panelRetirer, gbc);
 
         return panelCategorie;
     }

@@ -120,6 +120,14 @@ public class App {
         return ret;
     }
 
+    public void supprimeCategorie(Categorie categorieASupprimer) {
+        for (Categorie categorie : this.getStock().getArrayCategorie())
+            if (categorie.equals(categorieASupprimer)) {
+                this.getStock().getArrayCategorie().remove(categorieASupprimer);
+                return;
+            }
+    }
+
     public void modifierArticle(Article article) {
 
         JLabel nomLabel = new JLabel("Nom de l'article :");

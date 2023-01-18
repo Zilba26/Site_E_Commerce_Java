@@ -56,7 +56,7 @@ public class PanneauArticle extends JPanel {
         panelInfo.setBorder(new LineBorder(Color.GRAY));
 
         JLabel labelDescription = new JLabel("Description : " + '"' + article.getDescription() + '"');
-        JPanel panelDescription = new JPanel();
+        labelDescription.setVerticalAlignment(JLabel.CENTER);JPanel panelDescription = new JPanel();
         panelDescription.add(labelDescription, BorderLayout.CENTER);
         panelDescription.setBackground(Color.LIGHT_GRAY);
         panelDescription.setBorder(new LineBorder(Color.GRAY));
