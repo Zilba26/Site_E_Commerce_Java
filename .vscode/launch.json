@@ -9,6 +9,13 @@
             "name": "Launch SceneManager",
             "request": "launch",
             "mainClass": "src.ihm.SceneManager",
+            "projectName": "Site_E_Commerce_Java_119186d"
+        },
+        {
+            "type": "java",
+            "name": "Launch SceneManager",
+            "request": "launch",
+            "mainClass": "src.ihm.SceneManager",
             "projectName": "Site_E_Commerce_Java_63a5ae04"
         },
         {

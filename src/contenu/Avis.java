@@ -70,9 +70,7 @@ public class Avis {
     public void modifierAvis(double note, String contenu, String date) {
         this.note = note;
         this.contenu = contenu;
-        this.nomClient = nomClient;
         this.date = date;
-        this.articleAssocie = articleAssocie;
     }
 
 }

@@ -57,13 +57,13 @@ public class SceneManager {
         Article article4 = new Article("Article 22");
 
         Avis avis11 = new Avis(5, "Avis 11", "Client 1", "02/10/2023", article1);
-        Avis avis12 = new Avis(6, "Avis 12", "Client 2", "05/11/2022", article1);
-        Avis avis21 = new Avis(9, "Avis 21", "Client 3", "01/01/2001", article2);
-        Avis avis22 = new Avis(8, "Avis 22", "Client 3", "02/02/2002", article2);
-        Avis avis31 = new Avis(7, "Avis 31", "Client 5", "03/03/2003", article3);
-        Avis avis32 = new Avis(6, "Avis 32", "Client 6", "04/04/2004", article3);
+        Avis avis12 = new Avis(4, "Avis 12", "Client 2", "05/11/2022", article1);
+        Avis avis21 = new Avis(4.25, "Avis 21", "Client 3", "01/01/2001", article2);
+        Avis avis22 = new Avis(0.75, "Avis 22", "Client 3", "02/02/2002", article2);
+        Avis avis31 = new Avis(2, "Avis 31", "Client 5", "03/03/2003", article3);
+        Avis avis32 = new Avis(3, "Avis 32", "Client 6", "04/04/2004", article3);
         Avis avis41 = new Avis(5, "Avis 41", "Client 7", "05/05/2005", article4);
-        Avis avis42 = new Avis(4, "Avis 42", "Client 8", "06/06/2006", article4);
+        Avis avis42 = new Avis(3.25, "Avis 42", "Client 8", "06/06/2006", article4);
         article1.ajouterAvis(avis11);
         article1.ajouterAvis(avis12);
         article2.ajouterAvis(avis21);

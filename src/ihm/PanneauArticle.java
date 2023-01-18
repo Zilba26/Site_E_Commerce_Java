@@ -50,15 +50,13 @@ public class PanneauArticle extends JPanel {
         panelArticle.setBackground(Color.LIGHT_GRAY);
 
         JLabel labelInfo = new JLabel("Nom : " + article.getNom() + " | Prix : " + article.getPrix().toString() + "€" + " | Qté : " + article.getQuantite());
-        labelInfo.setVerticalAlignment(JLabel.CENTER);
         JPanel panelInfo = new JPanel();
         panelInfo.add(labelInfo, BorderLayout.CENTER);
         panelInfo.setBackground(Color.LIGHT_GRAY);
         panelInfo.setBorder(new LineBorder(Color.GRAY));
 
         JLabel labelDescription = new JLabel("Description : " + '"' + article.getDescription() + '"');
-        labelDescription.setVerticalAlignment(JLabel.CENTER);
-        JPanel panelDescription = new JPanel();
+        labelDescription.setVerticalAlignment(JLabel.CENTER);JPanel panelDescription = new JPanel();
         panelDescription.add(labelDescription, BorderLayout.CENTER);
         panelDescription.setBackground(Color.LIGHT_GRAY);
         panelDescription.setBorder(new LineBorder(Color.GRAY));
