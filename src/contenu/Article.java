@@ -37,6 +37,14 @@ public class Article {
         System.out.println("Article supprimé dans BDD");
     }
 
+    public void modifierArticle(String nom, int quantite, double prix, String desc, String cat) {
+        this.nom = nom;
+        this.quantite = quantite;
+        this.prix = prix;
+        this.description = desc;
+        this.nomCategorie = cat;
+    }
+
     public void ajouterQuantite(int quantite) {
         if (quantite > 0)
             this.quantite += quantite;

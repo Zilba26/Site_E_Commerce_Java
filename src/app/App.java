@@ -2,6 +2,11 @@ package src.app;
 
 import java.util.ArrayList;
 
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JTextField;
+
 import src.contenu.Article;
 import src.contenu.Avis;
 import src.contenu.Categorie;
@@ -116,8 +121,47 @@ public class App {
     }
 
     public void modifierArticle(Article article) {
-        // TODO : Affichage qui demande ce qu'il veut changer, par exemple le nom
-        article.setNom("Test");
+
+        JLabel nomLabel = new JLabel("Nom de l'article :");
+        JTextField nomField = new JTextField();
+        nomField.setText(article.getNom());
+
+        JLabel quantiteLabel = new JLabel("Quantité : ");
+        JTextField quantiteField = new JTextField();
+        quantiteField.setText("" + article.getQuantite());
+
+        JLabel prixLabel = new JLabel("Prix : ");
+        JTextField prixField = new JTextField();
+        prixField.setText("" + article.getPrix());
+
+        JLabel descLabel = new JLabel("Description : ");
+        JTextField descField = new JTextField();
+        descField.setText(article.getDescription());
+
+        JLabel categorieLabel = new JLabel("Categorie : ");
+        JComboBox<String> categorieComboBox = new JComboBox<>();
+        for (Categorie c : this.getStock().getArrayCategorie()) {
+            categorieComboBox.addItem(c.getNom());
+        }
+        categorieComboBox.setSelectedItem(article.getNomCategorie());
+
+        Object[] message = {
+                nomLabel, nomField,
+                quantiteLabel, quantiteField,
+                prixLabel, prixField,
+                descLabel, descField,
+                categorieLabel, categorieComboBox
+        };
+        // int option = JOptionPane.showConfirmDialog(null, message, "Modifier article",
+        // JOptionPane.OK_CANCEL_OPTION,
+        // JOptionPane.INFORMATION_MESSAGE);
+        // if (option == JOptionPane.OK_OPTION) {
+        // article.modifierArticle(Double.parseDouble(noteField.getText()),
+        // contenuField.getText(),
+        // dateField.getText(),
+        // stringToArticle(articleComboBox.getSelectedItem().toString()));
+        // }
+        // article.setNom("Test");
     }
 
     public void modifierCategorie(Categorie categorie) {

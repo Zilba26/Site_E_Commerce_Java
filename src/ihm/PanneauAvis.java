@@ -77,7 +77,6 @@ public class PanneauAvis extends JPanel {
                     getPanneauMenu().getSceneManager().getPage("Avis").setVisible(false);
                     getPanneauMenu().getSceneManager().creePage("Avis", true);
                 }
-
             }
         });
 
@@ -116,7 +115,7 @@ public class PanneauAvis extends JPanel {
                         dateLabel, dateField,
                         articleLabel, articleComboBox
                 };
-                int option = JOptionPane.showConfirmDialog(null, message, "Modifier article",
+                int option = JOptionPane.showConfirmDialog(null, message, "Modifier avis",
                         JOptionPane.OK_CANCEL_OPTION,
                         JOptionPane.INFORMATION_MESSAGE);
                 if (option == JOptionPane.OK_OPTION) {
