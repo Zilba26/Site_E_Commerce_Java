@@ -1,106 +1,201 @@
 package src.ihm;
 
-import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.scene.Node;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.StackPane;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
-import javafx.stage.Stage;
+import javax.swing.JFrame;
+import java.awt.BorderLayout;
 
-public class SceneManager extends Application {
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+
+import src.app.App;
+import src.contenu.Article;
+import src.contenu.Avis;
+import src.contenu.Categorie;
+
+public class SceneManager {
+    private JFrame pageMenu;
+    private JFrame pageArticle;
+    private JFrame pageAvis;
+    private JFrame pageCategorie;
+    private PanneauMenu panneauMenu;
+    private App app;
+
+    public SceneManager() {
+    }
 
     public static void main(String[] args) {
-        launch(args);
-    }
 
-    public static final int LARGEUR_FENETRE = 400;
-    public static final int HAUTEUR_FENETRE = 400;
-    public static final int INPUT_WIDTH = 150;
-    public static final String TITRE_APPLICATION = "Gestion du site";
-    private static Scene connectScene;
-    private static Scene menuScene;
-
-    private static TextField mailInput;
-    private static TextField mdpInput;
-
-    @Override
-    public void start(Stage primaryStage) throws Exception {
-        // Création des scènes
-        initScenes();
-
-        Node connectButtonNode = connectScene.getRoot().lookup("#ConnectButton");
-        if (connectButtonNode instanceof Button) {
-            Button connectButton = (Button) connectButtonNode;
-            connectButton.setOnAction(new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(ActionEvent event) {
-                    if (checkConnectID())
-                        primaryStage.setScene(menuScene);
-                }
-            });
-
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
+            System.out.println("Réussite de la connexion à la BDD");
+        }
+        catch (Exception e) {
+            System.out.println("Echec de la connexion à la BDD");
         }
 
-        // Affichage de la scène 1
-        // primaryStage.setScene(scene1);
-        primaryStage.setScene(connectScene);
-        primaryStage.show();
+        SceneManager sceneManager = new SceneManager();
+        sceneManager.pageMenu = new JFrame("Page d'administration du site");
+        sceneManager.app = new App();
+        Categorie[] categorieTest = sceneManager.initTestCategories();
+        sceneManager.app.getStock().ajouteCategorie(categorieTest[0]);
+        sceneManager.app.getStock().ajouteCategorie(categorieTest[1]);
+
+        new PanneauConnexion(sceneManager.app);
+
+        while (!sceneManager.app.adminEstConnecte()) {
+            new PanneauConnexion(sceneManager.app);
+        }
+        sceneManager.initPages(sceneManager.app);
     }
 
-    private static boolean checkConnectID() {
-        // TODO : Check with database
-        return true;
+    private Categorie[] initTestCategories() {
+        Categorie categorie1 = new Categorie("Categorie 1");
+        Article article1 = new Article("Article 11");
+        Article article2 = new Article("Article 12");
+        Categorie categorie2 = new Categorie("Categorie 2");
+        Article article3 = new Article("Article 21");
+        Article article4 = new Article("Article 22");
+
+        Avis avis11 = new Avis(5, "Avis 11", "Client 1", "02/10/2023", article1);
+        Avis avis12 = new Avis(6, "Avis 12", "Client 2", "05/11/2022", article1);
+        Avis avis21 = new Avis(9, "Avis 21", "Client 3", "01/01/2001", article2);
+        Avis avis22 = new Avis(8, "Avis 22", "Client 3", "02/02/2002", article2);
+        Avis avis31 = new Avis(7, "Avis 31", "Client 5", "03/03/2003", article3);
+        Avis avis32 = new Avis(6, "Avis 32", "Client 6", "04/04/2004", article3);
+        Avis avis41 = new Avis(5, "Avis 41", "Client 7", "05/05/2005", article4);
+        Avis avis42 = new Avis(4, "Avis 42", "Client 8", "06/06/2006", article4);
+        article1.ajouterAvis(avis11);
+        article1.ajouterAvis(avis12);
+        article2.ajouterAvis(avis21);
+        article2.ajouterAvis(avis22);
+        article3.ajouterAvis(avis31);
+        article3.ajouterAvis(avis32);
+        article4.ajouterAvis(avis41);
+        article4.ajouterAvis(avis42);
+
+        categorie1.ajouteArticle(article1);
+        categorie1.ajouteArticle(article2);
+        categorie2.ajouteArticle(article3);
+        categorie2.ajouteArticle(article4);
+        Categorie[] ret = new Categorie[2];
+        ret[0] = categorie1;
+        ret[1] = categorie2;
+        return ret;
     }
 
-    private static void initScenes() {
-        initConnectScene();
-        initMenuScene();
+    private void initPages(App app) {
+        this.panneauMenu = new PanneauMenu(app, this);
+
+        this.creePage("Menu", true);
+        this.creePage("Article", false);
+        this.creePage("Avis", false);
+        this.creePage("Categorie", false);
+
     }
 
-    private static Scene initMenuScene() {
-        StackPane sp = new StackPane();
-
-        Label textAccueil = new Label("Bienvenue sur la page d'administration");
-        textAccueil.setFont(Font.font("Arial", FontWeight.BOLD, 18));
-
-        sp.getChildren().add(textAccueil);
-
-        menuScene = new Scene(sp, 500, 500);
-        return menuScene;
+    public JFrame getPageMenu() {
+        return this.pageMenu;
     }
 
-    private static Scene initConnectScene() {
-        Button btnConnect = new Button("Connect");
-        btnConnect.setTranslateY(70);
-        btnConnect.setId("ConnectButton");
-
-        Label labelConnexion = new Label("Connect to the admin account");
-        labelConnexion.setTranslateY(-60);
-        labelConnexion.setFont(Font.font("Arial", FontWeight.BOLD, 18));
-
-        mailInput = new TextField();
-        mailInput.setPromptText("Email");
-        mailInput.setMaxWidth(INPUT_WIDTH);
-        mailInput.setTranslateY(-15);
-
-        mdpInput = new TextField();
-        mdpInput.setPromptText("Password");
-        mdpInput.setMaxWidth(INPUT_WIDTH);
-        mdpInput.setTranslateY(15);
-
-        StackPane sp = new StackPane();
-        sp.getChildren().add(labelConnexion);
-        sp.getChildren().add(mailInput);
-        sp.getChildren().add(mdpInput);
-        sp.getChildren().add(btnConnect);
-
-        connectScene = new Scene(sp, LARGEUR_FENETRE, HAUTEUR_FENETRE);
-        return connectScene;
+    public void showPanneau(String nomPanneau) {
+        this.hidePanneau();
+        switch (nomPanneau) {
+            case "Article":
+                this.pageArticle.setVisible(true);
+                break;
+            case "Avis":
+                this.pageAvis.setVisible(true);
+                break;
+            case "Categorie":
+                this.pageCategorie.setVisible(true);
+                break;
+            case "Menu":
+                this.pageMenu.setVisible(true);
+                break;
+            default:
+                this.pageMenu.setVisible(true);
+                break;
+        }
     }
+
+    private void hidePanneau() {
+        this.pageArticle.setVisible(false);
+        this.pageAvis.setVisible(false);
+        this.pageCategorie.setVisible(false);
+        this.pageMenu.setVisible(false);
+    }
+
+    public void deconnectAdmin() {
+        this.pageMenu.dispose();
+        this.pageArticle.dispose();
+        this.pageAvis.dispose();
+        this.pageCategorie.dispose();
+        System.gc();
+
+        SceneManager.main(null);
+    }
+
+    // TODO : Garder en mémoire la taille des fenetres pour les appliquer à toutes
+    // lors d'un changement de fenetre
+
+    public void creePage(String str, boolean visible) {
+        switch (str) {
+            case "Menu":
+                this.pageMenu.add(this.panneauMenu);
+                this.pageMenu.setSize(PanneauMenu.LARGEUR_PAGE, PanneauMenu.HAUTEUR_PAGE);
+                this.pageMenu.add(new PanneauBarreHeader(this), BorderLayout.NORTH);
+                this.pageMenu.setVisible(visible);
+                this.pageMenu.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                break;
+            case "Article":
+                this.pageArticle = new JFrame("Page de gestion des articles");
+                this.pageArticle.add(new PanneauArticle(panneauMenu, app));
+                this.pageArticle.setSize(PanneauArticle.LARGEUR_PAGE, PanneauArticle.HAUTEUR_PAGE);
+                this.pageArticle.setVisible(visible);
+                this.pageArticle.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                this.pageArticle.add(new PanneauBarreHeader(this), BorderLayout.NORTH);
+                break;
+            case "Avis":
+                this.pageAvis = new JFrame("Page de gestion des avis");
+                this.pageAvis.add(new PanneauAvis(panneauMenu, app));
+                this.pageAvis.setSize(PanneauAvis.LARGEUR_PAGE, PanneauAvis.HAUTEUR_PAGE);
+                this.pageAvis.setVisible(visible);
+                this.pageAvis.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                this.pageAvis.add(new PanneauBarreHeader(this), BorderLayout.NORTH);
+                break;
+            case "Categorie":
+                this.pageCategorie = new JFrame("Page de gestion des categories");
+                this.pageCategorie.add(new PanneauCategorie(panneauMenu, app));
+                this.pageCategorie.setSize(PanneauCategorie.LARGEUR_PAGE, PanneauCategorie.HAUTEUR_PAGE);
+                this.pageCategorie.setVisible(visible);
+                this.pageCategorie.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                this.pageCategorie.add(new PanneauBarreHeader(this), BorderLayout.NORTH);
+                break;
+            default:
+                break;
+        }
+    }
+
+    public JFrame getPage(String str) {
+        JFrame ret;
+        switch (str) {
+            case "Menu":
+                ret = this.pageMenu;
+                break;
+            case "Article":
+                ret = this.pageArticle;
+                break;
+            case "Avis":
+                ret = this.pageAvis;
+                break;
+            case "Categorie":
+                ret = this.pageCategorie;
+                break;
+            default:
+                ret = this.pageMenu;
+                break;
+        }
+        return ret;
+    }
+
 }

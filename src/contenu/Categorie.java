@@ -32,9 +32,15 @@ public class Categorie {
         Article article = new Article(nom, prix, quantite, photo, description, this.getNom());
         this.getArticles().add(article);
     }
+    public void ajouterArticle(Article a){
+        this.articles.add(a);
+    }
 
     public void setNom(String nom) {
         this.nom = nom;
+    }
+    public void ajouteArticle(Article article){
+        this.articles.add(article);
     }
 
 }

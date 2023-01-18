@@ -1,4 +1,5 @@
 package src.contenu;
+
 import java.util.ArrayList;
 
 public class Article {
@@ -11,7 +12,7 @@ public class Article {
     private String description;
     private String nomCategorie;
 
-    public Article (String nom, double prix, int quantite, String photo, String description, String nomCategorie) {
+    public Article(String nom, double prix, int quantite, String photo, String description, String nomCategorie) {
         this.nom = nom;
         this.prix = prix;
         this.quantite = quantite;
@@ -21,34 +22,48 @@ public class Article {
         this.listeAvis = new ArrayList<Avis>();
     }
 
+    public Article(String nom) {
+        this.nom = nom;
+        this.prix = 1;
+        this.quantite = 5;
+        this.photo = "";
+        this.description = "description";
+        this.nomCategorie = "nomCategorie";
+        this.listeAvis = new ArrayList<Avis>();
+    }
+
     public void supprimerArticleBDD() {
-        //TODO : Supprimer article dans Base De Données
+        // TODO : Supprimer article dans Base De Données
         System.out.println("Article supprimé dans BDD");
     }
 
     public void ajouterQuantite(int quantite) {
         if (quantite > 0)
-            this.quantite+=quantite;
+            this.quantite += quantite;
     }
 
     public void retirerQuantite(int quantite) {
         if (quantite > 0 && this.quantite - quantite >= 0)
-            this.quantite-=quantite;
+            this.quantite -= quantite;
+    }
+
+    public void ajouterAvis(Avis avis) {
+        this.getListeAvis().add(avis);
     }
 
     public String supprimerAvis(Avis avis, boolean gardeNote) {
-        for (int i=0 ; i<this.listeAvis.size() ; i++) {
+        for (int i = 0; i < this.listeAvis.size(); i++) {
             if (avis == listeAvis.get(i)) {
                 return avis.supprimeAvisBDD(gardeNote);
             }
         }
         String ret = "Attention.";
-        ret+= " L'avis de " + avis.getNomClient();
-        ret+= " mentionnant '" + avis.getContenu();
-        ret+= "' datant du " + avis.getDate();
-        ret+= " noté " + avis.getNote() + "/5.0";
-        ret+= " n'est pas associé à l'article '" + this.getNom() + "'.";
-        //System.out.println(ret);
+        ret += " L'avis de " + avis.getNomClient();
+        ret += " mentionnant '" + avis.getContenu();
+        ret += "' datant du " + avis.getDate();
+        ret += " noté " + avis.getNote() + "/5.0";
+        ret += " n'est pas associé à l'article '" + this.getNom() + "'.";
+        // System.out.println(ret);
         return ret;
 
     }
@@ -58,7 +73,7 @@ public class Article {
             return 2.5;
         else {
             double sommeNote = 0;
-            for (int i=0 ; i<this.listeAvis.size() ; i++) {
+            for (int i = 0; i < this.listeAvis.size(); i++) {
                 sommeNote += this.listeAvis.get(i).getNote();
             }
             return sommeNote / this.listeAvis.size();
@@ -78,6 +93,7 @@ public class Article {
     public void setPrix(double prix) {
         this.prix = prix;
     }
+
     public Double getPrix() {
         return this.prix;
     }
@@ -85,6 +101,7 @@ public class Article {
     public void setNom(String nom) {
         this.nom = nom;
     }
+
     public String getNom() {
         return this.nom;
     }
@@ -92,6 +109,7 @@ public class Article {
     public void setDescription(String description) {
         this.description = description;
     }
+
     public String getDescription() {
         return this.description;
     }
@@ -99,6 +117,7 @@ public class Article {
     public void setPhoto(String photo) {
         this.photo = photo;
     }
+
     public String getPhoto() {
         return this.photo;
     }
@@ -106,11 +125,12 @@ public class Article {
     public void setNomCategorie(String categorie) {
         this.nomCategorie = categorie;
     }
+
     public String getNomCategorie() {
         return this.nomCategorie;
     }
-    
-    public int getNombreNoteClient(){
+
+    public int getNombreNoteClient() {
         return this.listeAvis.size();
     }
 

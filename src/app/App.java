@@ -2,6 +2,7 @@ package src.app;
 
 import src.contenu.Article;
 import src.contenu.Avis;
+import src.contenu.Categorie;
 import src.contenu.Stock;
 import src.gestion.Admin;
 import src.gestion.BDD;
@@ -24,13 +25,17 @@ public class App {
         return this.stock;
     }
 
-    public void connexionAdmin(String email, String mdp) {
+    public boolean connexionAdmin(String email, String mdp) {
         // TODO
         // Si infos en paramètre correspondent à un admin dans la BDD
         // this.adminConnecte = new Admin( -Nom correspondant aux infos paramètres- )
         // Changement de fenètre ayant accès au Stock
         // Sinon
         // Message d'erreur, pas de changement de fenètre
+        if (email.equals("test")) {
+            this.adminConnecte = new Admin("Nom", email, mdp);
+        }
+        return (this.adminConnecte == null);
     }
 
     public Admin getAdminConnecte() {
@@ -90,9 +95,32 @@ public class App {
         }
     }
 
+    public void supprimeAvis(Avis avisASupprimer) {
+        for (Categorie categorie : this.getStock().getArrayCategorie())
+            for (Article article : categorie.getArticles())
+                for (Avis avis : article.getListeAvis())
+                    if (avis.equals(avisASupprimer)) {
+                        article.getListeAvis().remove(avis);
+                        return;
+                    }
+    }
+
+    public void supprimeCategorie(Categorie categorieASupprimer) {
+        for (Categorie categorie : this.getStock().getArrayCategorie())
+            if (categorie.equals(categorieASupprimer)) {
+                this.getStock().getArrayCategorie().remove(categorieASupprimer);
+                return;
+            }
+    }
+
     public void modifierArticle(Article article) {
         // TODO : Affichage qui demande ce qu'il veut changer, par exemple le nom
         article.setNom("Test");
+    }
+
+    public void modifierCategorie(Categorie categorie) {
+        // TODO : Affichage qui demande ce qu'il veut changer, par exemple le nom
+        categorie.setNom("Test");
     }
 
     public boolean supprimerAvisClient(Article article, Avis avis, boolean gardeNote) {
