@@ -3,9 +3,7 @@ package src.ihm;
 import javax.swing.JFrame;
 import java.awt.BorderLayout;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import java.sql.*;
 
 import src.app.App;
 import src.contenu.Article;
@@ -25,20 +23,43 @@ public class SceneManager {
 
     public static void main(String[] args) {
 
-        try {
-            Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
-            System.out.println("Réussite de la connexion à la BDD");
-        }
-        catch (Exception e) {
-            System.out.println("Echec de la connexion à la BDD");
-        }
-
         SceneManager sceneManager = new SceneManager();
         sceneManager.pageMenu = new JFrame("Page d'administration du site");
         sceneManager.app = new App();
-        Categorie[] categorieTest = sceneManager.initTestCategories();
-        sceneManager.app.getStock().ajouteCategorie(categorieTest[0]);
-        sceneManager.app.getStock().ajouteCategorie(categorieTest[1]);
+
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/database", "root", "");
+            String queryCategory = "SELECT * FROM subcategory";
+            PreparedStatement statementCategory = con.prepareStatement(queryCategory);
+            ResultSet resultCategory = statementCategory.executeQuery();
+
+            while(resultCategory.next()) {
+                sceneManager.app.creerCategorie(resultCategory.getString("Name"));
+                String queryArticle = "SELECT * FROM item WHERE SubCategoryID = " + resultCategory.getInt("SubCategoryID");
+                PreparedStatement statementArticle = con.prepareStatement(queryArticle);
+                ResultSet resultArticle = statementArticle.executeQuery();
+                while(resultArticle.next()) {
+                    String nom = resultArticle.getString("Name");
+                    Double prix = resultArticle.getDouble("Price");
+                    int quantite = 50;
+                    String photo = resultArticle.getString("Picture");
+                    String description = resultArticle.getString("Description");
+                    sceneManager.app.getStock().getArrayCategorie().get(resultCategory.getInt("SubCategoryID") - 1).ajouterArticle(nom, prix, quantite, photo, description);
+                }
+            }
+            
+            System.out.println("Réussite de la connexion à la BDD");
+            con.close();
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("Echec de la connexion à la BDD");
+        }
+
+        // Categorie[] categorieTest = sceneManager.initTestCategories();
+        // sceneManager.app.getStock().ajouteCategorie(categorieTest[0]);
+        // sceneManager.app.getStock().ajouteCategorie(categorieTest[1]);
 
         new PanneauConnexion(sceneManager.app);
 
