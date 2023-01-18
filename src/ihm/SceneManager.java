@@ -1,11 +1,15 @@
 package src.ihm;
 
 import java.awt.BorderLayout;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 
 import javax.swing.JFrame;
+import java.awt.event.WindowListener;
 
-import java.sql.*;
-
+import java.awt.event.WindowEvent;
 import src.app.App;
 import src.contenu.Article;
 import src.contenu.Avis;
@@ -26,11 +30,13 @@ public class SceneManager {
 
         SceneManager sceneManager = new SceneManager();
         sceneManager.pageMenu = new JFrame("Page d'administration du site");
+
         sceneManager.app = new App();
 
         try {
-            Class.forName("com.mysql.jdbc.Driver");
+            Class.forName("com.mysql.cj.jdbc.Driver");
             Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/database", "root", "");
+
             String queryCategory = "SELECT * FROM subcategory";
             PreparedStatement statementCategory = con.prepareStatement(queryCategory);
             ResultSet resultCategory = statementCategory.executeQuery();
@@ -219,6 +225,45 @@ public class SceneManager {
                 break;
         }
         return ret;
+    }
+
+    private void UpdateBDD() {
+        WindowListener wL = new WindowListener() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                // Seul cas utilisé ici
+                //TODO : Update la BDD par rapport au stock de l'environnement java
+            }
+
+            @Override
+            public void windowOpened(WindowEvent e) {
+            }
+
+            @Override
+            public void windowClosed(WindowEvent e) {
+            }
+
+            @Override
+            public void windowIconified(WindowEvent e) {
+            }
+
+            @Override
+            public void windowDeiconified(WindowEvent e) {
+            }
+
+            @Override
+            public void windowActivated(WindowEvent e) {
+            }
+
+            @Override
+            public void windowDeactivated(WindowEvent e) {
+            }
+        };
+
+        this.pageMenu.addWindowListener(wL);
+        this.pageArticle.addWindowListener(wL);
+        this.pageAvis.addWindowListener(wL);
+        this.pageCategorie.addWindowListener(wL);
     }
 
 }
