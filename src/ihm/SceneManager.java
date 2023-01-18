@@ -1,7 +1,8 @@
 package src.ihm;
 
-import javax.swing.JFrame;
 import java.awt.BorderLayout;
+
+import javax.swing.JFrame;
 
 import java.sql.*;
 
@@ -28,31 +29,32 @@ public class SceneManager {
         sceneManager.app = new App();
 
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
+            Class.forName("com.mysql.jdbc.Driver");
             Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/database", "root", "");
             String queryCategory = "SELECT * FROM subcategory";
             PreparedStatement statementCategory = con.prepareStatement(queryCategory);
             ResultSet resultCategory = statementCategory.executeQuery();
 
-            while(resultCategory.next()) {
+            while (resultCategory.next()) {
                 sceneManager.app.creerCategorie(resultCategory.getString("Name"));
-                String queryArticle = "SELECT * FROM item WHERE SubCategoryID = " + resultCategory.getInt("SubCategoryID");
+                String queryArticle = "SELECT * FROM item WHERE SubCategoryID = "
+                        + resultCategory.getInt("SubCategoryID");
                 PreparedStatement statementArticle = con.prepareStatement(queryArticle);
                 ResultSet resultArticle = statementArticle.executeQuery();
-                while(resultArticle.next()) {
+                while (resultArticle.next()) {
                     String nom = resultArticle.getString("Name");
                     Double prix = resultArticle.getDouble("Price");
                     int quantite = 50;
                     String photo = resultArticle.getString("Picture");
                     String description = resultArticle.getString("Description");
-                    sceneManager.app.getStock().getArrayCategorie().get(resultCategory.getInt("SubCategoryID") - 1).ajouterArticle(nom, prix, quantite, photo, description);
+                    sceneManager.app.getStock().getArrayCategorie().get(resultCategory.getInt("SubCategoryID") - 1)
+                            .ajouterArticle(nom, prix, quantite, photo, description);
                 }
             }
-            
+
             System.out.println("Réussite de la connexion à la BDD");
             con.close();
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
             System.out.println("Echec de la connexion à la BDD");
         }
