@@ -18,8 +18,8 @@ import javax.swing.border.LineBorder;
 import src.app.App;
 import src.contenu.Categorie;
 
-public class PanneauCategorie extends JPanel{
-    
+public class PanneauCategorie extends JPanel {
+
     private PanneauMenu panneauMenu;
     private App app;
     public static final int MARGE_ENTRE_PANEL = 30;
@@ -41,7 +41,7 @@ public class PanneauCategorie extends JPanel{
     private JPanel creePanelCategorie(Categorie categorie, App app) {
         JPanel panelCategorie = new JPanel();
         panelCategorie.setPreferredSize(new Dimension((int) (LARGEUR_PAGE * RAPPORT_ARTICLE_PAGE), 78));
-        panelCategorie.setBorder(new EmptyBorder(0,0,0,0));
+        panelCategorie.setBorder(new EmptyBorder(0, 0, 0, 0));
         panelCategorie.setBackground(Color.LIGHT_GRAY);
 
         JLabel labelInfo = new JLabel("Catégorie : " + categorie.getNom());
@@ -58,7 +58,11 @@ public class PanneauCategorie extends JPanel{
         boutonModifier.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                app.modifierCategorie(categorie);
+                app.modifierCategorie(categorie); // TODO : modifier la méthode
+                panneauMenu.getSceneManager().getPage("Categorie").setVisible(false);
+                panneauMenu.getSceneManager().creePage("Categorie", true);
+                panneauMenu.getSceneManager().creePage("Article", false);
+                panneauMenu.getSceneManager().creePage("Avis", false);
             }
         });
 
@@ -71,7 +75,10 @@ public class PanneauCategorie extends JPanel{
             @Override
             public void actionPerformed(ActionEvent e) {
                 app.supprimeCategorie(categorie);
-                //
+                panneauMenu.getSceneManager().getPage("Categorie").setVisible(false);
+                panneauMenu.getSceneManager().creePage("Categorie", true);
+                panneauMenu.getSceneManager().creePage("Article", false);
+                panneauMenu.getSceneManager().creePage("Avis", false);
             }
         });
 

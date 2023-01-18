@@ -160,16 +160,16 @@ public class App {
                 descLabel, descField,
                 categorieLabel, categorieComboBox
         };
-        // int option = JOptionPane.showConfirmDialog(null, message, "Modifier article",
-        // JOptionPane.OK_CANCEL_OPTION,
-        // JOptionPane.INFORMATION_MESSAGE);
-        // if (option == JOptionPane.OK_OPTION) {
-        // article.modifierArticle(Double.parseDouble(noteField.getText()),
-        // contenuField.getText(),
-        // dateField.getText(),
-        // stringToArticle(articleComboBox.getSelectedItem().toString()));
-        // }
-        // article.setNom("Test");
+        int option = JOptionPane.showConfirmDialog(null, message, "Modifier article",
+                JOptionPane.OK_CANCEL_OPTION,
+                JOptionPane.INFORMATION_MESSAGE);
+        if (option == JOptionPane.OK_OPTION) {
+            article.modifierArticle(nomField.getText(),
+                    Integer.parseInt(quantiteField.getText()),
+                    Double.parseDouble(prixField.getText()),
+                    descField.getText(),
+                    categorieComboBox.getSelectedItem().toString());
+        }
     }
 
     public void modifierCategorie(Categorie categorie) {

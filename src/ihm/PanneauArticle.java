@@ -34,7 +34,8 @@ public class PanneauArticle extends JPanel {
         ArrayList<Article> listArticle = new ArrayList<Article>();
         for (int k = 0; k < app.getStock().getArrayCategorie().size(); k++)
             for (int i = 0; i < app.getStock().getArrayCategorie().get(k).getArticles().size(); i++)
-                listArticle.add(app.getStock().getArrayCategorie().get(k).getArticles().get(i)); // Liste de tous les articles
+                listArticle.add(app.getStock().getArrayCategorie().get(k).getArticles().get(i)); // Liste de tous les
+                                                                                                 // articles
 
         for (int k = 0; k < listArticle.size(); k++) {
             this.add(creePanelArticle(listArticle.get(k), app));
@@ -46,17 +47,19 @@ public class PanneauArticle extends JPanel {
     private JPanel creePanelArticle(Article article, App app) {
         JPanel panelArticle = new JPanel();
         panelArticle.setPreferredSize(new Dimension((int) (LARGEUR_PAGE * RAPPORT_ARTICLE_PAGE), 78));
-        panelArticle.setBorder(new EmptyBorder(0,0,0,0));
+        panelArticle.setBorder(new EmptyBorder(0, 0, 0, 0));
         panelArticle.setBackground(Color.LIGHT_GRAY);
 
-        JLabel labelInfo = new JLabel("Nom : " + article.getNom() + " | Prix : " + article.getPrix().toString() + "€" + " | Qté : " + article.getQuantite());
+        JLabel labelInfo = new JLabel("Nom : " + article.getNom() + " | Prix : " + article.getPrix().toString() + "€"
+                + " | Qté : " + article.getQuantite() + " | Catégorie : " + article.getNomCategorie());
         JPanel panelInfo = new JPanel();
         panelInfo.add(labelInfo, BorderLayout.CENTER);
         panelInfo.setBackground(Color.LIGHT_GRAY);
         panelInfo.setBorder(new LineBorder(Color.GRAY));
 
         JLabel labelDescription = new JLabel("Description : " + '"' + article.getDescription() + '"');
-        labelDescription.setVerticalAlignment(JLabel.CENTER);JPanel panelDescription = new JPanel();
+        labelDescription.setVerticalAlignment(JLabel.CENTER);
+        JPanel panelDescription = new JPanel();
         panelDescription.add(labelDescription, BorderLayout.CENTER);
         panelDescription.setBackground(Color.LIGHT_GRAY);
         panelDescription.setBorder(new LineBorder(Color.GRAY));
@@ -70,6 +73,8 @@ public class PanneauArticle extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 app.modifierArticle(article);
+                panneauMenu.getSceneManager().getPage("Article").setVisible(false);
+                panneauMenu.getSceneManager().creePage("Article", true);
             }
         });
 
@@ -82,7 +87,9 @@ public class PanneauArticle extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 app.supprimerArticle(article);
-                //
+                panneauMenu.getSceneManager().getPage("Article").setVisible(false);
+                panneauMenu.getSceneManager().creePage("Article", true);
+                panneauMenu.getSceneManager().creePage("Avis", false);
             }
         });
 
