@@ -67,12 +67,12 @@ public class Avis {
         return ret;
     }
 
-    public void modifierAvis(double note, String contenu, String date) {
+    public void modifierAvis(double note, String contenu, String date, Article a) {
         this.note = note;
         this.contenu = contenu;
-        this.nomClient = nomClient;
         this.date = date;
-        this.articleAssocie = articleAssocie;
+        this.articleAssocie = a;
+        // TODO : envoyer a la bdd
     }
 
 }

@@ -1,12 +1,14 @@
 package src.ihm;
 
-import javax.swing.JFrame;
 import java.awt.BorderLayout;
+
+import javax.swing.JFrame;
 
 import src.app.App;
 import src.contenu.Article;
 import src.contenu.Avis;
 import src.contenu.Categorie;
+import src.gestion.BDD;
 
 public class SceneManager {
     private JFrame pageMenu;

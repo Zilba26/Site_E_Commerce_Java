@@ -9,6 +9,7 @@ import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -95,30 +96,41 @@ public class PanneauAvis extends JPanel {
                 dateField.setText(avis.getDate());
 
                 JLabel articleLabel = new JLabel("Article : ");
-                JLabel articleField = new JLabel(avis.getArticleAssocie().getNom()); // TODO : Mettre un menu deroulant
+                JComboBox<String> articleComboBox = new JComboBox<>();
+                for (Article a : app.getAllArticles()) {
+                    articleComboBox.addItem(a.getNom());
+                }
+                articleComboBox.setSelectedItem(avis.getArticleAssocie().getNom());
 
                 Object[] message = {
                         noteLabel, noteField,
                         contenuLabel, contenuField,
                         nomClientLabel, nomClientField,
                         dateLabel, dateField,
-                        articleLabel, articleField
+                        articleLabel, articleComboBox
                 };
                 int option = JOptionPane.showConfirmDialog(null, message, "Modifier article",
                         JOptionPane.OK_CANCEL_OPTION,
                         JOptionPane.INFORMATION_MESSAGE);
                 if (option == JOptionPane.OK_OPTION) {
                     avis.modifierAvis(Double.parseDouble(noteField.getText()), contenuField.getText(),
-                            dateField.getText());// TODO : Rajouter l'article modifié
+                            dateField.getText(), stringToArticle(articleComboBox.getSelectedItem().toString()));
                 }
                 getPanneauMenu().getSceneManager().getPage("Avis").setVisible(false);
                 getPanneauMenu().getSceneManager().creePage("Avis", true);
-                // TODO : Refresh la page
             }
         });
-
         return panelAvis;
 
+    }
+
+    private Article stringToArticle(String str) {
+        ArrayList<Article> allArticles = this.app.getAllArticles();
+        Article ret = null;
+        for (int k = 0; k < allArticles.size(); k++)
+            if (allArticles.get(k).getNom().equals(str))
+                ret = allArticles.get(k);
+        return ret;
     }
 
     public PanneauMenu getPanneauMenu() {

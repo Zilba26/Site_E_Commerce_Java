@@ -1,5 +1,7 @@
 package src.app;
 
+import java.util.ArrayList;
+
 import src.contenu.Article;
 import src.contenu.Avis;
 import src.contenu.Categorie;
@@ -103,6 +105,14 @@ public class App {
                         article.getListeAvis().remove(avis);
                         return;
                     }
+    }
+
+    public ArrayList<Article> getAllArticles() {
+        ArrayList<Article> ret = new ArrayList<Article>();
+        for (int k = 0; k < this.getStock().getArrayCategorie().size(); k++)
+            for (int j = 0; j < this.getStock().getArrayCategorie().get(k).getArticles().size(); j++)
+                ret.add(this.getStock().getArrayCategorie().get(k).getArticles().get(j));
+        return ret;
     }
 
     public void modifierArticle(Article article) {
