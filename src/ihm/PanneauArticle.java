@@ -7,6 +7,8 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
@@ -80,12 +82,50 @@ public class PanneauArticle extends JPanel {
                         JOptionPane.OK_CANCEL_OPTION,
                         JOptionPane.INFORMATION_MESSAGE);
                 if (option == JOptionPane.OK_OPTION) {
+
+                    try {
+                        String queryCountArticle = "SELECT MAX(ItemID) FROM item";
+                        PreparedStatement statementCountArticle = panneauMenu.getSceneManager().getConnectionBDD()
+                                .prepareStatement(queryCountArticle);
+                        ResultSet resultCountArticle = statementCountArticle.executeQuery();
+                        int numArticle = 0;
+
+                        if (resultCountArticle.next())
+                            numArticle = resultCountArticle.getInt("MAX(ItemID)") + 1;
+
+                        String queryFindSubCategoryID = "SELECT `SubCategoryID` FROM `subcategory` WHERE `Name` = '"
+                                + categorieComboBox.getSelectedItem().toString() + "'";
+                        PreparedStatement statementFindSubCategoryID = panneauMenu.getSceneManager().getConnectionBDD()
+                                .prepareStatement(queryFindSubCategoryID);
+                        ResultSet resultFindSubCategoryID = statementFindSubCategoryID.executeQuery();
+                        int numFindSubCategoryID = 0;
+
+                        if (resultFindSubCategoryID.next())
+                            numFindSubCategoryID = resultFindSubCategoryID.getInt("SubCategoryID");
+
+                        String queryArticle = "INSERT INTO `item`(`ItemID`, `Name`, `SubCategoryID`, `Picture`, `Price`, `Description`, `Quantity`, `BuyerID`, `StarRate`, `SellerID`) VALUES ('"
+                                + numArticle + "','" + nomField.getText() + "','"
+                                + numFindSubCategoryID + "','" + nomField.getText()
+                                + ".jpg','" + prixField.getText() + "','" + descField.getText() + "','"
+                                + quantiteField.getText() + "',NULL,'2.5',NULL)";
+
+                        PreparedStatement statementArticle = panneauMenu.getSceneManager().getConnectionBDD()
+                                .prepareStatement(queryArticle);
+
+                        statementArticle.executeUpdate();
+
+                    } catch (Exception exception) {
+                        exception.printStackTrace();
+                    }
+
                     Categorie c = app.stringToCategorie(categorieComboBox.getSelectedItem().toString());
                     c.ajouteArticle(new Article(nomField.getText(), Double.parseDouble(prixField.getText()),
                             Integer.parseInt(quantiteField.getText()), "", descField.getText(), c));
 
-                    panneauMenu.getSceneManager().setSizeFenetre(panneauMenu.getSceneManager().getPage("Article").getSize());
-                    panneauMenu.getSceneManager().setLocationFenetre(panneauMenu.getSceneManager().getPage("Article").getLocation());
+                    panneauMenu.getSceneManager()
+                            .setSizeFenetre(panneauMenu.getSceneManager().getPage("Article").getSize());
+                    panneauMenu.getSceneManager()
+                            .setLocationFenetre(panneauMenu.getSceneManager().getPage("Article").getLocation());
                     panneauMenu.getSceneManager().getPage("Article").setVisible(false);
                     panneauMenu.getSceneManager().creePage("Article", true);
                     panneauMenu.getSceneManager().creePage("Avis", false);
@@ -124,8 +164,10 @@ public class PanneauArticle extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 app.modifierArticle(article);
-                panneauMenu.getSceneManager().setSizeFenetre(panneauMenu.getSceneManager().getPage("Article").getSize());
-                panneauMenu.getSceneManager().setLocationFenetre(panneauMenu.getSceneManager().getPage("Article").getLocation());
+                panneauMenu.getSceneManager()
+                        .setSizeFenetre(panneauMenu.getSceneManager().getPage("Article").getSize());
+                panneauMenu.getSceneManager()
+                        .setLocationFenetre(panneauMenu.getSceneManager().getPage("Article").getLocation());
                 panneauMenu.getSceneManager().getPage("Article").setVisible(false);
                 panneauMenu.getSceneManager().creePage("Article", true);
                 panneauMenu.getSceneManager().creePage("Avis", false);
@@ -145,8 +187,10 @@ public class PanneauArticle extends JPanel {
                         "Supprimer l'article ?", JOptionPane.YES_NO_OPTION);
                 if (result == JOptionPane.OK_OPTION) {
                     app.supprimerArticle(article);
-                    panneauMenu.getSceneManager().setSizeFenetre(panneauMenu.getSceneManager().getPage("Article").getSize());
-                    panneauMenu.getSceneManager().setLocationFenetre(panneauMenu.getSceneManager().getPage("Article").getLocation());
+                    panneauMenu.getSceneManager()
+                            .setSizeFenetre(panneauMenu.getSceneManager().getPage("Article").getSize());
+                    panneauMenu.getSceneManager()
+                            .setLocationFenetre(panneauMenu.getSceneManager().getPage("Article").getLocation());
                     panneauMenu.getSceneManager().getPage("Article").setVisible(false);
                     panneauMenu.getSceneManager().creePage("Article", true);
                     panneauMenu.getSceneManager().creePage("Avis", false);

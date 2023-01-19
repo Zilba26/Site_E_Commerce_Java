@@ -68,7 +68,7 @@ public class SceneManager {
                 while (resultArticle.next()) {
                     String nom = resultArticle.getString("Name");
                     Double prix = resultArticle.getDouble("Price");
-                    int quantite = 50;
+                    int quantite = resultArticle.getInt("Quantity");
                     String photo = resultArticle.getString("Picture");
                     String description = resultArticle.getString("Description");
                     sceneManager.app.getStock().getArrayCategorie().get(resultCategory.getInt("SubCategoryID") - 1)
