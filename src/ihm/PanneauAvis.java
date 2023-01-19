@@ -39,14 +39,59 @@ public class PanneauAvis extends JPanel {
             for (int j = 0; j < listeArticle.get(k).getListeAvis().size(); j++)
                 this.add(creePanelAvis(listeArticle.get(k).getListeAvis().get(j), app));
 
+        JButton boutonAjouter = new JButton("Ajouter");
+        this.add(boutonAjouter);
+        boutonAjouter.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JLabel nomClientLabel = new JLabel("Nom du Client : ");
+                JTextField nomClientField = new JTextField();
+
+                JLabel dateLabel = new JLabel("Date (JJ/MM/AAAA) : ");
+                JTextField dateField = new JTextField();
+
+                JLabel contenuLabel = new JLabel("Texte : ");
+                JTextField contenuField = new JTextField();
+
+                JLabel noteLabel = new JLabel("Note : ");
+                JTextField noteField = new JTextField();
+
+                JLabel articleLabel = new JLabel("Article Associé : ");
+                JComboBox<String> articleComboBox = new JComboBox<String>();
+                for (Article a : getListeArticle()) {
+                    articleComboBox.addItem(a.getNom());
+                }
+
+                Object[] message = {
+                        nomClientLabel, nomClientField,
+                        dateLabel, dateField,
+                        contenuLabel, contenuField,
+                        noteLabel, noteField,
+                        articleLabel, articleComboBox
+                };
+
+                int option = JOptionPane.showConfirmDialog(null, message, "Ajouter article",
+                        JOptionPane.OK_CANCEL_OPTION,
+                        JOptionPane.INFORMATION_MESSAGE);
+                if (option == JOptionPane.OK_OPTION) {
+                    Article a = stringToArticle(articleComboBox.getSelectedItem().toString());
+                    a.ajouterAvis(new Avis(Double.parseDouble(noteField.getText()), contenuField.getText(),
+                            nomClientField.getText(),
+                            dateField.getText(), a));
+
+                    panneauMenu.getSceneManager().getPage("Avis").setVisible(false);
+                    panneauMenu.getSceneManager().creePage("Avis", true);
+                    panneauMenu.getSceneManager().creePage("Article", false);
+                }
+            }
+        });
     }
 
     private ArrayList<Article> getListeArticle() {
         ArrayList<Article> listArticle = new ArrayList<Article>();
         for (int k = 0; k < app.getStock().getArrayCategorie().size(); k++)
             for (int i = 0; i < app.getStock().getArrayCategorie().get(k).getArticles().size(); i++)
-                listArticle.add(app.getStock().getArrayCategorie().get(k).getArticles().get(i)); // Liste de tous les
-                                                                                                 // articles
+                listArticle.add(app.getStock().getArrayCategorie().get(k).getArticles().get(i)); // Liste d'articles
         return listArticle;
     }
 

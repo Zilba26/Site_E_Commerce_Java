@@ -13,6 +13,8 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTabbedPane;
+import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
@@ -37,6 +39,31 @@ public class PanneauCategorie extends JPanel {
         for (int k = 0; k < listCategorie.size(); k++) {
             this.add(creePanelCategorie(listCategorie.get(k), app));
         }
+
+        JButton boutonAjouter = new JButton("Ajouter");
+        this.add(boutonAjouter);
+        boutonAjouter.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JLabel nomLabel = new JLabel("Nom : ");
+                JTextField nomField = new JTextField();
+
+                Object[] message = {
+                        nomLabel, nomField
+                };
+
+                int option = JOptionPane.showConfirmDialog(null, message, "Ajouter catégorie",
+                        JOptionPane.OK_CANCEL_OPTION,
+                        JOptionPane.INFORMATION_MESSAGE);
+                if (option == JOptionPane.OK_OPTION) {
+                    app.getStock().ajouteCategorie(new Categorie(nomField.getText()));
+                    panneauMenu.getSceneManager().getPage("Categorie").setVisible(false);
+                    panneauMenu.getSceneManager().creePage("Categorie", true);
+                    panneauMenu.getSceneManager().creePage("Article", false);
+                    panneauMenu.getSceneManager().creePage("Avis", false);
+                }
+            }
+        });
     }
 
     private JPanel creePanelCategorie(Categorie categorie, App app) {

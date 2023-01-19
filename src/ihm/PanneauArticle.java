@@ -10,14 +10,17 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
 import src.app.App;
 import src.contenu.Article;
+import src.contenu.Categorie;
 
 public class PanneauArticle extends JPanel {
 
@@ -42,6 +45,51 @@ public class PanneauArticle extends JPanel {
             this.add(creePanelArticle(listArticle.get(k), app));
         }
         this.setBackground(Color.PINK);
+        JButton boutonAjouter = new JButton("Ajouter");
+        this.add(boutonAjouter);
+        boutonAjouter.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JLabel nomLabel = new JLabel("Nom : ");
+                JTextField nomField = new JTextField();
+
+                JLabel quantiteLabel = new JLabel("Quantité : ");
+                JTextField quantiteField = new JTextField();
+
+                JLabel prixLabel = new JLabel("Prix : ");
+                JTextField prixField = new JTextField();
+
+                JLabel descLabel = new JLabel("Description : ");
+                JTextField descField = new JTextField();
+
+                JLabel categorieLabel = new JLabel("Categorie : ");
+                JComboBox<String> categorieComboBox = new JComboBox<String>();
+                for (Categorie c : app.getStock().getArrayCategorie()) {
+                    categorieComboBox.addItem(c.getNom());
+                }
+
+                Object[] message = {
+                        nomLabel, nomField,
+                        quantiteLabel, quantiteField,
+                        prixLabel, prixField,
+                        descLabel, descField,
+                        categorieLabel, categorieComboBox
+                };
+
+                int option = JOptionPane.showConfirmDialog(null, message, "Ajouter article",
+                        JOptionPane.OK_CANCEL_OPTION,
+                        JOptionPane.INFORMATION_MESSAGE);
+                if (option == JOptionPane.OK_OPTION) {
+                    Categorie c = app.stringToCategorie(categorieComboBox.getSelectedItem().toString());
+                    c.ajouteArticle(new Article(nomField.getText(), Double.parseDouble(prixField.getText()),
+                            Integer.parseInt(quantiteField.getText()), "", descField.getText(), c));
+
+                    panneauMenu.getSceneManager().getPage("Article").setVisible(false);
+                    panneauMenu.getSceneManager().creePage("Article", true);
+                    panneauMenu.getSceneManager().creePage("Avis", false);
+                }
+            }
+        });
 
     }
 
