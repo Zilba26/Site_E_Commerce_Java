@@ -170,16 +170,16 @@ public class PanneauArticle extends JPanel {
         boutonModifier.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                app.modifierArticle(article);
 
                 try {
                     String querySelectItemID = "SELECT `ItemID` FROM `item` WHERE Name = '"+article.getNom()+"'";
                     String[] newArticleInfo = app.modifierArticle(article);
+                    System.out.println(newArticleInfo[4]);
                     PreparedStatement statementSelectItemID = panneauMenu.getSceneManager().getConnectionBDD().prepareStatement(querySelectItemID);
                     ResultSet resultSelectItemID = statementSelectItemID.executeQuery();
                     int numIDItem = 1;
                     if (resultSelectItemID.next()) 
-                        numIDItem=resultSelectItemID.getInt("SubCategoryID");
+                        numIDItem=resultSelectItemID.getInt("ItemID");
                     String queryUpdateItem = "UPDATE `item` SET `Name`='"+newArticleInfo[0]+"',`SubCategoryID`='"+newArticleInfo[4]+"',`Price`='"+newArticleInfo[2]+"',`Description`='"+newArticleInfo[3]+"',`Quantity`='"+newArticleInfo[1]+"' WHERE `ItemID`='"+numIDItem+"'";
                     PreparedStatement statementUpdateItem = panneauMenu.getSceneManager().getConnectionBDD().prepareStatement(queryUpdateItem);
                     int resultUpdateItem = statementUpdateItem.executeUpdate();
@@ -228,6 +228,7 @@ public class PanneauArticle extends JPanel {
                         
                         String queryDeleteItem = "DELETE FROM `item` WHERE ItemID = '"+numIDItem+"'";
                         PreparedStatement statementDeleteItem = panneauMenu.getSceneManager().getConnectionBDD().prepareStatement(queryDeleteItem);
+                        System.out.println("DELETE FROM `item` WHERE ItemID = '"+numIDItem+"'");
                         int resultDeleteItem = statementDeleteItem.executeUpdate();
                     }
                     catch (Exception exception2) {

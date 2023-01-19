@@ -1,5 +1,7 @@
 package src.app;
 
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.ArrayList;
 
 import javax.swing.JComboBox;
@@ -185,7 +187,26 @@ public class App {
         ret[1] = quantiteField.getText();
         ret[2] = prixField.getText();
         ret[3] = descField.getText();
-        ret[4] = categorieComboBox.getSelectedItem().toString();
+
+        try {
+            String querySelectItemID = "SELECT `SubCategoryID` FROM `subcategory` WHERE Name = '"+categorieComboBox.getSelectedItem().toString()+"'";
+            System.out.println("Test1");
+            PreparedStatement statementSelectItemID = this.sceneManager.getConnectionBDD().prepareStatement(querySelectItemID);
+            System.out.println("Test2");
+            ResultSet resultSelectItemID = statementSelectItemID.executeQuery();
+            System.out.println("Test3");
+            int numIDItem = 1;
+            if (resultSelectItemID.next()) {
+                numIDItem = resultSelectItemID.getInt("SubCategoryID");
+                System.out.println("Test4");
+            }
+            ret[4] = ""+numIDItem;
+        }
+        catch (Exception et) {
+            et.printStackTrace();
+        }
+
+        
         return ret;
     }
 
