@@ -88,6 +88,36 @@ public class PanneauAvis extends JPanel {
                             nomClientField.getText(),
                             dateField.getText(), a));
 
+                            try {
+                                String queryCountComment = "SELECT MAX(CommentID) FROM comment";
+                                PreparedStatement statementCountComment = panneauMenu.getSceneManager().getConnectionBDD()
+                                        .prepareStatement(queryCountComment);
+                                ResultSet resultCountComment = statementCountComment.executeQuery();
+                                int numComment = 0;
+        
+                                if (resultCountComment.next())
+                                    numComment = resultCountComment.getInt("MAX(CommentID)") + 1;
+        
+                                String queryFindItemID = "SELECT `ItemID` FROM `item` WHERE `Name` = '"
+                                        + articleComboBox.getSelectedItem().toString() + "'";
+                                PreparedStatement statementFindItemID = panneauMenu.getSceneManager().getConnectionBDD()
+                                        .prepareStatement(queryFindItemID);
+                                ResultSet resultFindItemID = statementFindItemID.executeQuery();
+                                int numFindItemID = 0;
+        
+                                if (resultFindItemID.next())
+                                    numFindItemID = resultFindItemID.getInt("ItemID");
+        
+                                String queryAvis = "INSERT INTO `comment`(`CommentID`, `UserID`, `ItemID`, `StarRate`, `Content`) VALUES ('"+numComment+"','"+nomClientField.getText()+"','"+numFindItemID+"','"+noteField.getText()+"','"+contenuField.getText()+"')";
+        
+                                PreparedStatement statementAvis = panneauMenu.getSceneManager().getConnectionBDD()
+                                        .prepareStatement(queryAvis);
+                                statementAvis.executeUpdate();
+        
+                            } catch (Exception exception) {
+                                exception.printStackTrace();
+                            }
+
                     panneauMenu.getSceneManager()
                             .setSizeFenetre(panneauMenu.getSceneManager().getPage("Avis").getSize());
                     panneauMenu.getSceneManager()
@@ -176,6 +206,16 @@ public class PanneauAvis extends JPanel {
                         "Etes-vous sûr de vouloir supprimer l'avis de " + avis.getNomClient(),
                         "Supprimer l'avis ?", JOptionPane.YES_NO_OPTION);
                 if (result == JOptionPane.YES_OPTION) {
+
+                    try {
+                        String queryDeleteComment = "DELETE FROM `comment` WHERE Content = '"+avis.getContenu()+"' AND UserID = "+avis.getNomClient();
+                        PreparedStatement statementDeleteComment = panneauMenu.getSceneManager().getConnectionBDD().prepareStatement(queryDeleteComment);
+                        int resultDeleteComment = statementDeleteComment.executeUpdate();
+                    }
+                    catch (Exception e3) {
+                        e3.printStackTrace();
+                    }
+
                     app.supprimeAvis(avis);
                     panneauMenu.getSceneManager()
                             .setSizeFenetre(panneauMenu.getSceneManager().getPage("Avis").getSize());

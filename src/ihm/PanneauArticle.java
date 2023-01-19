@@ -222,7 +222,7 @@ public class PanneauArticle extends JPanel {
                         if (resultSelectIDItem.next()) 
                             numIDItem=resultSelectIDItem.getInt("ItemID");
 
-                        String queryDeleteItems = "DELETE FROM `avis` WHERE ItemID = '"+numIDItem+"'";
+                        String queryDeleteItems = "DELETE FROM `comment` WHERE ItemID = '"+numIDItem+"'";
                         PreparedStatement statementDeleteItems = panneauMenu.getSceneManager().getConnectionBDD().prepareStatement(queryDeleteItems);
                         int resultDeleteItems = statementDeleteItems.executeUpdate();
                         
