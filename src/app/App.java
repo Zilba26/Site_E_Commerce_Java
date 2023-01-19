@@ -181,13 +181,16 @@ public class App {
         }
     }
 
-    public void modifierCategorie(Categorie categorie) {
+    public String[] modifierCategorie(Categorie categorie) {
         JLabel nomLabel = new JLabel("Nom : ");
         JTextField nomField = new JTextField();
         nomField.setText(categorie.getNom());
+        JLabel categorieIDLabel = new JLabel("Catégorie ID (1 à 8) : ");
+        JTextField categorieIDField = new JTextField();
 
         Object[] message = {
-                nomLabel, nomField
+                nomLabel, nomField,
+                categorieIDLabel, categorieIDField
         };
         int option = JOptionPane.showConfirmDialog(null, message, "Modifier categorie",
                 JOptionPane.OK_CANCEL_OPTION,
@@ -195,9 +198,12 @@ public class App {
 
         if (option == JOptionPane.OK_OPTION) {
             categorie.setNom(nomField.getText());
-
         }
 
+        String[] ret = new String[2];
+        ret[0] = nomField.getText();
+        ret[1] = categorieIDField.getText();
+        return ret;
     }
 
     public Categorie stringToCategorie(String strCat) {

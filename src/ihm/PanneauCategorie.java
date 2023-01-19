@@ -24,25 +24,26 @@ import src.contenu.Categorie;
 
 public class PanneauCategorie extends JPanel {
 
-    private PanneauMenu panneauMenu;
-    private App app;
     public static final int MARGE_ENTRE_PANEL = 30;
     public static final int LARGEUR_PAGE = 600;
     public static final int HAUTEUR_PAGE = 800;
     public static final double RAPPORT_ARTICLE_PAGE = 0.9;
 
     public PanneauCategorie(PanneauMenu panneauMenu, App app) {
-        this.panneauMenu = panneauMenu;
-        this.app = app;
 
         ArrayList<Categorie> listCategorie = app.getStock().getArrayCategorie();
 
         for (int k = 0; k < listCategorie.size(); k++) {
-            this.add(creePanelCategorie(listCategorie.get(k), app));
+            this.add(creePanelCategorie(listCategorie.get(k), app, panneauMenu));
         }
 
+        JPanel panelAjouter = new JPanel();
+        panelAjouter.setPreferredSize(new Dimension((int) (LARGEUR_PAGE * RAPPORT_ARTICLE_PAGE), 78));
+        panelAjouter.setBorder(new EmptyBorder(0, 0, 0, 0));
+        panelAjouter.setBackground(Color.LIGHT_GRAY);
         JButton boutonAjouter = new JButton("Ajouter");
-        this.add(boutonAjouter);
+        panelAjouter.add(boutonAjouter, BorderLayout.CENTER);
+        this.add(panelAjouter);
         boutonAjouter.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -69,7 +70,7 @@ public class PanneauCategorie extends JPanel {
                         int numSubCategory=0;
 
                         if (resultCountCategory.next()) 
-                        numSubCategory = resultCountCategory.getInt(1) + 1;
+                            numSubCategory = resultCountCategory.getInt(1) + 1;
 
                         String queryCategory = "INSERT INTO `subcategory`(`SubCategoryID`, `Name`, `CategoryID`) VALUES ('"+numSubCategory+"','"+nomField.getText()+"','"+categorieField.getText()+"')";
                         PreparedStatement statementCategory = panneauMenu.getSceneManager().getConnectionBDD().prepareStatement(queryCategory);
@@ -93,7 +94,8 @@ public class PanneauCategorie extends JPanel {
 
     }
 
-    private JPanel creePanelCategorie(Categorie categorie, App app) {
+    private JPanel creePanelCategorie(Categorie categorie, App app, PanneauMenu panneauMenu) {
+
         JPanel panelCategorie = new JPanel();
         panelCategorie.setPreferredSize(new Dimension((int) (LARGEUR_PAGE * RAPPORT_ARTICLE_PAGE), 78));
         panelCategorie.setBorder(new EmptyBorder(0, 0, 0, 0));
@@ -113,7 +115,23 @@ public class PanneauCategorie extends JPanel {
         boutonModifier.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                app.modifierCategorie(categorie);
+                try {
+                    String querySelectIDSubCategory = "SELECT `SubCategoryID` FROM `subcategory` WHERE Name = '"+categorie.getNom()+"'";
+                    String[] newCategorieInfo = app.modifierCategorie(categorie);
+                    PreparedStatement statementSelectIDSubCategory = panneauMenu.getSceneManager().getConnectionBDD().prepareStatement(querySelectIDSubCategory);
+                    ResultSet resultSelectIDSubCategory = statementSelectIDSubCategory.executeQuery();
+                    int numSubCategoryID = 1;
+                    if (resultSelectIDSubCategory.next()) 
+                        numSubCategoryID=resultSelectIDSubCategory.getInt("SubCategoryID");
+                    String queryUpdateCategory = "UPDATE `subcategory` SET `Name`='"+newCategorieInfo[0]+"',`CategoryID`='"+newCategorieInfo[1]+"' WHERE `SubCategoryID`='"+numSubCategoryID+"'";
+                    PreparedStatement statementUpdateCategory = panneauMenu.getSceneManager().getConnectionBDD().prepareStatement(queryUpdateCategory);
+                    int resultUpdateCategory = statementUpdateCategory.executeUpdate();
+                }
+                catch (Exception exception2) {
+                    exception2.printStackTrace();
+                    System.out.println("Exception");
+                }
+                
                 panneauMenu.getSceneManager()
                         .setSizeFenetre(panneauMenu.getSceneManager().getPage("Categorie").getSize());
                 panneauMenu.getSceneManager()
@@ -138,7 +156,29 @@ public class PanneauCategorie extends JPanel {
                         "Etes-vous sûr de vouloir supprimer la catégorie : " + categorie.getNom(),
                         "Supprimer la catégorie ?", JOptionPane.YES_NO_OPTION);
                 if (result == JOptionPane.OK_OPTION) {
-                    app.supprimeCategorie(categorie);
+
+                    try {
+                        String querySelectIDSubCategory = "SELECT `SubCategoryID` FROM `subcategory` WHERE Name = '"+categorie.getNom()+"'";
+                        app.supprimeCategorie(categorie);
+                        PreparedStatement statementSelectIDSubCategory = panneauMenu.getSceneManager().getConnectionBDD().prepareStatement(querySelectIDSubCategory);
+                        ResultSet resultSelectIDSubCategory = statementSelectIDSubCategory.executeQuery();
+                        int numSubCategoryID = 1;
+                        if (resultSelectIDSubCategory.next()) 
+                            numSubCategoryID=resultSelectIDSubCategory.getInt("SubCategoryID");
+
+                        String queryDeleteItems = "DELETE FROM `item` WHERE SubCategoryID = '"+numSubCategoryID+"'";
+                        PreparedStatement statementDeleteItems = panneauMenu.getSceneManager().getConnectionBDD().prepareStatement(queryDeleteItems);
+                        int resultDeleteItems = statementDeleteItems.executeUpdate();
+                        
+                        String queryUpdateCategory = "DELETE FROM `subcategory` WHERE SubCategoryID = '"+numSubCategoryID+"'";
+                        PreparedStatement statementUpdateCategory = panneauMenu.getSceneManager().getConnectionBDD().prepareStatement(queryUpdateCategory);
+                        int resultUpdateCategory = statementUpdateCategory.executeUpdate();
+                    }
+                    catch (Exception exception2) {
+                        exception2.printStackTrace();
+                        System.out.println("Exception");
+                    }
+
                     panneauMenu.getSceneManager()
                             .setSizeFenetre(panneauMenu.getSceneManager().getPage("Categorie").getSize());
                     panneauMenu.getSceneManager()

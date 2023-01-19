@@ -11,6 +11,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -47,8 +48,14 @@ public class PanneauArticle extends JPanel {
             this.add(creePanelArticle(listArticle.get(k), app));
         }
         this.setBackground(Color.PINK);
+
+        JPanel panelAjouter = new JPanel();
+        panelAjouter.setPreferredSize(new Dimension((int) (LARGEUR_PAGE * RAPPORT_ARTICLE_PAGE), 78));
+        panelAjouter.setBorder(new EmptyBorder(0, 0, 0, 0));
+        panelAjouter.setBackground(Color.LIGHT_GRAY);
         JButton boutonAjouter = new JButton("Ajouter");
-        this.add(boutonAjouter);
+        panelAjouter.add(boutonAjouter, BorderLayout.CENTER);
+        this.add(panelAjouter);
         boutonAjouter.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
