@@ -45,7 +45,7 @@ public class PanneauConnexion extends JPanel {
             option = JOptionPane.showConfirmDialog(null, message, "Connexion", JOptionPane.OK_CANCEL_OPTION);
         }
         if(option == JOptionPane.OK_OPTION){
-            if (this.app.connexionAdmin(emailField.getText(),passwordField.getPassword().toString())) {
+            if (this.app.connexionAdmin(emailField.getText(),new String(passwordField.getPassword()))) {
                 JOptionPane.showMessageDialog(this, "L'identifiant ou le mot de passe fourni n'est pas répertorié dans la base de données");
             }
         }

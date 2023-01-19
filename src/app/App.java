@@ -1,20 +1,25 @@
 package src.app;
 
+import java.util.ArrayList;
+
 import src.contenu.Article;
 import src.contenu.Avis;
 import src.contenu.Categorie;
 import src.contenu.Stock;
 import src.gestion.Admin;
 import src.gestion.BDD;
+import src.ihm.SceneManager;
 
 public class App {
 
     private BDD bdd;
     private Admin adminConnecte;
     private Stock stock;
+    private SceneManager sceneManager;
 
-    public App() {
+    public App(SceneManager sceneManager) {
         this.stock = new Stock();
+        this.sceneManager = sceneManager;
     }
 
     public BDD getBDD() {
@@ -25,16 +30,23 @@ public class App {
         return this.stock;
     }
 
-    public boolean connexionAdmin(String email, String mdp) {
-        // TODO
-        // Si infos en paramètre correspondent à un admin dans la BDD
-        // this.adminConnecte = new Admin( -Nom correspondant aux infos paramètres- )
-        // Changement de fenètre ayant accès au Stock
-        // Sinon
-        // Message d'erreur, pas de changement de fenètre
-        if (email.equals("test")) {
-            this.adminConnecte = new Admin("Nom", email, mdp);
+    public boolean connexionAdmin(String email, String password) {
+        try {
+            System.out.println("Email : " + email + " | Password : " + password);
+
+            ArrayList<Admin> listeAdmin = this.sceneManager.getListeAdmin();
+
+            for (int i=0 ; i<listeAdmin.size() ; i++) {
+                if (listeAdmin.get(i).getEmail().equals(email) && listeAdmin.get(i).getMdp().equals(password)) {
+                    this.adminConnecte = listeAdmin.get(i);
+                }
+            }
+        } catch (Exception e) {
+            if (email.equals("test")) {
+                this.adminConnecte = new Admin("Connexion Failed", email, password);
+            }
         }
+
         return (this.adminConnecte == null);
     }
 

@@ -1,19 +1,21 @@
 package src.ihm;
 
 import java.awt.BorderLayout;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
 
 import javax.swing.JFrame;
-import java.awt.event.WindowListener;
 
-import java.awt.event.WindowEvent;
 import src.app.App;
 import src.contenu.Article;
 import src.contenu.Avis;
 import src.contenu.Categorie;
+import src.gestion.Admin;
 
 public class SceneManager {
     private JFrame pageMenu;
@@ -22,8 +24,12 @@ public class SceneManager {
     private JFrame pageCategorie;
     private PanneauMenu panneauMenu;
     private App app;
+    private Connection con;
+
+    private ArrayList<Admin> listeAdmin;
 
     public SceneManager() {
+        this.listeAdmin = new ArrayList<Admin>();
     }
 
     public static void main(String[] args) {
@@ -31,12 +37,12 @@ public class SceneManager {
         SceneManager sceneManager = new SceneManager();
         sceneManager.pageMenu = new JFrame("Page d'administration du site");
 
-        sceneManager.app = new App();
+        sceneManager.app = new App(sceneManager);
 
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/database", "root", "");
-
+            System.out.println("Test");
             String queryCategory = "SELECT * FROM subcategory";
             PreparedStatement statementCategory = con.prepareStatement(queryCategory);
             ResultSet resultCategory = statementCategory.executeQuery();
@@ -55,6 +61,19 @@ public class SceneManager {
                     String description = resultArticle.getString("Description");
                     sceneManager.app.getStock().getArrayCategorie().get(resultCategory.getInt("SubCategoryID") - 1)
                             .ajouterArticle(nom, prix, quantite, photo, description);
+                }
+            }
+
+            String queryAdmin = "SELECT * FROM user";
+            PreparedStatement statementAdmin = con.prepareStatement(queryAdmin);
+            ResultSet resultAdmin = statementAdmin.executeQuery();
+            while (resultAdmin.next()) {
+                int rankAdmin = resultAdmin.getInt("admin");
+                if (rankAdmin == 1) {
+                    String nameBDD = resultAdmin.getString("FirstName");
+                    String emailBDD = resultAdmin.getString("Email");
+                    String passwordBDD = resultAdmin.getString("Password");
+                    sceneManager.listeAdmin.add(new Admin(nameBDD, emailBDD, passwordBDD));
                 }
             }
 
@@ -264,6 +283,14 @@ public class SceneManager {
         this.pageArticle.addWindowListener(wL);
         this.pageAvis.addWindowListener(wL);
         this.pageCategorie.addWindowListener(wL);
+    }
+
+    public Connection getConnection() {
+        return this.con;
+    }
+
+    public ArrayList<Admin> getListeAdmin() {
+        return this.listeAdmin;
     }
 
 }
