@@ -214,6 +214,40 @@ public class App {
         return ret;
     }
 
+    public String[] modifierAvis(Avis avis) {
+
+        JLabel userLabel = new JLabel("UserID :");
+        JTextField userField = new JTextField();
+        userField.setText(avis.getNomClient());
+
+        JLabel starRateLabel = new JLabel("Rating : ");
+        JTextField starRateField = new JTextField();
+        starRateField.setText("" + avis.getNote());
+
+        JLabel contentLabel = new JLabel("Contenu : ");
+        JTextField contentField = new JTextField();
+        contentField.setText("" + avis.getContenu());
+
+
+        Object[] message = {
+            userLabel, userField,
+            starRateLabel, starRateField,
+            contentLabel, contentField
+        };
+        int option = JOptionPane.showConfirmDialog(null, message, "Modifier avis",
+                JOptionPane.OK_CANCEL_OPTION,
+                JOptionPane.INFORMATION_MESSAGE);
+        if (option == JOptionPane.OK_OPTION) {
+            avis.modifierAvis(Double.parseDouble(starRateField.getText()), contentField.getText());
+        }
+
+        String[] ret = new String[3];
+        ret[0] = userField.getText();
+        ret[1] = starRateField.getText();
+        ret[2] = contentField.getText();
+        return ret;
+    }
+
     public Categorie stringToCategorie(String strCat) {
         for (Categorie categorie : this.getStock().getArrayCategorie())
             if (categorie.getNom().equals(strCat))

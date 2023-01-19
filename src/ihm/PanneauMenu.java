@@ -24,10 +24,12 @@ public class PanneauMenu extends JPanel {
         this.app = app;
         this.sceneManager = sceneManager;
 
+        JPanel panelGlobal = new JPanel();
+
         JLabel labelBienvenu = new JLabel("Bienvenue " + this.app.getAdminConnecte().getNom());
 
         JButton boutonArticle = new JButton("Article");
-        this.add(boutonArticle, BorderLayout.CENTER);
+        panelGlobal.add(boutonArticle, BorderLayout.CENTER);
         boutonArticle.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -42,7 +44,7 @@ public class PanneauMenu extends JPanel {
         });
 
         JButton boutonAvis = new JButton("Avis");
-        this.add(boutonAvis, BorderLayout.CENTER);
+        panelGlobal.add(boutonAvis, BorderLayout.CENTER);
         boutonAvis.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -57,7 +59,7 @@ public class PanneauMenu extends JPanel {
         });
 
         JButton boutonCategorie = new JButton("Categorie");
-        this.add(boutonCategorie, BorderLayout.CENTER);
+        panelGlobal.add(boutonCategorie, BorderLayout.CENTER);
         boutonCategorie.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -75,21 +77,24 @@ public class PanneauMenu extends JPanel {
 
         JPanel panelLabel = new JPanel();
         panelLabel.add(labelBienvenu, BorderLayout.CENTER);
-        panelLabel.setBackground(Color.CYAN); // Label en CYAN
+        panelLabel.setBackground(Color.LIGHT_GRAY);
         panelPrincipal.add(panelLabel, BorderLayout.NORTH);
 
         JPanel panelBoutons = new JPanel();
-        panelBoutons.setBackground(Color.BLACK); // Bouton en BLACK
         panelBoutons.add(boutonArticle);
         panelBoutons.add(boutonAvis);
         panelBoutons.add(boutonCategorie);
+        panelBoutons.setBackground(Color.PINK);
         panelPrincipal.add(panelBoutons, BorderLayout.CENTER);
-        panelPrincipal.setBackground(Color.RED); // Principal en RED
         panelPrincipal.setBorder(BorderFactory.createEmptyBorder(1, 1, 1, 1));
         panelPrincipal.setAlignmentY(CENTER_ALIGNMENT);
 
-        this.add(panelPrincipal);
-        this.setBackground(Color.MAGENTA);
+        panelPrincipal.setBackground(Color.PINK);
+        panelGlobal.add(panelPrincipal);
+        panelGlobal.setBackground(Color.PINK);
+        this.setBackground(Color.PINK);
+        this.add(panelGlobal, BorderLayout.CENTER);
+
     }
 
     public SceneManager getSceneManager() {

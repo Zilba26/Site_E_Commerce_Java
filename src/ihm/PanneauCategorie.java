@@ -37,6 +37,8 @@ public class PanneauCategorie extends JPanel {
             this.add(creePanelCategorie(listCategorie.get(k), app, panneauMenu));
         }
 
+        this.setBackground(Color.PINK);
+
         JPanel panelAjouter = new JPanel();
         panelAjouter.setPreferredSize(new Dimension((int) (LARGEUR_PAGE * RAPPORT_ARTICLE_PAGE), 78));
         panelAjouter.setBorder(new EmptyBorder(0, 0, 0, 0));
@@ -165,6 +167,10 @@ public class PanneauCategorie extends JPanel {
                         int numSubCategoryID = 1;
                         if (resultSelectIDSubCategory.next()) 
                             numSubCategoryID=resultSelectIDSubCategory.getInt("SubCategoryID");
+
+                        String queryDeleteAvis = "DELETE FROM comment WHERE ItemID IN (SELECT ItemID FROM item WHERE SubCategoryID = "+numSubCategoryID+");";
+                        PreparedStatement statementDeleteAvis = panneauMenu.getSceneManager().getConnectionBDD().prepareStatement(queryDeleteAvis);
+                        int resultDeleteAvis = statementDeleteAvis.executeUpdate();
 
                         String queryDeleteItems = "DELETE FROM `item` WHERE SubCategoryID = '"+numSubCategoryID+"'";
                         PreparedStatement statementDeleteItems = panneauMenu.getSceneManager().getConnectionBDD().prepareStatement(queryDeleteItems);

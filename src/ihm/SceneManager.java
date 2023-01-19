@@ -73,6 +73,17 @@ public class SceneManager {
                     String description = resultArticle.getString("Description");
                     sceneManager.app.getStock().getArrayCategorie().get(resultCategory.getInt("SubCategoryID") - 1)
                             .ajouterArticle(nom, prix, quantite, photo, description);
+                    String queryAvis = "SELECT * FROM comment WHERE ItemID = "+ resultArticle.getInt("ItemID");
+                    PreparedStatement statementAvis = con.prepareStatement(queryAvis);
+                    ResultSet resultAvis = statementAvis.executeQuery();
+                    while(resultAvis.next()) {
+                        String IDClient = resultAvis.getString("UserID");
+                        Article article = sceneManager.app.getStock().getArrayCategorie().get(resultCategory.getInt("SubCategoryID") - 1).getArticles().get(sceneManager.app.getStock().getArrayCategorie().get(resultCategory.getInt("SubCategoryID") - 1).getArticles().size()-1);
+                        double starRate = resultAvis.getDouble("StarRate");
+                        String content = resultAvis.getString("Content");
+                        Avis avis = new Avis(starRate, content, IDClient, "", article);
+                        article.ajouterAvis(avis);
+                    }
                 }
             }
 

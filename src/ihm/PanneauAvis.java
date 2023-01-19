@@ -7,6 +7,8 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
@@ -39,8 +41,15 @@ public class PanneauAvis extends JPanel {
             for (int j = 0; j < listeArticle.get(k).getListeAvis().size(); j++)
                 this.add(creePanelAvis(listeArticle.get(k).getListeAvis().get(j), app));
 
+        this.setBackground(Color.PINK);
+
         JButton boutonAjouter = new JButton("Ajouter");
-        this.add(boutonAjouter);
+        JPanel panelAjout = new JPanel();
+        panelAjout.setPreferredSize(new Dimension((int) (LARGEUR_PAGE * RAPPORT_ARTICLE_PAGE), 50));
+        panelAjout.setBorder(new EmptyBorder(0, 0, 0, 0));
+        panelAjout.setBackground(Color.LIGHT_GRAY);
+        panelAjout.add(boutonAjouter);
+        this.add(panelAjout);
         boutonAjouter.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -123,50 +132,30 @@ public class PanneauAvis extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                JLabel noteLabel = new JLabel("Note : ");
-                JTextField noteField = new JTextField();
-                noteField.setText("" + avis.getNote());
-
-                JLabel contenuLabel = new JLabel("Contenu : ");
-                JTextField contenuField = new JTextField();
-                contenuField.setText(avis.getContenu());
-
-                JLabel nomClientLabel = new JLabel("Nom Client : ");
-                JLabel nomClientField = new JLabel(avis.getNomClient());
-
-                JLabel dateLabel = new JLabel("Date : ");
-                JTextField dateField = new JTextField();
-                dateField.setText(avis.getDate());
-
-                JLabel articleLabel = new JLabel("Article : ");
-                JComboBox<String> articleComboBox = new JComboBox<>();
-                for (Article a : app.getAllArticles()) {
-                    articleComboBox.addItem(a.getNom());
-                }
-                articleComboBox.setSelectedItem(avis.getArticleAssocie().getNom());
-
-                Object[] message = {
-                        noteLabel, noteField,
-                        contenuLabel, contenuField,
-                        nomClientLabel, nomClientField,
-                        dateLabel, dateField,
-                        articleLabel, articleComboBox
-                };
-                int option = JOptionPane.showConfirmDialog(null, message, "Modifier avis",
-                        JOptionPane.OK_CANCEL_OPTION,
-                        JOptionPane.INFORMATION_MESSAGE);
-                if (option == JOptionPane.OK_OPTION) {
-                    if (Float.parseFloat(noteField.getText()) <= 5 && Float.parseFloat(noteField.getText()) >= 0
-                            && (Float.parseFloat(noteField.getText()) % 0.25) == 0) {
-                        avis.modifierAvis(Double.parseDouble(noteField.getText()), contenuField.getText(),
-                                dateField.getText(), stringToArticle(articleComboBox.getSelectedItem().toString()));
-                    } else {
+                try {
+                    String querySelectCommentID = "SELECT `CommentID` FROM `comment` WHERE Content = '"
+                            + avis.getContenu() + "'";
+                    String[] newAvisInfo = app.modifierAvis(avis);
+                    if (Float.parseFloat(newAvisInfo[1]) <= 5 && Float.parseFloat(newAvisInfo[1]) >= 0 && (Float.parseFloat(newAvisInfo[1]) % 0.25) == 0) {
+                        PreparedStatement statementSelectCommentID = panneauMenu.getSceneManager().getConnectionBDD().prepareStatement(querySelectCommentID);
+                        ResultSet resultSelectCommentID = statementSelectCommentID.executeQuery();
+                        int numIDComment = 1;
+                        if (resultSelectCommentID.next())
+                            numIDComment = resultSelectCommentID.getInt("CommentID");
+                        String queryUpdateItem = "UPDATE `comment` SET `UserID`='" + newAvisInfo[0]+ "',`StarRate`='" + newAvisInfo[1] + "',`Content`='" + newAvisInfo[2] + "' WHERE CommentID = '" + numIDComment + "'";
+                        PreparedStatement statementUpdateItem = panneauMenu.getSceneManager().getConnectionBDD().prepareStatement(queryUpdateItem);
+                        int resultUpdateItem = statementUpdateItem.executeUpdate();
+                    }
+                    else {
                         JOptionPane.showMessageDialog(null,
                                 "La note de l'article doit être comprise entre 0 et 5 modulo 0.25");
                     }
-                    avis.modifierAvis(Double.parseDouble(noteField.getText()), contenuField.getText(),
-                            dateField.getText(), stringToArticle(articleComboBox.getSelectedItem().toString()));
+
+                } catch (Exception exception2) {
+                    exception2.printStackTrace();
+                    System.out.println("Exception");
                 }
+
                 panneauMenu.getSceneManager().setSizeFenetre(panneauMenu.getSceneManager().getPage("Avis").getSize());
                 panneauMenu.getSceneManager()
                         .setLocationFenetre(panneauMenu.getSceneManager().getPage("Avis").getLocation());
