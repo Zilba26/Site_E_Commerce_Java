@@ -1,8 +1,13 @@
 package src.ihm;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.awt.Point;
+import java.awt.Window;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -10,7 +15,6 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 
 import javax.swing.JFrame;
-
 
 import src.app.App;
 import src.contenu.Article;
@@ -29,6 +33,9 @@ public class SceneManager {
 
     private ArrayList<Admin> listeAdmin;
 
+    private Dimension sizeFenetre;
+    private Point locationFenetre;
+
     public SceneManager() {
         this.listeAdmin = new ArrayList<Admin>();
     }
@@ -37,6 +44,9 @@ public class SceneManager {
 
         SceneManager sceneManager = new SceneManager();
         sceneManager.pageMenu = new JFrame("Page d'administration du site");
+        sceneManager.sizeFenetre = Toolkit.getDefaultToolkit().getScreenSize();
+        sceneManager.pageMenu.setSize(sceneManager.sizeFenetre);
+        sceneManager.setLocationFenetre(sceneManager.pageMenu.getLocation());
 
         sceneManager.app = new App(sceneManager);
 
@@ -85,9 +95,9 @@ public class SceneManager {
             System.out.println("Echec de la connexion à la BDD");
         }
 
-        Categorie[] categorieTest = sceneManager.initTestCategories();
-        sceneManager.app.getStock().ajouteCategorie(categorieTest[0]);
-        sceneManager.app.getStock().ajouteCategorie(categorieTest[1]);
+        // Categorie[] categorieTest = sceneManager.initTestCategories();
+        // sceneManager.app.getStock().ajouteCategorie(categorieTest[0]);
+        // sceneManager.app.getStock().ajouteCategorie(categorieTest[1]);
 
         new PanneauConnexion(sceneManager.app);
 
@@ -150,18 +160,29 @@ public class SceneManager {
         this.hidePanneau();
         switch (nomPanneau) {
             case "Article":
+                this.pageArticle.setSize(this.getSizeFenetre());
+                this.pageArticle.setLocation(this.getLocationFenetre());
                 this.pageArticle.setVisible(true);
                 break;
             case "Avis":
+                this.pageAvis.setSize(this.getSizeFenetre());
+                this.pageAvis.setLocation(this.getLocationFenetre());
                 this.pageAvis.setVisible(true);
                 break;
             case "Categorie":
+                this.pageCategorie.setSize(this.getSizeFenetre());
+                this.pageCategorie.setLocation(this.getLocationFenetre());
                 this.pageCategorie.setVisible(true);
                 break;
             case "Menu":
+                this.setLocationFenetre(this.pageMenu.getLocation());
+                this.pageMenu.setSize(this.getSizeFenetre());
+                this.pageMenu.setLocation(this.getLocationFenetre());
                 this.pageMenu.setVisible(true);
                 break;
             default:
+                this.pageMenu.setSize(this.getSizeFenetre());
+                this.pageMenu.setLocation(this.getLocationFenetre());
                 this.pageMenu.setVisible(true);
                 break;
         }
@@ -191,34 +212,34 @@ public class SceneManager {
         switch (str) {
             case "Menu":
                 this.pageMenu.add(this.panneauMenu);
-                this.pageMenu.setSize(PanneauMenu.LARGEUR_PAGE, PanneauMenu.HAUTEUR_PAGE);
-                this.pageMenu.add(new PanneauBarreHeader(this), BorderLayout.NORTH);
+                this.pageMenu.add(new PanneauBarreHeader(this, this.pageMenu), BorderLayout.NORTH);
                 this.pageMenu.setVisible(visible);
                 this.pageMenu.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                this.pageMenu.setSize(this.getSizeFenetre());
                 break;
             case "Article":
                 this.pageArticle = new JFrame("Page de gestion des articles");
                 this.pageArticle.add(new PanneauArticle(panneauMenu, app));
-                this.pageArticle.setSize(PanneauArticle.LARGEUR_PAGE, PanneauArticle.HAUTEUR_PAGE);
                 this.pageArticle.setVisible(visible);
                 this.pageArticle.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                this.pageArticle.add(new PanneauBarreHeader(this), BorderLayout.NORTH);
+                this.pageArticle.add(new PanneauBarreHeader(this, this.pageArticle), BorderLayout.NORTH);
+                this.pageArticle.setSize(this.getSizeFenetre());
                 break;
             case "Avis":
                 this.pageAvis = new JFrame("Page de gestion des avis");
                 this.pageAvis.add(new PanneauAvis(panneauMenu, app));
-                this.pageAvis.setSize(PanneauAvis.LARGEUR_PAGE, PanneauAvis.HAUTEUR_PAGE);
                 this.pageAvis.setVisible(visible);
                 this.pageAvis.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                this.pageAvis.add(new PanneauBarreHeader(this), BorderLayout.NORTH);
+                this.pageAvis.add(new PanneauBarreHeader(this, this.pageAvis), BorderLayout.NORTH);
+                this.pageAvis.setSize(this.getSizeFenetre());
                 break;
             case "Categorie":
                 this.pageCategorie = new JFrame("Page de gestion des categories");
                 this.pageCategorie.add(new PanneauCategorie(panneauMenu, app));
-                this.pageCategorie.setSize(PanneauCategorie.LARGEUR_PAGE, PanneauCategorie.HAUTEUR_PAGE);
                 this.pageCategorie.setVisible(visible);
                 this.pageCategorie.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                this.pageCategorie.add(new PanneauBarreHeader(this), BorderLayout.NORTH);
+                this.pageCategorie.add(new PanneauBarreHeader(this, this.pageCategorie), BorderLayout.NORTH);
+                this.pageCategorie.setSize(this.getSizeFenetre());
                 break;
             default:
                 break;
@@ -292,6 +313,22 @@ public class SceneManager {
 
     public ArrayList<Admin> getListeAdmin() {
         return this.listeAdmin;
+    }
+
+    public Dimension getSizeFenetre() {
+        return this.sizeFenetre;
+    }
+
+    public void setSizeFenetre(Dimension newSize) {
+        this.sizeFenetre = newSize;
+    }
+
+    public Point getLocationFenetre() {
+        return this.locationFenetre;
+    }
+
+    public void setLocationFenetre(Point locationFenetre) {
+        this.locationFenetre = locationFenetre;
     }
 
 }

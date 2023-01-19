@@ -57,6 +57,8 @@ public class PanneauCategorie extends JPanel {
                         JOptionPane.INFORMATION_MESSAGE);
                 if (option == JOptionPane.OK_OPTION) {
                     app.getStock().ajouteCategorie(new Categorie(nomField.getText()));
+                    panneauMenu.getSceneManager().setSizeFenetre(panneauMenu.getSceneManager().getPage("Categorie").getSize());
+                    panneauMenu.getSceneManager().setLocationFenetre(panneauMenu.getSceneManager().getPage("Categorie").getLocation());
                     panneauMenu.getSceneManager().getPage("Categorie").setVisible(false);
                     panneauMenu.getSceneManager().creePage("Categorie", true);
                     panneauMenu.getSceneManager().creePage("Article", false);
@@ -87,6 +89,8 @@ public class PanneauCategorie extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 app.modifierCategorie(categorie);
+                panneauMenu.getSceneManager().setSizeFenetre(panneauMenu.getSceneManager().getPage("Categorie").getSize());
+                panneauMenu.getSceneManager().setLocationFenetre(panneauMenu.getSceneManager().getPage("Categorie").getLocation());
                 panneauMenu.getSceneManager().getPage("Categorie").setVisible(false);
                 panneauMenu.getSceneManager().creePage("Categorie", true);
                 panneauMenu.getSceneManager().creePage("Article", false);
@@ -108,6 +112,8 @@ public class PanneauCategorie extends JPanel {
                         "Supprimer la catégorie ?", JOptionPane.YES_NO_OPTION);
                 if (result == JOptionPane.OK_OPTION) {
                     app.supprimeCategorie(categorie);
+                    panneauMenu.getSceneManager().setSizeFenetre(panneauMenu.getSceneManager().getPage("Categorie").getSize());
+                    panneauMenu.getSceneManager().setLocationFenetre(panneauMenu.getSceneManager().getPage("Categorie").getLocation());
                     panneauMenu.getSceneManager().getPage("Categorie").setVisible(false);
                     panneauMenu.getSceneManager().creePage("Categorie", true);
                     panneauMenu.getSceneManager().creePage("Article", false);

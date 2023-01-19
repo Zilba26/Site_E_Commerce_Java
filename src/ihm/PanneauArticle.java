@@ -84,6 +84,8 @@ public class PanneauArticle extends JPanel {
                     c.ajouteArticle(new Article(nomField.getText(), Double.parseDouble(prixField.getText()),
                             Integer.parseInt(quantiteField.getText()), "", descField.getText(), c));
 
+                    panneauMenu.getSceneManager().setSizeFenetre(panneauMenu.getSceneManager().getPage("Article").getSize());
+                    panneauMenu.getSceneManager().setLocationFenetre(panneauMenu.getSceneManager().getPage("Article").getLocation());
                     panneauMenu.getSceneManager().getPage("Article").setVisible(false);
                     panneauMenu.getSceneManager().creePage("Article", true);
                     panneauMenu.getSceneManager().creePage("Avis", false);
@@ -122,6 +124,8 @@ public class PanneauArticle extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 app.modifierArticle(article);
+                panneauMenu.getSceneManager().setSizeFenetre(panneauMenu.getSceneManager().getPage("Article").getSize());
+                panneauMenu.getSceneManager().setLocationFenetre(panneauMenu.getSceneManager().getPage("Article").getLocation());
                 panneauMenu.getSceneManager().getPage("Article").setVisible(false);
                 panneauMenu.getSceneManager().creePage("Article", true);
                 panneauMenu.getSceneManager().creePage("Avis", false);
@@ -141,6 +145,8 @@ public class PanneauArticle extends JPanel {
                         "Supprimer l'article ?", JOptionPane.YES_NO_OPTION);
                 if (result == JOptionPane.OK_OPTION) {
                     app.supprimerArticle(article);
+                    panneauMenu.getSceneManager().setSizeFenetre(panneauMenu.getSceneManager().getPage("Article").getSize());
+                    panneauMenu.getSceneManager().setLocationFenetre(panneauMenu.getSceneManager().getPage("Article").getLocation());
                     panneauMenu.getSceneManager().getPage("Article").setVisible(false);
                     panneauMenu.getSceneManager().creePage("Article", true);
                     panneauMenu.getSceneManager().creePage("Avis", false);

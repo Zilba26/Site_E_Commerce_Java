@@ -31,6 +31,12 @@ public class PanneauMenu extends JPanel {
         boutonArticle.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                sceneManager.setLocationFenetre(sceneManager.getPage("Menu").getLocation());
+                sceneManager.getPage("Article").setLocation(sceneManager.getLocationFenetre());
+
+                sceneManager.setSizeFenetre(sceneManager.getPage("Menu").getSize());
+                sceneManager.getPage("Article").setSize(sceneManager.getSizeFenetre());
+
                 sceneManager.showPanneau(boutonArticle.getText());
             }
         });
@@ -40,6 +46,12 @@ public class PanneauMenu extends JPanel {
         boutonAvis.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                sceneManager.setLocationFenetre(sceneManager.getPage("Menu").getLocation());
+                sceneManager.getPage("Avis").setLocation(sceneManager.getLocationFenetre());
+
+                sceneManager.setSizeFenetre(sceneManager.getPage("Menu").getSize());
+                sceneManager.getPage("Avis").setSize(sceneManager.getSizeFenetre());
+
                 sceneManager.showPanneau(boutonAvis.getText());
             }
         });
@@ -49,6 +61,12 @@ public class PanneauMenu extends JPanel {
         boutonCategorie.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                sceneManager.setLocationFenetre(sceneManager.getPage("Menu").getLocation());
+                sceneManager.getPage("Categorie").setLocation(sceneManager.getLocationFenetre());
+
+                sceneManager.setSizeFenetre(sceneManager.getPage("Menu").getSize());
+                sceneManager.getPage("Categorie").setSize(sceneManager.getSizeFenetre());
+
                 sceneManager.showPanneau(boutonCategorie.getText());
             }
         });
