@@ -173,8 +173,22 @@ public class App {
     }
 
     public void modifierCategorie(Categorie categorie) {
-        // TODO : Affichage qui demande ce qu'il veut changer, par exemple le nom
-        categorie.setNom("Test");
+        JLabel nomLabel = new JLabel("Nom : ");
+        JTextField nomField = new JTextField();
+        nomField.setText(categorie.getNom());
+
+        Object[] message = {
+                nomLabel, nomField
+        };
+        int option = JOptionPane.showConfirmDialog(null, message, "Modifier categorie",
+                JOptionPane.OK_CANCEL_OPTION,
+                JOptionPane.INFORMATION_MESSAGE);
+
+        if (option == JOptionPane.OK_OPTION) {
+            categorie.setNom(nomField.getText());
+
+        }
+
     }
 
     public boolean supprimerAvisClient(Article article, Avis avis, boolean gardeNote) {

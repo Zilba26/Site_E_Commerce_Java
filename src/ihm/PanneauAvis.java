@@ -131,11 +131,11 @@ public class PanneauAvis extends JPanel {
         boutonRetirer.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                app.supprimeAvis(avis);
                 int result = JOptionPane.showConfirmDialog(null,
                         "Etes-vous sûr de vouloir supprimer l'avis de " + avis.getNomClient(),
                         "Supprimer l'avis ?", JOptionPane.YES_NO_OPTION);
                 if (result == JOptionPane.YES_OPTION) {
+                    app.supprimeAvis(avis);
                     getPanneauMenu().getSceneManager().getPage("Avis").setVisible(false);
                     getPanneauMenu().getSceneManager().creePage("Avis", true);
                 }

@@ -11,6 +11,7 @@ import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
@@ -75,6 +76,7 @@ public class PanneauArticle extends JPanel {
                 app.modifierArticle(article);
                 panneauMenu.getSceneManager().getPage("Article").setVisible(false);
                 panneauMenu.getSceneManager().creePage("Article", true);
+                panneauMenu.getSceneManager().creePage("Avis", false);
             }
         });
 
@@ -86,10 +88,15 @@ public class PanneauArticle extends JPanel {
         boutonRetirer.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                app.supprimerArticle(article);
-                panneauMenu.getSceneManager().getPage("Article").setVisible(false);
-                panneauMenu.getSceneManager().creePage("Article", true);
-                panneauMenu.getSceneManager().creePage("Avis", false);
+                int result = JOptionPane.showConfirmDialog(null,
+                        "Etes-vous sûr de vouloir supprimer l'article : " + article.getNom(),
+                        "Supprimer l'article ?", JOptionPane.YES_NO_OPTION);
+                if (result == JOptionPane.OK_OPTION) {
+                    app.supprimerArticle(article);
+                    panneauMenu.getSceneManager().getPage("Article").setVisible(false);
+                    panneauMenu.getSceneManager().creePage("Article", true);
+                    panneauMenu.getSceneManager().creePage("Avis", false);
+                }
             }
         });
 

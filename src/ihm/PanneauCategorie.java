@@ -11,6 +11,7 @@ import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
@@ -63,6 +64,7 @@ public class PanneauCategorie extends JPanel {
                 panneauMenu.getSceneManager().creePage("Categorie", true);
                 panneauMenu.getSceneManager().creePage("Article", false);
                 panneauMenu.getSceneManager().creePage("Avis", false);
+
             }
         });
 
@@ -74,11 +76,16 @@ public class PanneauCategorie extends JPanel {
         boutonRetirer.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                app.supprimeCategorie(categorie);
-                panneauMenu.getSceneManager().getPage("Categorie").setVisible(false);
-                panneauMenu.getSceneManager().creePage("Categorie", true);
-                panneauMenu.getSceneManager().creePage("Article", false);
-                panneauMenu.getSceneManager().creePage("Avis", false);
+                int result = JOptionPane.showConfirmDialog(null,
+                        "Etes-vous sûr de vouloir supprimer la catégorie : " + categorie.getNom(),
+                        "Supprimer la catégorie ?", JOptionPane.YES_NO_OPTION);
+                if (result == JOptionPane.OK_OPTION) {
+                    app.supprimeCategorie(categorie);
+                    panneauMenu.getSceneManager().getPage("Categorie").setVisible(false);
+                    panneauMenu.getSceneManager().creePage("Categorie", true);
+                    panneauMenu.getSceneManager().creePage("Article", false);
+                    panneauMenu.getSceneManager().creePage("Avis", false);
+                }
             }
         });
 
