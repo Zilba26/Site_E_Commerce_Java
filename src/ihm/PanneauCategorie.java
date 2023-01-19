@@ -59,7 +59,7 @@ public class PanneauCategorie extends JPanel {
         boutonModifier.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                app.modifierCategorie(categorie); // TODO : modifier la méthode
+                app.modifierCategorie(categorie);
                 panneauMenu.getSceneManager().getPage("Categorie").setVisible(false);
                 panneauMenu.getSceneManager().creePage("Categorie", true);
                 panneauMenu.getSceneManager().creePage("Article", false);
