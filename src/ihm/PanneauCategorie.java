@@ -7,6 +7,8 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
@@ -47,11 +49,11 @@ public class PanneauCategorie extends JPanel {
                 JLabel nomLabel = new JLabel("Nom : ");
                 JTextField nomField = new JTextField();
 
-                JLabel categorieLabel = new JLabel("Catégorie n° : ");
+                JLabel categorieLabel = new JLabel("Catégorie ID (1 à 8) : ");
                 JTextField categorieField = new JTextField();
 
                 Object[] message = {
-                        nomLabel, nomField
+                        nomLabel, nomField,
                         categorieLabel, categorieField
                 };
 
@@ -59,24 +61,26 @@ public class PanneauCategorie extends JPanel {
                         JOptionPane.OK_CANCEL_OPTION,
                         JOptionPane.INFORMATION_MESSAGE);
                 if (option == JOptionPane.OK_OPTION) {
+                    
+                    try {
+                        String queryCountCategory = "SELECT COUNT(Name) FROM subcategory";
+                        PreparedStatement statementCountCategory = panneauMenu.getSceneManager().getConnectionBDD().prepareStatement(queryCountCategory);
+                        ResultSet resultCountCategory = statementCountCategory.executeQuery();
+                        int numSubCategory=0;
+
+                        if (resultCountCategory.next()) 
+                        numSubCategory = resultCountCategory.getInt(1) + 1;
+
+                        String queryCategory = "INSERT INTO `subcategory`(`SubCategoryID`, `Name`, `CategoryID`) VALUES ('"+numSubCategory+"','"+nomField.getText()+"','"+categorieField.getText()+"')";
+                        PreparedStatement statementCategory = panneauMenu.getSceneManager().getConnectionBDD().prepareStatement(queryCategory);
+                        statementCategory.executeUpdate();
+                    }
+                    catch (Exception exception) {
+                        exception.printStackTrace();;
+                    }
+
                     app.getStock().ajouteCategorie(new Categorie(nomField.getText()));
 
-                    // try {
-                    //     String queryCountCategory = "SELECT COUNT(SubCategoryID) FROM table";
-                    //     PreparedStatement statementCountCategory = panneauMenu.getSceneManager().getConnectionBDD().prepareStatement(queryCountCategory);
-                    //     ResultSet resultCountCategory = statementCountCategory.executeQuery();
-                    //     int nbCategory = resultCountCategory.getInt("")
-                    //     String queryCategory = "INSERT INTO `subcategory`(`SubCategoryID`, `Name`, `CategoryID`) VALUES ('','"+nomField.getText()+"','"+categorieField.getText()+"')";
-                    //     PreparedStatement statementCategory = panneauMenu.getSceneManager().getConnectionBDD().prepareStatement(queryCategory);
-                    //     ResultSet resultCategory = statementCategory.executeQuery();
-
-                    //     while (resultCategory.next()) {
-
-                    //     }
-                    // }
-                    // catch (Exception exception) {
-
-                    // }
                 }
                     panneauMenu.getSceneManager().setSizeFenetre(panneauMenu.getSceneManager().getPage("Categorie").getSize());
                     panneauMenu.getSceneManager().setLocationFenetre(panneauMenu.getSceneManager().getPage("Categorie").getLocation());

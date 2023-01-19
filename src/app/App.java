@@ -37,7 +37,6 @@ public class App {
 
     public boolean connexionAdmin(String email, String password) {
         try {
-            System.out.println("Email : " + email + " | Password : " + password);
 
             ArrayList<Admin> listeAdmin = this.sceneManager.getListeAdmin();
 

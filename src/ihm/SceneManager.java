@@ -90,7 +90,6 @@ public class SceneManager {
             }
 
             System.out.println("Réussite de la connexion à la BDD");
-            //con.close();
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("Echec de la connexion à la BDD");
@@ -150,6 +149,8 @@ public class SceneManager {
         this.creePage("Article", false);
         this.creePage("Avis", false);
         this.creePage("Categorie", false);
+
+        this.WindowListenerMethod(this);
 
     }
 
@@ -269,12 +270,18 @@ public class SceneManager {
         return ret;
     }
 
-    private void UpdateBDD() {
+    private void WindowListenerMethod(SceneManager sceneManager) {
         WindowListener wL = new WindowListener() {
             @Override
             public void windowClosing(WindowEvent e) {
                 // Seul cas utilisé ici
-                // TODO : Update la BDD par rapport au stock de l'environnement java
+                try {
+                    sceneManager.getConnectionBDD().close();
+                    System.out.println("Succès de la fermeture de la BDD");
+                } catch (Exception e2) {
+                    e2.getStackTrace();
+                    System.out.println("Erreur de la fermeture de la BDD");
+                }
             }
 
             @Override
