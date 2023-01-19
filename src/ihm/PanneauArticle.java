@@ -171,6 +171,24 @@ public class PanneauArticle extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 app.modifierArticle(article);
+
+                try {
+                    String querySelectItemID = "SELECT `ItemID` FROM `item` WHERE Name = '"+article.getNom()+"'";
+                    String[] newArticleInfo = app.modifierArticle(article);
+                    PreparedStatement statementSelectItemID = panneauMenu.getSceneManager().getConnectionBDD().prepareStatement(querySelectItemID);
+                    ResultSet resultSelectItemID = statementSelectItemID.executeQuery();
+                    int numIDItem = 1;
+                    if (resultSelectItemID.next()) 
+                        numIDItem=resultSelectItemID.getInt("SubCategoryID");
+                    String queryUpdateItem = "UPDATE `item` SET `Name`='"+newArticleInfo[0]+"',`SubCategoryID`='"+newArticleInfo[4]+"',`Price`='"+newArticleInfo[2]+"',`Description`='"+newArticleInfo[3]+"',`Quantity`='"+newArticleInfo[1]+"' WHERE `ItemID`='"+numIDItem+"'";
+                    PreparedStatement statementUpdateItem = panneauMenu.getSceneManager().getConnectionBDD().prepareStatement(queryUpdateItem);
+                    int resultUpdateItem = statementUpdateItem.executeUpdate();
+                }
+                catch (Exception exception2) {
+                    exception2.printStackTrace();
+                    System.out.println("Exception");
+                }
+
                 panneauMenu.getSceneManager()
                         .setSizeFenetre(panneauMenu.getSceneManager().getPage("Article").getSize());
                 panneauMenu.getSceneManager()
@@ -193,7 +211,26 @@ public class PanneauArticle extends JPanel {
                         "Etes-vous sûr de vouloir supprimer l'article : " + article.getNom(),
                         "Supprimer l'article ?", JOptionPane.YES_NO_OPTION);
                 if (result == JOptionPane.OK_OPTION) {
-                    app.supprimerArticle(article);
+                    
+
+                    try {
+                        String querySelectIDItem = "SELECT `ItemID` FROM `item` WHERE Name = '"+article.getNom()+"'";
+                        app.supprimerArticle(article);
+                        PreparedStatement statementSelectIDItem = panneauMenu.getSceneManager().getConnectionBDD().prepareStatement(querySelectIDItem);
+                        ResultSet resultSelectIDItem = statementSelectIDItem.executeQuery();
+                        int numIDItem = 1;
+                        if (resultSelectIDItem.next()) 
+                            numIDItem=resultSelectIDItem.getInt("ItemID");
+                        
+                        String queryDeleteItem = "DELETE FROM `item` WHERE ItemID = '"+numIDItem+"'";
+                        PreparedStatement statementDeleteItem = panneauMenu.getSceneManager().getConnectionBDD().prepareStatement(queryDeleteItem);
+                        int resultDeleteItem = statementDeleteItem.executeUpdate();
+                    }
+                    catch (Exception exception2) {
+                        exception2.printStackTrace();
+                        System.out.println("Exception");
+                    }
+
                     panneauMenu.getSceneManager()
                             .setSizeFenetre(panneauMenu.getSceneManager().getPage("Article").getSize());
                     panneauMenu.getSceneManager()

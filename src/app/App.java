@@ -137,7 +137,7 @@ public class App {
             }
     }
 
-    public void modifierArticle(Article article) {
+    public String[] modifierArticle(Article article) {
 
         JLabel nomLabel = new JLabel("Nom de l'article :");
         JTextField nomField = new JTextField();
@@ -179,6 +179,14 @@ public class App {
                     descField.getText(),
                     stringToCategorie(categorieComboBox.getSelectedItem().toString()));
         }
+
+        String[] ret = new String[5];
+        ret[0] = nomField.getText();
+        ret[1] = quantiteField.getText();
+        ret[2] = prixField.getText();
+        ret[3] = descField.getText();
+        ret[4] = categorieComboBox.getSelectedItem().toString();
+        return ret;
     }
 
     public String[] modifierCategorie(Categorie categorie) {
