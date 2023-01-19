@@ -11,6 +11,7 @@ import java.util.ArrayList;
 
 import javax.swing.JFrame;
 
+
 import src.app.App;
 import src.contenu.Article;
 import src.contenu.Avis;
@@ -84,9 +85,9 @@ public class SceneManager {
             System.out.println("Echec de la connexion à la BDD");
         }
 
-        // Categorie[] categorieTest = sceneManager.initTestCategories();
-        // sceneManager.app.getStock().ajouteCategorie(categorieTest[0]);
-        // sceneManager.app.getStock().ajouteCategorie(categorieTest[1]);
+        Categorie[] categorieTest = sceneManager.initTestCategories();
+        sceneManager.app.getStock().ajouteCategorie(categorieTest[0]);
+        sceneManager.app.getStock().ajouteCategorie(categorieTest[1]);
 
         new PanneauConnexion(sceneManager.app);
 
@@ -98,11 +99,11 @@ public class SceneManager {
 
     private Categorie[] initTestCategories() {
         Categorie categorie1 = new Categorie("Categorie 1");
-        Article article1 = new Article("Article 11");
-        Article article2 = new Article("Article 12");
+        Article article1 = new Article("Article 11", 11d, 11, "", "Description 11", categorie1);
+        Article article2 = new Article("Article 12", 12d, 12, "", "Description 12", categorie1);
         Categorie categorie2 = new Categorie("Categorie 2");
-        Article article3 = new Article("Article 21");
-        Article article4 = new Article("Article 22");
+        Article article3 = new Article("Article 21", 21d, 21, "", "Description 21", categorie2);
+        Article article4 = new Article("Article 22", 22d, 22, "", "Description 22", categorie2);
 
         Avis avis11 = new Avis(5, "Avis 11", "Client 1", "02/10/2023", article1);
         Avis avis12 = new Avis(4, "Avis 12", "Client 2", "05/11/2022", article1);
@@ -251,7 +252,7 @@ public class SceneManager {
             @Override
             public void windowClosing(WindowEvent e) {
                 // Seul cas utilisé ici
-                //TODO : Update la BDD par rapport au stock de l'environnement java
+                // TODO : Update la BDD par rapport au stock de l'environnement java
             }
 
             @Override

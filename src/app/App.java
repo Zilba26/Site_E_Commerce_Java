@@ -2,6 +2,11 @@ package src.app;
 
 import java.util.ArrayList;
 
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JTextField;
+
 import src.contenu.Article;
 import src.contenu.Avis;
 import src.contenu.Categorie;
@@ -59,8 +64,8 @@ public class App {
     }
 
     public void creerArticle(String nom, double prix, int quantite, String photo, String description,
-            String nomCategorie) {
-        Article article = new Article(nom, prix, quantite, photo, description, nomCategorie);
+            Categorie categorie) {
+        Article article = new Article(nom, prix, quantite, photo, description, categorie);
         String[] infosNewArticle = article.getInfoArticle();
         boolean articleAlreadyExist = false;
 
@@ -76,7 +81,7 @@ public class App {
         if (!articleAlreadyExist) {
             boolean categorieEstTrouve = false;
             for (int i = 0; i < this.stock.getArrayCategorie().size(); i++) {
-                if (this.stock.getArrayCategorie().get(i).getNom() == nomCategorie) {
+                if (this.stock.getArrayCategorie().get(i) == categorie) {
                     this.stock.getArrayCategorie().get(i).getArticles().add(article);
                     categorieEstTrouve = true;
                     // TODO : Message validant l'opération
@@ -117,6 +122,14 @@ public class App {
                     }
     }
 
+    public ArrayList<Article> getAllArticles() {
+        ArrayList<Article> ret = new ArrayList<Article>();
+        for (int k = 0; k < this.getStock().getArrayCategorie().size(); k++)
+            for (int j = 0; j < this.getStock().getArrayCategorie().get(k).getArticles().size(); j++)
+                ret.add(this.getStock().getArrayCategorie().get(k).getArticles().get(j));
+        return ret;
+    }
+
     public void supprimeCategorie(Categorie categorieASupprimer) {
         for (Categorie categorie : this.getStock().getArrayCategorie())
             if (categorie.equals(categorieASupprimer)) {
@@ -126,13 +139,73 @@ public class App {
     }
 
     public void modifierArticle(Article article) {
-        // TODO : Affichage qui demande ce qu'il veut changer, par exemple le nom
-        article.setNom("Test");
+
+        JLabel nomLabel = new JLabel("Nom de l'article :");
+        JTextField nomField = new JTextField();
+        nomField.setText(article.getNom());
+
+        JLabel quantiteLabel = new JLabel("Quantité : ");
+        JTextField quantiteField = new JTextField();
+        quantiteField.setText("" + article.getQuantite());
+
+        JLabel prixLabel = new JLabel("Prix : ");
+        JTextField prixField = new JTextField();
+        prixField.setText("" + article.getPrix());
+
+        JLabel descLabel = new JLabel("Description : ");
+        JTextField descField = new JTextField();
+        descField.setText(article.getDescription());
+
+        JLabel categorieLabel = new JLabel("Categorie : ");
+        JComboBox<String> categorieComboBox = new JComboBox<>();
+        for (Categorie c : this.getStock().getArrayCategorie()) {
+            categorieComboBox.addItem(c.getNom());
+        }
+        categorieComboBox.setSelectedItem(article.getNomCategorie());
+
+        Object[] message = {
+                nomLabel, nomField,
+                quantiteLabel, quantiteField,
+                prixLabel, prixField,
+                descLabel, descField,
+                categorieLabel, categorieComboBox
+        };
+        int option = JOptionPane.showConfirmDialog(null, message, "Modifier article",
+                JOptionPane.OK_CANCEL_OPTION,
+                JOptionPane.INFORMATION_MESSAGE);
+        if (option == JOptionPane.OK_OPTION) {
+            article.modifierArticle(nomField.getText(),
+                    Integer.parseInt(quantiteField.getText()),
+                    Double.parseDouble(prixField.getText()),
+                    descField.getText(),
+                    stringToCategorie(categorieComboBox.getSelectedItem().toString()));
+        }
     }
 
     public void modifierCategorie(Categorie categorie) {
-        // TODO : Affichage qui demande ce qu'il veut changer, par exemple le nom
-        categorie.setNom("Test");
+        JLabel nomLabel = new JLabel("Nom : ");
+        JTextField nomField = new JTextField();
+        nomField.setText(categorie.getNom());
+
+        Object[] message = {
+                nomLabel, nomField
+        };
+        int option = JOptionPane.showConfirmDialog(null, message, "Modifier categorie",
+                JOptionPane.OK_CANCEL_OPTION,
+                JOptionPane.INFORMATION_MESSAGE);
+
+        if (option == JOptionPane.OK_OPTION) {
+            categorie.setNom(nomField.getText());
+
+        }
+
+    }
+
+    public Categorie stringToCategorie(String strCat) {
+        for (Categorie categorie : this.getStock().getArrayCategorie())
+            if (categorie.getNom().equals(strCat))
+                return categorie;
+        return null; // Never happen
     }
 
     public boolean supprimerAvisClient(Article article, Avis avis, boolean gardeNote) {

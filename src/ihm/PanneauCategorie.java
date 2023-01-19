@@ -11,15 +11,18 @@ import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTabbedPane;
+import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
 import src.app.App;
 import src.contenu.Categorie;
 
-public class PanneauCategorie extends JPanel{
-    
+public class PanneauCategorie extends JPanel {
+
     private PanneauMenu panneauMenu;
     private App app;
     public static final int MARGE_ENTRE_PANEL = 30;
@@ -36,12 +39,37 @@ public class PanneauCategorie extends JPanel{
         for (int k = 0; k < listCategorie.size(); k++) {
             this.add(creePanelCategorie(listCategorie.get(k), app));
         }
+
+        JButton boutonAjouter = new JButton("Ajouter");
+        this.add(boutonAjouter);
+        boutonAjouter.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JLabel nomLabel = new JLabel("Nom : ");
+                JTextField nomField = new JTextField();
+
+                Object[] message = {
+                        nomLabel, nomField
+                };
+
+                int option = JOptionPane.showConfirmDialog(null, message, "Ajouter catégorie",
+                        JOptionPane.OK_CANCEL_OPTION,
+                        JOptionPane.INFORMATION_MESSAGE);
+                if (option == JOptionPane.OK_OPTION) {
+                    app.getStock().ajouteCategorie(new Categorie(nomField.getText()));
+                    panneauMenu.getSceneManager().getPage("Categorie").setVisible(false);
+                    panneauMenu.getSceneManager().creePage("Categorie", true);
+                    panneauMenu.getSceneManager().creePage("Article", false);
+                    panneauMenu.getSceneManager().creePage("Avis", false);
+                }
+            }
+        });
     }
 
     private JPanel creePanelCategorie(Categorie categorie, App app) {
         JPanel panelCategorie = new JPanel();
         panelCategorie.setPreferredSize(new Dimension((int) (LARGEUR_PAGE * RAPPORT_ARTICLE_PAGE), 78));
-        panelCategorie.setBorder(new EmptyBorder(0,0,0,0));
+        panelCategorie.setBorder(new EmptyBorder(0, 0, 0, 0));
         panelCategorie.setBackground(Color.LIGHT_GRAY);
 
         JLabel labelInfo = new JLabel("Catégorie : " + categorie.getNom());
@@ -59,6 +87,11 @@ public class PanneauCategorie extends JPanel{
             @Override
             public void actionPerformed(ActionEvent e) {
                 app.modifierCategorie(categorie);
+                panneauMenu.getSceneManager().getPage("Categorie").setVisible(false);
+                panneauMenu.getSceneManager().creePage("Categorie", true);
+                panneauMenu.getSceneManager().creePage("Article", false);
+                panneauMenu.getSceneManager().creePage("Avis", false);
+
             }
         });
 
@@ -70,8 +103,16 @@ public class PanneauCategorie extends JPanel{
         boutonRetirer.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                app.supprimeCategorie(categorie);
-                //
+                int result = JOptionPane.showConfirmDialog(null,
+                        "Etes-vous sûr de vouloir supprimer la catégorie : " + categorie.getNom(),
+                        "Supprimer la catégorie ?", JOptionPane.YES_NO_OPTION);
+                if (result == JOptionPane.OK_OPTION) {
+                    app.supprimeCategorie(categorie);
+                    panneauMenu.getSceneManager().getPage("Categorie").setVisible(false);
+                    panneauMenu.getSceneManager().creePage("Categorie", true);
+                    panneauMenu.getSceneManager().creePage("Article", false);
+                    panneauMenu.getSceneManager().creePage("Avis", false);
+                }
             }
         });
 

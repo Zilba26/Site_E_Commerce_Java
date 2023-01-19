@@ -10,13 +10,17 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
 import src.app.App;
 import src.contenu.Article;
+import src.contenu.Categorie;
 
 public class PanneauArticle extends JPanel {
 
@@ -34,29 +38,77 @@ public class PanneauArticle extends JPanel {
         ArrayList<Article> listArticle = new ArrayList<Article>();
         for (int k = 0; k < app.getStock().getArrayCategorie().size(); k++)
             for (int i = 0; i < app.getStock().getArrayCategorie().get(k).getArticles().size(); i++)
-                listArticle.add(app.getStock().getArrayCategorie().get(k).getArticles().get(i)); // Liste de tous les articles
+                listArticle.add(app.getStock().getArrayCategorie().get(k).getArticles().get(i)); // Liste de tous les
+                                                                                                 // articles
 
         for (int k = 0; k < listArticle.size(); k++) {
             this.add(creePanelArticle(listArticle.get(k), app));
         }
         this.setBackground(Color.PINK);
+        JButton boutonAjouter = new JButton("Ajouter");
+        this.add(boutonAjouter);
+        boutonAjouter.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JLabel nomLabel = new JLabel("Nom : ");
+                JTextField nomField = new JTextField();
+
+                JLabel quantiteLabel = new JLabel("Quantité : ");
+                JTextField quantiteField = new JTextField();
+
+                JLabel prixLabel = new JLabel("Prix : ");
+                JTextField prixField = new JTextField();
+
+                JLabel descLabel = new JLabel("Description : ");
+                JTextField descField = new JTextField();
+
+                JLabel categorieLabel = new JLabel("Categorie : ");
+                JComboBox<String> categorieComboBox = new JComboBox<String>();
+                for (Categorie c : app.getStock().getArrayCategorie()) {
+                    categorieComboBox.addItem(c.getNom());
+                }
+
+                Object[] message = {
+                        nomLabel, nomField,
+                        quantiteLabel, quantiteField,
+                        prixLabel, prixField,
+                        descLabel, descField,
+                        categorieLabel, categorieComboBox
+                };
+
+                int option = JOptionPane.showConfirmDialog(null, message, "Ajouter article",
+                        JOptionPane.OK_CANCEL_OPTION,
+                        JOptionPane.INFORMATION_MESSAGE);
+                if (option == JOptionPane.OK_OPTION) {
+                    Categorie c = app.stringToCategorie(categorieComboBox.getSelectedItem().toString());
+                    c.ajouteArticle(new Article(nomField.getText(), Double.parseDouble(prixField.getText()),
+                            Integer.parseInt(quantiteField.getText()), "", descField.getText(), c));
+
+                    panneauMenu.getSceneManager().getPage("Article").setVisible(false);
+                    panneauMenu.getSceneManager().creePage("Article", true);
+                    panneauMenu.getSceneManager().creePage("Avis", false);
+                }
+            }
+        });
 
     }
 
     private JPanel creePanelArticle(Article article, App app) {
         JPanel panelArticle = new JPanel();
         panelArticle.setPreferredSize(new Dimension((int) (LARGEUR_PAGE * RAPPORT_ARTICLE_PAGE), 78));
-        panelArticle.setBorder(new EmptyBorder(0,0,0,0));
+        panelArticle.setBorder(new EmptyBorder(0, 0, 0, 0));
         panelArticle.setBackground(Color.LIGHT_GRAY);
 
-        JLabel labelInfo = new JLabel("Nom : " + article.getNom() + " | Prix : " + article.getPrix().toString() + "€" + " | Qté : " + article.getQuantite());
+        JLabel labelInfo = new JLabel("Nom : " + article.getNom() + " | Prix : " + article.getPrix().toString() + "€"
+                + " | Qté : " + article.getQuantite() + " | Catégorie : " + article.getNomCategorie());
         JPanel panelInfo = new JPanel();
         panelInfo.add(labelInfo, BorderLayout.CENTER);
         panelInfo.setBackground(Color.LIGHT_GRAY);
         panelInfo.setBorder(new LineBorder(Color.GRAY));
 
         JLabel labelDescription = new JLabel("Description : " + '"' + article.getDescription() + '"');
-        labelDescription.setVerticalAlignment(JLabel.CENTER);JPanel panelDescription = new JPanel();
+        labelDescription.setVerticalAlignment(JLabel.CENTER);
+        JPanel panelDescription = new JPanel();
         panelDescription.add(labelDescription, BorderLayout.CENTER);
         panelDescription.setBackground(Color.LIGHT_GRAY);
         panelDescription.setBorder(new LineBorder(Color.GRAY));
@@ -70,6 +122,9 @@ public class PanneauArticle extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 app.modifierArticle(article);
+                panneauMenu.getSceneManager().getPage("Article").setVisible(false);
+                panneauMenu.getSceneManager().creePage("Article", true);
+                panneauMenu.getSceneManager().creePage("Avis", false);
             }
         });
 
@@ -81,8 +136,15 @@ public class PanneauArticle extends JPanel {
         boutonRetirer.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                app.supprimerArticle(article);
-                //
+                int result = JOptionPane.showConfirmDialog(null,
+                        "Etes-vous sûr de vouloir supprimer l'article : " + article.getNom(),
+                        "Supprimer l'article ?", JOptionPane.YES_NO_OPTION);
+                if (result == JOptionPane.OK_OPTION) {
+                    app.supprimerArticle(article);
+                    panneauMenu.getSceneManager().getPage("Article").setVisible(false);
+                    panneauMenu.getSceneManager().creePage("Article", true);
+                    panneauMenu.getSceneManager().creePage("Avis", false);
+                }
             }
         });
 
