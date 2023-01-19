@@ -80,11 +80,11 @@ public class SceneManager {
 
     private Categorie[] initTestCategories() {
         Categorie categorie1 = new Categorie("Categorie 1");
-        Article article1 = new Article("Article 11", 11d, 11, "", "Description 11", "Categorie 1");
-        Article article2 = new Article("Article 12", 12d, 12, "", "Description 12", "Categorie 1");
+        Article article1 = new Article("Article 11", 11d, 11, "", "Description 11", categorie1);
+        Article article2 = new Article("Article 12", 12d, 12, "", "Description 12", categorie1);
         Categorie categorie2 = new Categorie("Categorie 2");
-        Article article3 = new Article("Article 21", 21d, 21, "", "Description 21", "Categorie 2");
-        Article article4 = new Article("Article 22", 22d, 22, "", "Description 22", "Categorie 2");
+        Article article3 = new Article("Article 21", 21d, 21, "", "Description 21", categorie2);
+        Article article4 = new Article("Article 22", 22d, 22, "", "Description 22", categorie2);
 
         Avis avis11 = new Avis(5, "Avis 11", "Client 1", "02/10/2023", article1);
         Avis avis12 = new Avis(4, "Avis 12", "Client 2", "05/11/2022", article1);

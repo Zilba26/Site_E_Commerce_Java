@@ -54,8 +54,8 @@ public class App {
     }
 
     public void creerArticle(String nom, double prix, int quantite, String photo, String description,
-            String nomCategorie) {
-        Article article = new Article(nom, prix, quantite, photo, description, nomCategorie);
+            Categorie categorie) {
+        Article article = new Article(nom, prix, quantite, photo, description, categorie);
         String[] infosNewArticle = article.getInfoArticle();
         boolean articleAlreadyExist = false;
 
@@ -71,7 +71,7 @@ public class App {
         if (!articleAlreadyExist) {
             boolean categorieEstTrouve = false;
             for (int i = 0; i < this.stock.getArrayCategorie().size(); i++) {
-                if (this.stock.getArrayCategorie().get(i).getNom() == nomCategorie) {
+                if (this.stock.getArrayCategorie().get(i) == categorie) {
                     this.stock.getArrayCategorie().get(i).getArticles().add(article);
                     categorieEstTrouve = true;
                     // TODO : Message validant l'opération
@@ -168,7 +168,7 @@ public class App {
                     Integer.parseInt(quantiteField.getText()),
                     Double.parseDouble(prixField.getText()),
                     descField.getText(),
-                    categorieComboBox.getSelectedItem().toString());
+                    stringToCategorie(categorieComboBox.getSelectedItem().toString()));
         }
     }
 
@@ -189,6 +189,13 @@ public class App {
 
         }
 
+    }
+
+    public Categorie stringToCategorie(String strCat) {
+        for (Categorie categorie : this.getStock().getArrayCategorie())
+            if (categorie.getNom().equals(strCat))
+                return categorie;
+        return null; // Never happen
     }
 
     public boolean supprimerAvisClient(Article article, Avis avis, boolean gardeNote) {

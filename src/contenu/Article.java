@@ -10,15 +10,15 @@ public class Article {
     private String photo;
     private double prix;
     private String description;
-    private String nomCategorie;
+    private Categorie categorie;
 
-    public Article(String nom, double prix, int quantite, String photo, String description, String nomCategorie) {
+    public Article(String nom, double prix, int quantite, String photo, String description, Categorie categorie) {
         this.nom = nom;
         this.prix = prix;
         this.quantite = quantite;
         this.photo = photo;
         this.description = description;
-        this.nomCategorie = nomCategorie;
+        this.categorie = categorie;
         this.listeAvis = new ArrayList<Avis>();
     }
 
@@ -28,7 +28,7 @@ public class Article {
         this.quantite = 5;
         this.photo = "";
         this.description = "description";
-        this.nomCategorie = "nomCategorie";
+        this.categorie = null;
         this.listeAvis = new ArrayList<Avis>();
     }
 
@@ -37,12 +37,12 @@ public class Article {
         System.out.println("Article supprimé dans BDD");
     }
 
-    public void modifierArticle(String nom, int quantite, double prix, String desc, String cat) {
+    public void modifierArticle(String nom, int quantite, double prix, String desc, Categorie cat) {
         this.nom = nom;
         this.quantite = quantite;
         this.prix = prix;
         this.description = desc;
-        this.nomCategorie = cat;
+        this.categorie = cat;
     }
 
     public void ajouterQuantite(int quantite) {
@@ -130,12 +130,8 @@ public class Article {
         return this.photo;
     }
 
-    public void setNomCategorie(String categorie) {
-        this.nomCategorie = categorie;
-    }
-
     public String getNomCategorie() {
-        return this.nomCategorie;
+        return this.categorie.getNom();
     }
 
     public int getNombreNoteClient() {
