@@ -79,8 +79,10 @@ public class PanneauAvis extends JPanel {
                             nomClientField.getText(),
                             dateField.getText(), a));
 
-                    panneauMenu.getSceneManager().setSizeFenetre(panneauMenu.getSceneManager().getPage("Avis").getSize());
-                    panneauMenu.getSceneManager().setLocationFenetre(panneauMenu.getSceneManager().getPage("Avis").getLocation());
+                    panneauMenu.getSceneManager()
+                            .setSizeFenetre(panneauMenu.getSceneManager().getPage("Avis").getSize());
+                    panneauMenu.getSceneManager()
+                            .setLocationFenetre(panneauMenu.getSceneManager().getPage("Avis").getLocation());
                     panneauMenu.getSceneManager().getPage("Avis").setVisible(false);
                     panneauMenu.getSceneManager().creePage("Avis", true);
                     panneauMenu.getSceneManager().creePage("Article", false);
@@ -166,7 +168,8 @@ public class PanneauAvis extends JPanel {
                             dateField.getText(), stringToArticle(articleComboBox.getSelectedItem().toString()));
                 }
                 panneauMenu.getSceneManager().setSizeFenetre(panneauMenu.getSceneManager().getPage("Avis").getSize());
-                panneauMenu.getSceneManager().setLocationFenetre(panneauMenu.getSceneManager().getPage("Avis").getLocation());
+                panneauMenu.getSceneManager()
+                        .setLocationFenetre(panneauMenu.getSceneManager().getPage("Avis").getLocation());
                 getPanneauMenu().getSceneManager().getPage("Avis").setVisible(false);
                 getPanneauMenu().getSceneManager().creePage("Avis", true);
             }
@@ -185,8 +188,10 @@ public class PanneauAvis extends JPanel {
                         "Supprimer l'avis ?", JOptionPane.YES_NO_OPTION);
                 if (result == JOptionPane.YES_OPTION) {
                     app.supprimeAvis(avis);
-                    panneauMenu.getSceneManager().setSizeFenetre(panneauMenu.getSceneManager().getPage("Avis").getSize());
-                    panneauMenu.getSceneManager().setLocationFenetre(panneauMenu.getSceneManager().getPage("Avis").getLocation());
+                    panneauMenu.getSceneManager()
+                            .setSizeFenetre(panneauMenu.getSceneManager().getPage("Avis").getSize());
+                    panneauMenu.getSceneManager()
+                            .setLocationFenetre(panneauMenu.getSceneManager().getPage("Avis").getLocation());
                     getPanneauMenu().getSceneManager().getPage("Avis").setVisible(false);
                     getPanneauMenu().getSceneManager().creePage("Avis", true);
                 }

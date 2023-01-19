@@ -13,7 +13,6 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
@@ -48,8 +47,12 @@ public class PanneauCategorie extends JPanel {
                 JLabel nomLabel = new JLabel("Nom : ");
                 JTextField nomField = new JTextField();
 
+                JLabel categorieLabel = new JLabel("Catégorie n° : ");
+                JTextField categorieField = new JTextField();
+
                 Object[] message = {
                         nomLabel, nomField
+                        categorieLabel, categorieField
                 };
 
                 int option = JOptionPane.showConfirmDialog(null, message, "Ajouter catégorie",
@@ -57,15 +60,33 @@ public class PanneauCategorie extends JPanel {
                         JOptionPane.INFORMATION_MESSAGE);
                 if (option == JOptionPane.OK_OPTION) {
                     app.getStock().ajouteCategorie(new Categorie(nomField.getText()));
+
+                    // try {
+                    //     String queryCountCategory = "SELECT COUNT(SubCategoryID) FROM table";
+                    //     PreparedStatement statementCountCategory = panneauMenu.getSceneManager().getConnectionBDD().prepareStatement(queryCountCategory);
+                    //     ResultSet resultCountCategory = statementCountCategory.executeQuery();
+                    //     int nbCategory = resultCountCategory.getInt("")
+                    //     String queryCategory = "INSERT INTO `subcategory`(`SubCategoryID`, `Name`, `CategoryID`) VALUES ('','"+nomField.getText()+"','"+categorieField.getText()+"')";
+                    //     PreparedStatement statementCategory = panneauMenu.getSceneManager().getConnectionBDD().prepareStatement(queryCategory);
+                    //     ResultSet resultCategory = statementCategory.executeQuery();
+
+                    //     while (resultCategory.next()) {
+
+                    //     }
+                    // }
+                    // catch (Exception exception) {
+
+                    // }
+                }
                     panneauMenu.getSceneManager().setSizeFenetre(panneauMenu.getSceneManager().getPage("Categorie").getSize());
                     panneauMenu.getSceneManager().setLocationFenetre(panneauMenu.getSceneManager().getPage("Categorie").getLocation());
                     panneauMenu.getSceneManager().getPage("Categorie").setVisible(false);
                     panneauMenu.getSceneManager().creePage("Categorie", true);
                     panneauMenu.getSceneManager().creePage("Article", false);
                     panneauMenu.getSceneManager().creePage("Avis", false);
-                }
             }
         });
+
     }
 
     private JPanel creePanelCategorie(Categorie categorie, App app) {
@@ -89,8 +110,10 @@ public class PanneauCategorie extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 app.modifierCategorie(categorie);
-                panneauMenu.getSceneManager().setSizeFenetre(panneauMenu.getSceneManager().getPage("Categorie").getSize());
-                panneauMenu.getSceneManager().setLocationFenetre(panneauMenu.getSceneManager().getPage("Categorie").getLocation());
+                panneauMenu.getSceneManager()
+                        .setSizeFenetre(panneauMenu.getSceneManager().getPage("Categorie").getSize());
+                panneauMenu.getSceneManager()
+                        .setLocationFenetre(panneauMenu.getSceneManager().getPage("Categorie").getLocation());
                 panneauMenu.getSceneManager().getPage("Categorie").setVisible(false);
                 panneauMenu.getSceneManager().creePage("Categorie", true);
                 panneauMenu.getSceneManager().creePage("Article", false);
@@ -112,8 +135,10 @@ public class PanneauCategorie extends JPanel {
                         "Supprimer la catégorie ?", JOptionPane.YES_NO_OPTION);
                 if (result == JOptionPane.OK_OPTION) {
                     app.supprimeCategorie(categorie);
-                    panneauMenu.getSceneManager().setSizeFenetre(panneauMenu.getSceneManager().getPage("Categorie").getSize());
-                    panneauMenu.getSceneManager().setLocationFenetre(panneauMenu.getSceneManager().getPage("Categorie").getLocation());
+                    panneauMenu.getSceneManager()
+                            .setSizeFenetre(panneauMenu.getSceneManager().getPage("Categorie").getSize());
+                    panneauMenu.getSceneManager()
+                            .setLocationFenetre(panneauMenu.getSceneManager().getPage("Categorie").getLocation());
                     panneauMenu.getSceneManager().getPage("Categorie").setVisible(false);
                     panneauMenu.getSceneManager().creePage("Categorie", true);
                     panneauMenu.getSceneManager().creePage("Article", false);

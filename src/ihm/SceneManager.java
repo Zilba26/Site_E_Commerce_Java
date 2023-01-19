@@ -29,12 +29,13 @@ public class SceneManager {
     private JFrame pageCategorie;
     private PanneauMenu panneauMenu;
     private App app;
-    private Connection con;
 
     private ArrayList<Admin> listeAdmin;
 
     private Dimension sizeFenetre;
     private Point locationFenetre;
+
+    private Connection connection;
 
     public SceneManager() {
         this.listeAdmin = new ArrayList<Admin>();
@@ -53,7 +54,7 @@ public class SceneManager {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/database", "root", "");
-            System.out.println("Test");
+            sceneManager.connection = con;
             String queryCategory = "SELECT * FROM subcategory";
             PreparedStatement statementCategory = con.prepareStatement(queryCategory);
             ResultSet resultCategory = statementCategory.executeQuery();
@@ -89,7 +90,7 @@ public class SceneManager {
             }
 
             System.out.println("Réussite de la connexion à la BDD");
-            con.close();
+            //con.close();
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("Echec de la connexion à la BDD");
@@ -307,10 +308,6 @@ public class SceneManager {
         this.pageCategorie.addWindowListener(wL);
     }
 
-    public Connection getConnection() {
-        return this.con;
-    }
-
     public ArrayList<Admin> getListeAdmin() {
         return this.listeAdmin;
     }
@@ -329,6 +326,10 @@ public class SceneManager {
 
     public void setLocationFenetre(Point locationFenetre) {
         this.locationFenetre = locationFenetre;
+    }
+
+    public Connection getConnectionBDD() {
+        return this.connection;
     }
 
 }
