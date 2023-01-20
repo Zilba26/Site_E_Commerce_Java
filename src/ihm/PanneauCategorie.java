@@ -74,7 +74,7 @@ public class PanneauCategorie extends JPanel {
                         if (resultCountCategory.next()) 
                             numSubCategory = resultCountCategory.getInt(1) + 1;
 
-                        String queryCategory = "INSERT INTO `subcategory`(`SubCategoryID`, `Name`, `CategoryID`) VALUES ('"+numSubCategory+"','"+nomField.getText()+"','"+categorieField.getText()+"')";
+                        String queryCategory = "INSERT INTO `subcategory`(`SubCategoryID`, `Name`, `CategoryID`) VALUES ('"+numSubCategory+"','"+panneauMenu.getStatementForSQL(nomField.getText())+"','"+categorieField.getText()+"')";
                         PreparedStatement statementCategory = panneauMenu.getSceneManager().getConnectionBDD().prepareStatement(queryCategory);
                         statementCategory.executeUpdate();
                     }
@@ -125,7 +125,7 @@ public class PanneauCategorie extends JPanel {
                     int numSubCategoryID = 1;
                     if (resultSelectIDSubCategory.next()) 
                         numSubCategoryID=resultSelectIDSubCategory.getInt("SubCategoryID");
-                    String queryUpdateCategory = "UPDATE `subcategory` SET `Name`='"+newCategorieInfo[0]+"',`CategoryID`='"+newCategorieInfo[1]+"' WHERE `SubCategoryID`='"+numSubCategoryID+"'";
+                    String queryUpdateCategory = "UPDATE `subcategory` SET `Name`='"+panneauMenu.getStatementForSQL(newCategorieInfo[0])+"',`CategoryID`='"+newCategorieInfo[1]+"' WHERE `SubCategoryID`='"+numSubCategoryID+"'";
                     PreparedStatement statementUpdateCategory = panneauMenu.getSceneManager().getConnectionBDD().prepareStatement(queryUpdateCategory);
                     int resultUpdateCategory = statementUpdateCategory.executeUpdate();
                 }

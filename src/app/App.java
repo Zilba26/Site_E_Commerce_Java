@@ -14,12 +14,10 @@ import src.contenu.Avis;
 import src.contenu.Categorie;
 import src.contenu.Stock;
 import src.gestion.Admin;
-import src.gestion.BDD;
 import src.ihm.SceneManager;
 
 public class App {
 
-    private BDD bdd;
     private Admin adminConnecte;
     private Stock stock;
     private SceneManager sceneManager;
@@ -27,10 +25,6 @@ public class App {
     public App(SceneManager sceneManager) {
         this.stock = new Stock();
         this.sceneManager = sceneManager;
-    }
-
-    public BDD getBDD() {
-        return this.bdd;
     }
 
     public Stock getStock() {

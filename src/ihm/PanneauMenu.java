@@ -104,4 +104,18 @@ public class PanneauMenu extends JPanel {
         return this.app;
     }
 
+    public String getStatementForSQL(String statement) {
+        char[] ch = statement.toCharArray();
+        String ret="";
+        for (int i = 0; i < ch.length - 1; i++) {
+            if (!String.valueOf(ch[i]).equals("'")) {
+                ret+=String.valueOf(ch[i]);
+            }
+            else {
+                ret += "\\" + String.valueOf(ch[i]);
+            }
+        }
+        return ret;
+    }
+
 }

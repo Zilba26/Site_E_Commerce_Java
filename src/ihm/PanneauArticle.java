@@ -111,9 +111,9 @@ public class PanneauArticle extends JPanel {
                             numFindSubCategoryID = resultFindSubCategoryID.getInt("SubCategoryID");
 
                         String queryArticle = "INSERT INTO `item`(`ItemID`, `Name`, `SubCategoryID`, `Picture`, `Price`, `Description`, `Quantity`, `BuyerID`, `StarRate`, `SellerID`) VALUES ('"
-                                + numArticle + "','" + nomField.getText() + "','"
-                                + numFindSubCategoryID + "','" + nomField.getText()
-                                + ".jpg','" + prixField.getText() + "','" + descField.getText() + "','"
+                                + numArticle + "','" + panneauMenu.getStatementForSQL(nomField.getText()) + "','"
+                                + numFindSubCategoryID + "','" + panneauMenu.getStatementForSQL(nomField.getText())
+                                + ".jpg','" + prixField.getText() + "','" + panneauMenu.getStatementForSQL(descField.getText()) + "','"
                                 + quantiteField.getText() + "',NULL,'2.5',NULL)";
 
                         PreparedStatement statementArticle = panneauMenu.getSceneManager().getConnectionBDD()
@@ -172,19 +172,23 @@ public class PanneauArticle extends JPanel {
             public void actionPerformed(ActionEvent e) {
 
                 try {
-                    String querySelectItemID = "SELECT `ItemID` FROM `item` WHERE Name = '"+article.getNom()+"'";
+                    String querySelectItemID = "SELECT `ItemID` FROM `item` WHERE Name = '" + panneauMenu.getStatementForSQL(article.getNom()) + "'";
                     String[] newArticleInfo = app.modifierArticle(article);
                     System.out.println(newArticleInfo[4]);
-                    PreparedStatement statementSelectItemID = panneauMenu.getSceneManager().getConnectionBDD().prepareStatement(querySelectItemID);
+                    PreparedStatement statementSelectItemID = panneauMenu.getSceneManager().getConnectionBDD()
+                            .prepareStatement(querySelectItemID);
                     ResultSet resultSelectItemID = statementSelectItemID.executeQuery();
                     int numIDItem = 1;
-                    if (resultSelectItemID.next()) 
-                        numIDItem=resultSelectItemID.getInt("ItemID");
-                    String queryUpdateItem = "UPDATE `item` SET `Name`='"+newArticleInfo[0]+"',`SubCategoryID`='"+newArticleInfo[4]+"',`Price`='"+newArticleInfo[2]+"',`Description`='"+newArticleInfo[3]+"',`Quantity`='"+newArticleInfo[1]+"' WHERE `ItemID`='"+numIDItem+"'";
-                    PreparedStatement statementUpdateItem = panneauMenu.getSceneManager().getConnectionBDD().prepareStatement(queryUpdateItem);
+                    if (resultSelectItemID.next())
+                        numIDItem = resultSelectItemID.getInt("ItemID");
+                    String queryUpdateItem = "UPDATE `item` SET `Name`='" + panneauMenu.getStatementForSQL(newArticleInfo[0]) + "',`SubCategoryID`='"
+                            + newArticleInfo[4] + "',`Price`='" + newArticleInfo[2] + "',`Description`='"
+                            + panneauMenu.getStatementForSQL(newArticleInfo[3]) + "',`Quantity`='" + newArticleInfo[1] + "' WHERE `ItemID`='"
+                            + numIDItem + "'";
+                    PreparedStatement statementUpdateItem = panneauMenu.getSceneManager().getConnectionBDD()
+                            .prepareStatement(queryUpdateItem);
                     int resultUpdateItem = statementUpdateItem.executeUpdate();
-                }
-                catch (Exception exception2) {
+                } catch (Exception exception2) {
                     exception2.printStackTrace();
                     System.out.println("Exception");
                 }
@@ -211,27 +215,29 @@ public class PanneauArticle extends JPanel {
                         "Etes-vous sûr de vouloir supprimer l'article : " + article.getNom(),
                         "Supprimer l'article ?", JOptionPane.YES_NO_OPTION);
                 if (result == JOptionPane.OK_OPTION) {
-                    
 
                     try {
-                        String querySelectIDItem = "SELECT `ItemID` FROM `item` WHERE Name = '"+article.getNom()+"'";
+                        String querySelectIDItem = "SELECT `ItemID` FROM `item` WHERE Name = '" + panneauMenu.getStatementForSQL(article.getNom())
+                                + "'";
                         app.supprimerArticle(article);
-                        PreparedStatement statementSelectIDItem = panneauMenu.getSceneManager().getConnectionBDD().prepareStatement(querySelectIDItem);
+                        PreparedStatement statementSelectIDItem = panneauMenu.getSceneManager().getConnectionBDD()
+                                .prepareStatement(querySelectIDItem);
                         ResultSet resultSelectIDItem = statementSelectIDItem.executeQuery();
                         int numIDItem = 1;
-                        if (resultSelectIDItem.next()) 
-                            numIDItem=resultSelectIDItem.getInt("ItemID");
+                        if (resultSelectIDItem.next())
+                            numIDItem = resultSelectIDItem.getInt("ItemID");
 
-                        String queryDeleteItems = "DELETE FROM `comment` WHERE ItemID = '"+numIDItem+"'";
-                        PreparedStatement statementDeleteItems = panneauMenu.getSceneManager().getConnectionBDD().prepareStatement(queryDeleteItems);
+                        String queryDeleteItems = "DELETE FROM `comment` WHERE ItemID = '" + numIDItem + "'";
+                        PreparedStatement statementDeleteItems = panneauMenu.getSceneManager().getConnectionBDD()
+                                .prepareStatement(queryDeleteItems);
                         int resultDeleteItems = statementDeleteItems.executeUpdate();
-                        
-                        String queryDeleteItem = "DELETE FROM `item` WHERE ItemID = '"+numIDItem+"'";
-                        PreparedStatement statementDeleteItem = panneauMenu.getSceneManager().getConnectionBDD().prepareStatement(queryDeleteItem);
-                        System.out.println("DELETE FROM `item` WHERE ItemID = '"+numIDItem+"'");
+
+                        String queryDeleteItem = "DELETE FROM `item` WHERE ItemID = '" + numIDItem + "'";
+                        PreparedStatement statementDeleteItem = panneauMenu.getSceneManager().getConnectionBDD()
+                                .prepareStatement(queryDeleteItem);
+                        System.out.println("DELETE FROM `item` WHERE ItemID = '" + numIDItem + "'");
                         int resultDeleteItem = statementDeleteItem.executeUpdate();
-                    }
-                    catch (Exception exception2) {
+                    } catch (Exception exception2) {
                         exception2.printStackTrace();
                         System.out.println("Exception");
                     }

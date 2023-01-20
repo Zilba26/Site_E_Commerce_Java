@@ -108,8 +108,7 @@ public class PanneauAvis extends JPanel {
                                 if (resultFindItemID.next())
                                     numFindItemID = resultFindItemID.getInt("ItemID");
         
-                                String queryAvis = "INSERT INTO `comment`(`CommentID`, `UserID`, `ItemID`, `StarRate`, `Content`) VALUES ('"+numComment+"','"+nomClientField.getText()+"','"+numFindItemID+"','"+noteField.getText()+"','"+contenuField.getText()+"')";
-        
+                                String queryAvis = "INSERT INTO `comment`(`CommentID`, `UserID`, `ItemID`, `StarRate`, `Content`) VALUES ('"+numComment+"','"+nomClientField.getText()+"','"+numFindItemID+"','"+noteField.getText()+"','"+panneauMenu.getStatementForSQL(contenuField.getText())+"')";
                                 PreparedStatement statementAvis = panneauMenu.getSceneManager().getConnectionBDD()
                                         .prepareStatement(queryAvis);
                                 statementAvis.executeUpdate();
@@ -164,7 +163,7 @@ public class PanneauAvis extends JPanel {
 
                 try {
                     String querySelectCommentID = "SELECT `CommentID` FROM `comment` WHERE Content = '"
-                            + avis.getContenu() + "'";
+                            + panneauMenu.getStatementForSQL(avis.getContenu()) + "'";
                     String[] newAvisInfo = app.modifierAvis(avis);
                     if (Float.parseFloat(newAvisInfo[1]) <= 5 && Float.parseFloat(newAvisInfo[1]) >= 0 && (Float.parseFloat(newAvisInfo[1]) % 0.25) == 0) {
                         PreparedStatement statementSelectCommentID = panneauMenu.getSceneManager().getConnectionBDD().prepareStatement(querySelectCommentID);
@@ -172,7 +171,7 @@ public class PanneauAvis extends JPanel {
                         int numIDComment = 1;
                         if (resultSelectCommentID.next())
                             numIDComment = resultSelectCommentID.getInt("CommentID");
-                        String queryUpdateItem = "UPDATE `comment` SET `UserID`='" + newAvisInfo[0]+ "',`StarRate`='" + newAvisInfo[1] + "',`Content`='" + newAvisInfo[2] + "' WHERE CommentID = '" + numIDComment + "'";
+                        String queryUpdateItem = "UPDATE `comment` SET `UserID`='" + newAvisInfo[0]+ "',`StarRate`='" + newAvisInfo[1] + "',`Content`='" + panneauMenu.getStatementForSQL(newAvisInfo[2]) + "' WHERE CommentID = '" + numIDComment + "'";
                         PreparedStatement statementUpdateItem = panneauMenu.getSceneManager().getConnectionBDD().prepareStatement(queryUpdateItem);
                         int resultUpdateItem = statementUpdateItem.executeUpdate();
                     }
@@ -208,7 +207,7 @@ public class PanneauAvis extends JPanel {
                 if (result == JOptionPane.YES_OPTION) {
 
                     try {
-                        String queryDeleteComment = "DELETE FROM `comment` WHERE Content = '"+avis.getContenu()+"' AND UserID = "+avis.getNomClient();
+                        String queryDeleteComment = "DELETE FROM `comment` WHERE Content = '"+panneauMenu.getStatementForSQL(avis.getContenu())+"' AND UserID = "+avis.getNomClient();
                         PreparedStatement statementDeleteComment = panneauMenu.getSceneManager().getConnectionBDD().prepareStatement(queryDeleteComment);
                         int resultDeleteComment = statementDeleteComment.executeUpdate();
                     }
