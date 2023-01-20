@@ -29,7 +29,6 @@ public class PanneauMenu extends JPanel {
         JLabel labelBienvenu = new JLabel("Bienvenue " + this.app.getAdminConnecte().getNom());
 
         JButton boutonArticle = new JButton("Article");
-        panelGlobal.add(boutonArticle, BorderLayout.CENTER);
         boutonArticle.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -44,7 +43,6 @@ public class PanneauMenu extends JPanel {
         });
 
         JButton boutonAvis = new JButton("Avis");
-        panelGlobal.add(boutonAvis, BorderLayout.CENTER);
         boutonAvis.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -59,7 +57,6 @@ public class PanneauMenu extends JPanel {
         });
 
         JButton boutonCategorie = new JButton("Categorie");
-        panelGlobal.add(boutonCategorie, BorderLayout.CENTER);
         boutonCategorie.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -72,6 +69,8 @@ public class PanneauMenu extends JPanel {
                 sceneManager.showPanneau(boutonCategorie.getText());
             }
         });
+
+        
 
         JPanel panelPrincipal = new JPanel(new BorderLayout(5, 5));
 
